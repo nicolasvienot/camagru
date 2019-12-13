@@ -1,25 +1,18 @@
 <?php
 
-echo "Initializtion of the CAMAGRU database...<br/><br/>";
+include 'database.php';
 
-$dbname = getenv('CAMAGRU_DBNAME');
-$user = getenv('CAMAGRU_DBUSER');
-$passwd = getenv('CAMAGRU_DBPASSWORD');
-$host = getenv('CAMAGRU_HOST');
-$port = getenv('CAMAGRU_PORT');
+echo "Initialization of the CAMAGRU database...<br/><br/>";
 
-$dsn = "mysql:host=$host:$port";
-
-$pdo = new PDO($dsn, $user, $passwd);
+$pdo = new PDO($DB_DSN_NOBASE, $DB_USER, $DB_PASSWORD);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 echo "Creating database...<br/>";
-$sql = "CREATE DATABASE IF NOT EXISTS $dbname;";
+$sql = "CREATE DATABASE IF NOT EXISTS $DB_NAME;";
 $ret = $pdo->exec($sql);
-echo "Database created!<br/>";
+echo "Database camagru created!<br/>";
 
-$dsn = "mysql:host=$host:$port;dbname=$dbname";
-$pdo = new PDO($dsn, $user, $passwd);
+$pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 echo "Creating table users...<br/>";

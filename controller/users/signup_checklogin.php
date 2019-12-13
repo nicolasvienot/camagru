@@ -1,8 +1,11 @@
 <?php
 
-include ('connect.php');
+include (__DIR__ . '/../../config/database.php');
 
 $login_tosearch = $_REQUEST["login"];
+
+$pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 $sql = "SELECT user_login from users";
 $stmt = $pdo->query($sql);
