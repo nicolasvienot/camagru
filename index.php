@@ -24,6 +24,11 @@ switch ($request) {
     case '/terms' :
         require __DIR__ . '/view/terms.php';
         break;
+    case (preg_match("/^(\/activation.php)/i", $request) ? true : false) :
+        $login = htmlentities($_GET["log"]);
+        $key = htmlentities($_GET["key"]);
+        require __DIR__ . '/controller/users/activation.php';
+        break;
     default:
         http_response_code(404);
         require __DIR__ . '/view/404.php';

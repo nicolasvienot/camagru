@@ -18,7 +18,8 @@ username.addEventListener('keyup', function (event) {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                if (this.responseText === "true") {
+                console.log(this.responseText);
+                if (this.responseText) {
                     username.className = "input is-success";
                     document.getElementById("username_available").style.display = "block";
                     document.getElementById("username_not_available").style.display = "none";

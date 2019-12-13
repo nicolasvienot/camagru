@@ -106,10 +106,49 @@ function send_mail($email, $login, $user_key)
     $message = 'Welcome on Camagru,
     In order to activate your account, please click on the link below
     or copy/paste it in your browser. <br/>
-    http://localhost/controller/activation.php?log='.urlencode($login).'&key='.urlencode($user_key).' <br/>
+    http://localhost/activation.php?log='.urlencode($login).'&key='.urlencode($user_key).' <br/>
     -------------- <br/>
     This is an automated message - Please do not reply directly to this email.';
     mail($email, $subject, $message, $headers);
+}
+
+function activate_account($login, $key) {
+    require (__DIR__ . '/../config/database.php');
+    $res = 0;
+
+    $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = "SELECT user_key, user_active FROM users WHERE user_login like :user_login ";
+    $st = $pdo->prepare($sql);
+    $st->bindValue(':user_login', $login, PDO::PARAM_STR);
+    $st->execute();
+    // $st = $st->fetch();
+    if ($row = $st->fetch())
+    {
+        $user_key = $row['user_key'];
+        $user_active = $row['user_active'];
+        if ($user_active == '1') {
+            $res = 2;
+        }
+        else {
+            if ($key == $user_key) {
+                $sql = "UPDATE users SET user_active = 1 WHERE user_login like :user_login";
+                $st = $pdo->prepare($sql);
+                $st->bindParam(':user_login', $login);
+                $st->execute();
+                $res = 1;
+            }
+            else {
+                $res = 3;
+            }
+        }
+    }
+    else {
+        $res = 4;
+    }
+    $pdo = null;
+    return $res;
 }
 
 ?>

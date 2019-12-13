@@ -7,6 +7,8 @@ $login_tosearch = $_REQUEST["login"];
 $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+$test = true;
+
 $sql = "SELECT user_login from users";
 $stmt = $pdo->query($sql);
 $result = $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -16,12 +18,10 @@ $logins = array_map(function($v){
 
 foreach ($logins as &$login) {
     if ($login == $login_tosearch)
-    {
-        echo "false";
-        return;
-    }
+        $test = false;
 }
 
-echo "true";
+$pdo = null;
+echo $test;
 
 ?>
