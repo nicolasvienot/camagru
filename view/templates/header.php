@@ -13,9 +13,7 @@
     <a class="navbar-item" href="/" >
       <img src="../../public/img/camagru.png" width="112" height="28">
     </a>
-    <a class="navbar-item">
-      Bonjour <?php print ($_SESSION['user_logged']) ?>!
-    </a>
+    <?php if ($login === 1) {?><a class="navbar-item">Bonjour <?php print ($_SESSION['user_logged']) ?>!</a><?php } ?>
     <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
@@ -24,22 +22,19 @@
   </div>
   <div id="navbarBasicExample" class="navbar-menu">
     <div class="navbar-start">
-      <a class="navbar-item">
-        Social wall
-      </a>
-      <a class="navbar-item">
-        Upload image
-      </a>
+      <a class="navbar-item">Social wall</a>
+      <?php if ($login === 1) {?><a class="navbar-item">Upload image</a><?php } ?>
     </div>
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
-          <a class="button is-primary">
-            <strong>Modify account</strong>
-          </a>
-          <a class="button is-light" href="/logout">
-            Log out
-          </a>
+            <?php if ($login === 1) {?>
+                <a class="button is-primary" href="/modifyaccount"><strong>Modify account</strong></a>
+                <a class="button is-light" href="/logout">Log out</a>
+            <?php } else { ?>
+                <a class="button is-primary" href="/signup"><strong>Sign up</strong></a>
+                <a class="button is-light" href="/signin">Log in</a>
+            <?php } ?>
         </div>
       </div>
     </div>

@@ -23,16 +23,16 @@
                     </p>
                 </div>
             </div>
-            <div class="buttons">
-                <?php if ($res->result === 1) {?>
-                    <a class="button is-primary" href="/signin"><strong>Log in</strong></a>
-                    <a class="button is-light" href="/">Home</a>
-                <?php } else { ?>
-                    <a class="button is-primary" href="/signup"><strong>Sign up</strong></a>
-                    <a class="button is-light" href="/">Home</a>
-                <?php } ?>
-            </div>
         </article>
+        <div class="buttons" style="padding-top: 10px;">
+            <?php if ($res->result === 1) {?>
+                <a class="button is-primary" href="/signin"><strong>Log in</strong></a>
+                <a class="button is-light" href="/">Home</a>
+            <?php } else { ?>
+                <a class="button is-primary" href="/signup"><strong>Sign up</strong></a>
+                <a class="button is-light" href="/">Home</a>
+            <?php } ?>
+        </div>
     </div>
 </div>
 

@@ -2,10 +2,12 @@
 
 session_start();
 if (isset($_SESSION['user_logged']) && $_SESSION['user_logged'] !== "") {
-    require(__DIR__ . '/../../view/templates/header_logged.php');
+    $logged = 1;
+    require (__DIR__ . '/../../view/templates/header.php');
 }
 else {
-    require(__DIR__ . '/../../view/templates/header_notlogged.php');
+    $logged = 0;
+    require (__DIR__ . '/../../view/templates/header.php');
 }
 
 ?>
