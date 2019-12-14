@@ -15,8 +15,8 @@ switch ($request) {
     case '/upload' :
         require __DIR__ . '/controller/upload.php';
         break;
-    case '/modify' :
-        require __DIR__ . '/controller/modify.php';
+    case '/modifyaccount' :
+        require __DIR__ . '/controller/users/modifyaccount.php';
         break;
     case '/logout' :
         require __DIR__ . '/controller/users/logout.php';

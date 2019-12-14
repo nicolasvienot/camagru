@@ -25,7 +25,6 @@
           </div>
           <div id="navbarBasicExample" class="navbar-menu">
             <div class="navbar-start">
-              <a class="navbar-item" href="/">Social wall</a>
               <?php if (isset($_SESSION['user']) && $_SESSION['user'] !== "") {?><a class="navbar-item" href="/upload">Upload image</a><?php } ?>
             </div>
             <div class="navbar-end">

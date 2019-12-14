@@ -10,6 +10,9 @@
     <br>
     <progress class="progress is-primary" max="100">30%</progress> <br/>
 </div>
+<div class="columns is-multiline" id="col_gallery">
+<?php echo $gallery ?>
+</div>
 
 <?php
     include (__DIR__ . '/../controller/templates/footer.php');
