@@ -26,7 +26,7 @@ function signin($login, $password) {
         }
         if ($active == '1') {
             session_start();
-            $_SESSION['user_logged'] = $login;
+            $_SESSION['user'] = $login;
             $_SESSION['user_id'] = $user_id;
             $res = 1;
         }

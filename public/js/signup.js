@@ -3,6 +3,7 @@ const email = document.getElementById('email');
 const password = document.getElementById('password');
 const password_check = document.getElementById('password_check');
 const signup = document.getElementById('signup');
+const signup_form = document.getElementById('signup_form');
 
 var regex_password = /^(?=.*[a-z])(?=.*[0-9])(?=.{8,})/;
 var regex_email = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -85,6 +86,7 @@ password_check.addEventListener('keyup', function (event) {
 });
 
 signup.addEventListener('click', function (event) {
+    signup_form.removeEventListener('keyup', handle_enter, true);
     var data = new FormData(document.getElementById("signup_form"));
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -107,6 +109,13 @@ signup.addEventListener('click', function (event) {
                     e.preventDefault();
                     modal.classList.remove('is-active');
                     html.classList.remove('is-clipped');
+                    signup_form.addEventListener('keyup', handle_enter, true);
+                });
+                document.getElementById("tryagain").addEventListener('click', function(e) {
+                    e.preventDefault();
+                    modal.classList.remove('is-active');
+                    html.classList.remove('is-clipped');
+                    signup_form.addEventListener('keyup', handle_enter, true);
                 });
             }
         }
@@ -114,3 +123,12 @@ signup.addEventListener('click', function (event) {
     xmlhttp.open("POST", "../../controller/users/signup_action.php", true);
     xmlhttp.send(data);
 });
+
+function handle_enter() {
+    if (event.keyCode === 13) {
+        event.preventDefault();
+        signup.click();
+    }
+}
+
+signup_form.addEventListener('keyup', handle_enter, true);

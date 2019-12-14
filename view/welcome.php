@@ -7,6 +7,7 @@
         <h1 class="title is-2">Welcome to Camagru!</h1>
     </div>
     <p style="padding-bottom: 5px;">Work in progress...</p>
+    <br>
     <progress class="progress is-primary" max="100">30%</progress> <br/>
 </div>
 

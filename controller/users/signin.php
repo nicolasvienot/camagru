@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if (isset($_SESSION['user_logged']) && $_SESSION['user_logged'] !== "") {
+if (isset($_SESSION['user']) && $_SESSION['user'] !== "") {
     require( __DIR__ . '/../../view/socialwall.php');
 }
 else {

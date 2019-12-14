@@ -2,8 +2,8 @@
 
 require (__DIR__ . '/../../model/users.php');
 
-// $res->result = 0;
-// $res->message = "There was a problem, please try again";
+$res->result = 0;
+$res->message = "There was a problem, please try again";
 
 if (empty($_POST["username"]) || empty($_POST["password"]))
 {

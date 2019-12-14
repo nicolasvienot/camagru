@@ -1,5 +1,6 @@
 const password = document.getElementById('password');
 const signin = document.getElementById('signin');
+const signin_form = document.getElementById('signin_form');
 
 signin.addEventListener('click', function (event) {
     var data = new FormData(document.getElementById("signin_form"));
@@ -21,4 +22,12 @@ signin.addEventListener('click', function (event) {
     };
     xmlhttp.open("POST", "../../controller/users/signin_action.php", true);
     xmlhttp.send(data);
+});
+
+signin_form.addEventListener('keyup', function(event) {
+  if (event.keyCode === 13) {
+    console.log('click');
+    event.preventDefault();
+    signin.click();
+  }
 });

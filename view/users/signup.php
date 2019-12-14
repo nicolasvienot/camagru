@@ -58,17 +58,14 @@
         <div class="field" style="margin-top: 10px;">
             <div class="control">
                 <label class="checkbox">
-                <input type="checkbox" name="terms">
-                I agree to the <a href="/terms" target="_blank">terms and conditions</a>
+                    <input type="checkbox" name="terms">
+                    I agree to the <a href="/terms" target="_blank">terms and conditions</a>
                 </label>
             </div>
         </div>
         <div class="field is-grouped">
             <div class="control">
                 <button type="button" class="button is-primary" id="signup">Sign up</button>
-            </div>
-            <div class="control">
-            <a href="/"><button class="button is-primary is-light">Cancel</button></a>
             </div>
         </div>
     </form>
@@ -89,8 +86,7 @@
             <div class="box">
                 <label class="label">It looks like there was an error!</label>
                 <label class="label">Please try again.</label>
-                <!-- close div? -->
-                <a href="/signup"><button class="button is-primary">Try again</button></a>
+                <button class="button is-primary" id="tryagain">Try again</button>
             </div>
         </div>
         <button class="modal-close is-large" aria-label="close" id="close"></button>

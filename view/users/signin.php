@@ -25,9 +25,7 @@
         </div>
         <div class="field" id="login">
             <p class="control">
-                <button type="button" class="button is-success" id="signin">
-                Login
-                </button>
+                <button type="button" class="button is-success" id="signin">Login</button>
             </p>
         </div>
     </form>
