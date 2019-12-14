@@ -31,7 +31,7 @@ $ret = $pdo->exec($sql);
 // echo "Creating table images...<br/>";
 $sql = "CREATE TABLE IF NOT EXISTS images (
     img_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    img_name VARCHAR(255) NOT NULL,
+    img_path VARCHAR(255) NOT NULL,
     user_id INT(6) NOT NULL,
     user_login VARCHAR(255) NOT NULL,
     likes_counter INT(6) DEFAULT '0'
