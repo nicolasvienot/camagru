@@ -34,7 +34,7 @@ function share() {
             if (res.result === 1) {
                 console.log('Uploaded');
                 var img = document.createElement('img'); 
-                img.src = res.img_path;
+                img.src = '../' + res.img_path;
                 img.style.height = '120px';
                 img.style.width = '160px';
                 document.getElementById("gallery").appendChild(img);

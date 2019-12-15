@@ -6,24 +6,30 @@ switch ($request) {
     case '/' :
         require __DIR__ . '/controller/index.php';
         break;
-    case '/signin' :
+    case '/signin/' :
         require __DIR__ . '/controller/users/signin.php';
         break;
-    case '/signup' :
+    case '/signup/' :
         require __DIR__ . '/controller/users/signup.php';
         break;
-    case '/upload' :
+    case '/upload/' :
         require __DIR__ . '/controller/upload.php';
         break;
-    case '/modifyaccount' :
+    case '/modifyaccount/' :
         require __DIR__ . '/controller/users/modifyaccount.php';
         break;
-    case '/logout' :
+    case '/logout/' :
         require __DIR__ . '/controller/users/logout.php';
         break;
-    case '/terms' :
+    case '/terms/' :
         require __DIR__ . '/view/terms.php';
         break;
+    case '/404/' :
+        require __DIR__ . '/view/404.php';
+        break;
+    // case '/404/' :
+    //     require __DIR__ . '/view/404.php';
+    //     break;
     case (preg_match("/^(\/activation.php)/i", $request) ? true : false) :
         $login = htmlentities($_GET["log"]);
         $key = htmlentities($_GET["key"]);

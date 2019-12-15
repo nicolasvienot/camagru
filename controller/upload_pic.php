@@ -10,14 +10,14 @@ session_start();
 $user_login = $_SESSION['user'];
 $user_id = $_SESSION['user_id'];
 
-$upload_dir = __DIR__ . '/../public/img/';
+$upload_dir = __DIR__ . '/../public/img/uploads/';
 $img = $_POST['img'];
 $img = str_replace('data:image/png;base64,', '', $img);
 $img = str_replace(' ', '+', $img);
 $data = base64_decode($img);
 $file_name = time() . "_" . $user_id .".png";
 $file_path = $upload_dir . $file_name;
-$img_path = 'public/img/' . $file_name;
+$img_path = 'public/img/uploads/' . $file_name;
 header("Content-type: image/png");
 
 $image = imagecreatefromstring($data);

@@ -1,5 +1,15 @@
+ErrorDocument 400 /404/
+ErrorDocument 401 /404/
+ErrorDocument 403 /404/
+ErrorDocument 404 /404/
+ErrorDocument 500 /404/
+
 RewriteEngine On
 RewriteBase /
+
+RewriteCond %{REQUEST_URI} /+[^\.]+$
+RewriteRule ^(.+[^/])$ %{REQUEST_URI}/ [R=301,L]
+
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.+)$ index.php [QSA,L]
