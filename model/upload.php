@@ -42,7 +42,7 @@ function get_own_images($user_id) {
 	while ($data_img = $st->fetch()) {
         $img_id = $data_img['img_id'];
         $img_path = $data_img['img_path'];
-        $gallery = $gallery . ('<img src="../' . $img_path .'" style="height: 240px; width: 320px;" id="' . $img_id . '">');
+        $gallery = $gallery . ('<img src="../' . $img_path .'" style="height: 240px; width: auto;" id="' . $img_id . '">');
 
         // $gallery = $gallery . ('<img height=240px width=320px src="../' . $img_path .'">');
     }

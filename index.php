@@ -35,6 +35,12 @@ switch ($request) {
         $key = htmlentities($_GET["key"]);
         require __DIR__ . '/controller/users/activation.php';
         break;
+    case (preg_match("/^(\/comments\/)/i", $request) ? true : false) :
+        $img_id = $_GET["img_id"];
+        // $login = htmlentities($_GET["log"]);
+        // $key = htmlentities($_GET["key"]);
+        require __DIR__ . '/controller/comments.php';
+        break;
     default:
         http_response_code(404);
         require __DIR__ . '/view/404.php';

@@ -183,6 +183,159 @@ $st->bindParam(':user_login', $user_login);
 $st->execute();
 echo "Images created!<br/><br/>";
 
+echo "Creating likes...<br/>";
+$sql = "INSERT INTO likes (user_id, img_id) SELECT :user_id, :img_id WHERE NOT EXISTS (SELECT like_id FROM likes WHERE user_id = :user_id AND img_id = :img_id)";
+
+$user_id = '1';
+$img_id = '1';
+$st = $pdo->prepare($sql);
+$st->bindParam(':img_id', $img_id);
+$st->bindParam(':user_id', $user_id);
+$st->execute();
+
+$user_id = '1';
+$img_id = '2';
+$st = $pdo->prepare($sql);
+$st->bindParam(':img_id', $img_id);
+$st->bindParam(':user_id', $user_id);
+$st->execute();
+
+$user_id = '1';
+$img_id = '4';
+$st = $pdo->prepare($sql);
+$st->bindParam(':img_id', $img_id);
+$st->bindParam(':user_id', $user_id);
+$st->execute();
+
+$user_id = '2';
+$img_id = '6';
+$st = $pdo->prepare($sql);
+$st->bindParam(':img_id', $img_id);
+$st->bindParam(':user_id', $user_id);
+$st->execute();
+
+$user_id = '2';
+$img_id = '1';
+$st = $pdo->prepare($sql);
+$st->bindParam(':img_id', $img_id);
+$st->bindParam(':user_id', $user_id);
+$st->execute();
+
+$user_id = '3';
+$img_id = '8';
+$st = $pdo->prepare($sql);
+$st->bindParam(':img_id', $img_id);
+$st->bindParam(':user_id', $user_id);
+$st->execute();
+
+$user_id = '3';
+$img_id = '1';
+$st = $pdo->prepare($sql);
+$st->bindParam(':img_id', $img_id);
+$st->bindParam(':user_id', $user_id);
+$st->execute();
+
+$user_id = '4';
+$img_id = '1';
+$st = $pdo->prepare($sql);
+$st->bindParam(':img_id', $img_id);
+$st->bindParam(':user_id', $user_id);
+$st->execute();
+
+$user_id = '4';
+$img_id = '7';
+$st = $pdo->prepare($sql);
+$st->bindParam(':img_id', $img_id);
+$st->bindParam(':user_id', $user_id);
+$st->execute();
+echo "Likes created!<br/><br/>";
+
+echo "Creating comments...<br/>";
+$sql = "INSERT INTO comments (user_id, img_id, comment_content) SELECT :user_id, :img_id, :comment_content WHERE NOT EXISTS (SELECT comment_id FROM comments WHERE user_id = :user_id AND img_id = :img_id AND comment_content = :comment_content)";
+
+$user_id = '1';
+$img_id = '3';
+$comment_content = 'I fking love your music!';
+$st = $pdo->prepare($sql);
+$st->bindParam(':img_id', $img_id);
+$st->bindParam(':user_id', $user_id);
+$st->bindParam(':comment_content', $comment_content);
+$st->execute();
+
+$user_id = '1';
+$img_id = '4';
+$comment_content = 'Wow, you\'re the best!';
+$st = $pdo->prepare($sql);
+$st->bindParam(':img_id', $img_id);
+$st->bindParam(':user_id', $user_id);
+$st->bindParam(':comment_content', $comment_content);
+$st->execute();
+
+$user_id = '2';
+$img_id = '5';
+$comment_content = 'Oh my god the last episode was amazing!!!';
+$st = $pdo->prepare($sql);
+$st->bindParam(':img_id', $img_id);
+$st->bindParam(':user_id', $user_id);
+$st->bindParam(':comment_content', $comment_content);
+$st->execute();
+
+$user_id = '2';
+$img_id = '6';
+$comment_content = 'Pickle Rick !!!! xDDDD';
+$st = $pdo->prepare($sql);
+$st->bindParam(':img_id', $img_id);
+$st->bindParam(':user_id', $user_id);
+$st->bindParam(':comment_content', $comment_content);
+$st->execute();
+
+$user_id = '3';
+$img_id = '1';
+$comment_content = 'Hey, wanna hang out tonight?';
+$st = $pdo->prepare($sql);
+$st->bindParam(':img_id', $img_id);
+$st->bindParam(':user_id', $user_id);
+$st->bindParam(':comment_content', $comment_content);
+$st->execute();
+
+$user_id = '3';
+$img_id = '7';
+$comment_content = 'I\'m, the beeeeesttttt :buuurp:';
+$st = $pdo->prepare($sql);
+$st->bindParam(':img_id', $img_id);
+$st->bindParam(':user_id', $user_id);
+$st->bindParam(':comment_content', $comment_content);
+$st->execute();
+
+$user_id = '3';
+$img_id = '8';
+$comment_content = 'I prefer Hisoka btw...';
+$st = $pdo->prepare($sql);
+$st->bindParam(':img_id', $img_id);
+$st->bindParam(':user_id', $user_id);
+$st->bindParam(':comment_content', $comment_content);
+$st->execute();
+
+$user_id = '4';
+$img_id = '1';
+$comment_content = 'Wow you\'re amazing';
+$st = $pdo->prepare($sql);
+$st->bindParam(':img_id', $img_id);
+$st->bindParam(':user_id', $user_id);
+$st->bindParam(':comment_content', $comment_content);
+$st->execute();
+
+$user_id = '4';
+$img_id = '2';
+$comment_content = 'If you\'re willing to do whatever it takes. I won\'t hold back.';
+$st = $pdo->prepare($sql);
+$st->bindParam(':img_id', $img_id);
+$st->bindParam(':user_id', $user_id);
+$st->bindParam(':comment_content', $comment_content);
+$st->execute();
+echo "Likes created!<br/><br/>";
+
+
 echo "Database CAMAGRU has been succesfully initialized! Congratulation<br/>";
 
 $pdo = null;

@@ -11,6 +11,9 @@ function do_like(event) {
             console.log(res.message);
             if (res.result === 1) {
                 event.path[0].offsetParent.children[2].children[0].children[2].children[0].classList.add('has-text-danger');
+                var nblikes = parseInt(event.path[0].offsetParent.children[2].children[0].children[2].children[1].innerText) + 1;
+                console.log(nblikes);
+                event.path[0].offsetParent.children[2].children[0].children[2].children[1].innerText = nblikes;
                 // has-text-danger
                 // console.log('Image deleted');
                 // var element = document.getElementById(event.srcElement.id);
@@ -24,7 +27,9 @@ function do_like(event) {
             }
             if (res.result === 2) {
                 event.path[0].offsetParent.children[2].children[0].children[2].children[0].classList.remove('has-text-danger');
-
+                var nblikes = parseInt(event.path[0].offsetParent.children[2].children[0].children[2].children[1].innerText) - 1;
+                console.log(nblikes);
+                event.path[0].offsetParent.children[2].children[0].children[2].children[1].innerText = nblikes;
             }           
             else {
                 console.log('Not uploaded');
