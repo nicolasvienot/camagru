@@ -22,8 +22,9 @@
         </div>
         <br>
         <br>
-        <h2 class="title is-size-5">Gallery</h2>
+        <h2 class="title is-size-5">My gallery</h2>
         <div id="gallery">
+            <?php echo $gallery?>
         </div> 
     </div>
 <!-- </div> -->

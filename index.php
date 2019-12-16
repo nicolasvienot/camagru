@@ -27,9 +27,9 @@ switch ($request) {
     case '/404/' :
         require __DIR__ . '/view/404.php';
         break;
-    // case '/404/' :
-    //     require __DIR__ . '/view/404.php';
-    //     break;
+    case '/404/' :
+        require __DIR__ . '/view/404.php';
+        break;
     case (preg_match("/^(\/activation.php)/i", $request) ? true : false) :
         $login = htmlentities($_GET["log"]);
         $key = htmlentities($_GET["key"]);

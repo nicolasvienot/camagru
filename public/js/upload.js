@@ -29,15 +29,17 @@ function share() {
     // xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
             var res = JSON.parse(this.responseText);
+            console.log(res);
             if (res.result === 1) {
                 console.log('Uploaded');
                 var img = document.createElement('img'); 
+                img.style.height = '240px';
+                img.style.width = '320px';
+                img.id = res.img_id;
                 img.src = '../' + res.img_path;
-                img.style.height = '120px';
-                img.style.width = '160px';
-                document.getElementById("gallery").appendChild(img);
+                img.addEventListener('click', delete_p, true);
+                document.getElementById("gallery").prepend(img);
             } else {
                 console.log('Not uploaded');
             }
@@ -45,7 +47,7 @@ function share() {
     };
     xmlhttp.open("POST", "../controller/upload_pic.php", true);
     xmlhttp.send(data);
-};
+}
 
 document.getElementById("upload").addEventListener('click', handle_upload, true);
 
@@ -58,7 +60,7 @@ function getPicture() {
     var webcam = document.getElementById("webcam")
     var canvas = document.getElementById("canvas");
     button.disabled = false;
-
+    
     button.onclick = function() {
         console.log(canvas.width);
         console.log(canvas.height);
@@ -69,4 +71,36 @@ function getPicture() {
 }
 
 
+function delete_p(event) {
+    var data = new FormData();
+    data.append('img_id', event.srcElement.id);
+    console.log(event.srcElement.id);
+    var xmlhttp = new XMLHttpRequest();
+    // xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+            var res = JSON.parse(this.responseText);
+            if (res.result === 1) {
+                console.log('Image deleted');
+                var element = document.getElementById(event.srcElement.id);
+               element.parentNode.removeChild(element);
+                // var img = document.createElement('img'); 
+                // img.style.height = '240px';
+                // img.style.width = '320px';
+                // img.src = '../' + res.img_path;
+                // img.addEventListener('click', delete_pic, true);
+                // document.getElementById("gallery").prepend(img);
+            } else {
+                console.log('Not uploaded');
+            }
+        }
+    };
+    xmlhttp.open("POST", "../controller/delete_pic.php", true);
+    xmlhttp.send(data);
+};
 
+var imgs = document.querySelectorAll("img");
+imgs.forEach(element => {
+    element.addEventListener('click', delete_p, true);
+});

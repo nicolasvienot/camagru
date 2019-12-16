@@ -44,6 +44,7 @@ function signin($login, $password) {
 function signup($login, $password, $email) {
     require (__DIR__ . '/../config/database.php');
     // $res = 0;
+    // $user_key = uniqid(TRUE);
     $user_key = md5(microtime(TRUE)*100000);
 
     $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);

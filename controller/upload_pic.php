@@ -15,10 +15,9 @@ $img = $_POST['img'];
 $img = str_replace('data:image/png;base64,', '', $img);
 $img = str_replace(' ', '+', $img);
 $data = base64_decode($img);
-$file_name = time() . "_" . $user_id .".png";
-$file_path = $upload_dir . $file_name;
-$img_path = 'public/img/uploads/' . $file_name;
 header("Content-type: image/png");
+
+// check if exists
 
 $image = imagecreatefromstring($data);
 
@@ -29,14 +28,24 @@ $image = imagecreatefromstring($data);
 // $img_height = imageSY($image);
 // imageCopyResized($image,$mini_left,$img_width / 3,20,0,0,$img_width,$img_height,$filter_width,$filter_height);
 
-upload_img($img_path, $user_login, $user_id);
+$now = DateTime::createFromFormat('U.u', microtime(true));
+$time = $now->format("mdYHisu");
+$file_name = $time . '_' . mt_rand() . '_' . $user_id . '.png';
+$file_path = $upload_dir . $file_name;
+$img_path = 'public/img/uploads/' . $file_name;
+$img_id = upload_img($img_path, $user_login, $user_id);
+
 $success = imagepng($image, $file_path);
+$res->exists = file_exists($file_path);
 
 $res->result = 1;
 $res->message = "Image uploaded.";
 $res->img_path = $img_path;
+$res->img_id = $img_id;
 
 $json = json_encode($res);
 echo $json;
+
+
 
 ?>

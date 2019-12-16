@@ -6,8 +6,9 @@ session_start();
 if (!isset($_SESSION['user']) && $_SESSION['user'] === "") {
     require(__DIR__ . '/../controller/index.php');
 }
-
-$gallery = get_images();
+else {
+    $gallery = get_images();
+}
 
 require(__DIR__ . '/../view/socialwall.php');
 
