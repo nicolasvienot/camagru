@@ -37,8 +37,6 @@ switch ($request) {
         break;
     case (preg_match("/^(\/comments\/)/i", $request) ? true : false) :
         $img_id = $_GET["img_id"];
-        // $login = htmlentities($_GET["log"]);
-        // $key = htmlentities($_GET["key"]);
         require __DIR__ . '/controller/comments.php';
         break;
     default:

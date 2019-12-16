@@ -8,20 +8,20 @@ $res->message = "There was a problem, please try again";
 session_start();
 $user_login = $_SESSION['user'];
 $user_id = $_SESSION['user_id'];
-$img_id = $_POST['img_id'];
+$comment_id = $_POST['comment_id'];
 
-$like = manage_likes($img_id, $user_id);
-if ($like !== 0)
+$comment = delete_comment($comment_id, $user_id);
+if ($comment !== 0)
 {
-    if ($like === 1)
+    if ($comment === 1)
     {
         $res->result = 1;
-        $res->message = "Like added.";
+        $res->message = "Comment deleted.";
     }
-    else
+    if ($comment === 2)
     {
         $res->result = 2;
-        $res->message = "Like removed.";
+        $res->message = "No rights to delete comment.";
     }
 }
 

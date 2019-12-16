@@ -4,7 +4,6 @@ getPicture();
 function getCamera() {
     var vplay = document.getElementById("webcam_div");
     vplay.setAttribute('style', 'width:auto');
-
     var webcam = document.querySelector("#webcam"), webcamStream, ctx;
     var canvas = document.querySelector("#canvas");
     var streamError = 0;
@@ -16,7 +15,7 @@ function getCamera() {
             // webcamStream = stream;
         })
         .catch(function(err) {
-            console.log("Something went wrong!\n" + err);
+            console.log("Something went wrong : " + err);
             streamError = 1;
         });
     }
@@ -26,22 +25,28 @@ function share() {
     var data = new FormData();
     data.append('img', document.getElementById("canvas").toDataURL("image/png"));
     var xmlhttp = new XMLHttpRequest();
-    // xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             var res = JSON.parse(this.responseText);
-            console.log(res);
             if (res.result === 1) {
-                console.log('Uploaded');
-                var img = document.createElement('img'); 
+                var column = document.createElement('div');
+                var card = document.createElement('div');
+                var figure = document.createElement('figure');
+                var img = document.createElement('img');
+                column.className = "column is-one-quarter-desktop is-half-tablet";
+                card.className = "card-image";
+                figure.className = "image has-ratio";
                 img.style.height = '240px';
                 img.style.width = '320px';
-                img.id = res.img_id;
+                column.id = res.img_id;
                 img.src = '../' + res.img_path;
-                img.addEventListener('click', delete_p, true);
-                document.getElementById("gallery").prepend(img);
+                figure.appendChild(img);
+                card.appendChild(figure);
+                column.appendChild(card);  
+                column.addEventListener('click', delete_p, true);
+                document.getElementById("gallery").prepend(column);
             } else {
-                console.log('Not uploaded');
+                console.log('Error : not uploaded');
             }
         }
     };
@@ -49,11 +54,7 @@ function share() {
     xmlhttp.send(data);
 }
 
-document.getElementById("upload").addEventListener('click', handle_upload, true);
-
-function handle_upload() {
-    share();
-}
+document.getElementById("upload").addEventListener('click', share, true);
 
 function getPicture() {
     var button = document.getElementById("button");
@@ -62,45 +63,33 @@ function getPicture() {
     button.disabled = false;
     
     button.onclick = function() {
-        console.log(canvas.width);
-        console.log(canvas.height);
         canvas.getContext("2d").drawImage(webcam, 0, 0, 640, 480);
-        // var img = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-        // window.location.href=img;
     };
 }
 
-
 function delete_p(event) {
-    var data = new FormData();
-    data.append('img_id', event.srcElement.id);
-    console.log(event.srcElement.id);
-    var xmlhttp = new XMLHttpRequest();
-    // xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xmlhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
-            var res = JSON.parse(this.responseText);
-            if (res.result === 1) {
-                console.log('Image deleted');
-                var element = document.getElementById(event.srcElement.id);
-               element.parentNode.removeChild(element);
-                // var img = document.createElement('img'); 
-                // img.style.height = '240px';
-                // img.style.width = '320px';
-                // img.src = '../' + res.img_path;
-                // img.addEventListener('click', delete_pic, true);
-                // document.getElementById("gallery").prepend(img);
-            } else {
-                console.log('Not uploaded');
+    if (confirm('Are you sure you want to delete this image?')) {
+        var data = new FormData();
+        data.append('img_id', event.path[3].id);
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var res = JSON.parse(this.responseText);
+                if (res.result === 1) {
+                    console.log('Image deleted');
+                    var element = document.getElementById(event.path[3].id);
+                    element.parentNode.removeChild(element);
+                } else {
+                    console.log('Error : image not deleted');
+                }
             }
-        }
-    };
-    xmlhttp.open("POST", "../controller/delete_pic.php", true);
-    xmlhttp.send(data);
+        };
+        xmlhttp.open("POST", "../controller/delete_pic.php", true);
+        xmlhttp.send(data);
+    }
 };
 
-var imgs = document.querySelectorAll("img");
+var imgs = document.querySelectorAll(".is-one-quarter-desktop");
 imgs.forEach(element => {
     element.addEventListener('click', delete_p, true);
 });

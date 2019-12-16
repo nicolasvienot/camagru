@@ -124,11 +124,10 @@ signup.addEventListener('click', function (event) {
     xmlhttp.send(data);
 });
 
+signup_form.addEventListener('keyup', handle_enter, true);
 function handle_enter() {
     if (event.keyCode === 13) {
         event.preventDefault();
         signup.click();
     }
 }
-
-signup_form.addEventListener('keyup', handle_enter, true);

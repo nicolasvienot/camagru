@@ -42,12 +42,21 @@ function get_own_images($user_id) {
 	while ($data_img = $st->fetch()) {
         $img_id = $data_img['img_id'];
         $img_path = $data_img['img_path'];
-        $gallery = $gallery . ('<img src="../' . $img_path .'" style="height: 240px; width: auto;" id="' . $img_id . '">');
+        // $gallery = $gallery . ('<img src="../' . $img_path .'" style="height: 240px; width: auto;" id="' . $img_id . '">');
+
+        $mygallery = $mygallery . ('
+        <div class="column is-one-quarter-desktop is-half-tablet" id="' . $img_id . '">
+            <div class="card-image">
+                <figure class="image has-ratio">
+                    <img src="../' . $img_path . '">
+                </figure>
+            </div>
+        </div>');
 
         // $gallery = $gallery . ('<img height=240px width=320px src="../' . $img_path .'">');
     }
     $pdo = null;
-    return $gallery;
+    return $mygallery;
 }
 
 function delete_image_db($img_id)
@@ -65,6 +74,10 @@ function delete_image_db($img_id)
     $st->bindParam(':img_id', $img_id);
     $st->execute();
     $data_img = $st->fetch();
+    if ($data_img == null)
+    {
+        return 0;
+    }
     $img_path = $data_img['img_path'];
 
     $sql = "DELETE FROM images WHERE img_id=:img_id";

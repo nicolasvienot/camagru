@@ -8,6 +8,8 @@ if (!isset($_SESSION['user']) && $_SESSION['user'] === "") {
 }
 else {
     $image = get_image($img_id);
+    if ($image === 0)
+        require(__DIR__ . '/../view/404.php');
     $comments = get_comments($img_id);
 }
 

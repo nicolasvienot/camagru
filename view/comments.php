@@ -29,13 +29,13 @@
   <div class="media-content">
     <div class="field">
       <p class="control">
-        <textarea class="textarea" placeholder="Add a comment..."></textarea>
+        <textarea class="textarea" placeholder="Add a comment..." id="comment_content"></textarea>
       </p>
     </div>
     <nav class="level">
       <div class="level-left">
         <div class="level-item">
-          <a class="button is-info">Submit</a>
+          <a class="button is-info" id="submit_comment">Submit</a>
         </div>
       </div>
       <!-- <div class="level-right">
@@ -49,7 +49,7 @@
   </div>
 </article>
 
-<!-- <script src="../public/js/socialwall.js"></script> -->
+<script src="../public/js/comments.js"></script>
 
 <?php
     include (__DIR__ . '/../controller/templates/footer.php');

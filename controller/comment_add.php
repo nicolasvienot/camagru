@@ -9,20 +9,14 @@ session_start();
 $user_login = $_SESSION['user'];
 $user_id = $_SESSION['user_id'];
 $img_id = $_POST['img_id'];
+$comment_content = $_POST['comment_content'];
 
-$like = manage_likes($img_id, $user_id);
-if ($like !== 0)
+$comment = add_comment($img_id, $user_id, $comment_content);
+if ($comment === 1)
 {
-    if ($like === 1)
-    {
-        $res->result = 1;
-        $res->message = "Like added.";
-    }
-    else
-    {
-        $res->result = 2;
-        $res->message = "Like removed.";
-    }
+    $res->result = 1;
+    $res->message = "Comment added.";
+    $res->comment_id = $comment_content;
 }
 
 $json = json_encode($res);
