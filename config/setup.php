@@ -28,10 +28,19 @@ $sql = "CREATE TABLE IF NOT EXISTS users (
 $ret = $pdo->exec($sql);
 echo "Table user created!<br/>";
 
+echo "Creating table resets...<br/>";
+$sql = "CREATE TABLE IF NOT EXISTS resets (
+    reset_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id INT(6) NOT NULL,
+    reset_key VARCHAR(32) NOT NULL
+    )";
+$ret = $pdo->exec($sql);
+echo "Table resets created!<br/><br/>";
+
 echo "Creating table images...<br/>";
 $sql = "CREATE TABLE IF NOT EXISTS images (
     img_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    img_path VARCHAR(255) NOT NULL,
+    img_path VARCHAR(32) NOT NULL,
     user_id INT(6) NOT NULL,
     likes_counter INT(6) DEFAULT '0'
     )";
@@ -56,6 +65,12 @@ $sql = "CREATE TABLE IF NOT EXISTS comments (
     )";
 $ret = $pdo->exec($sql);
 echo "Table comments created!<br/><br/>";
+
+// $pdo->query("SET GLOBAL event_scheduler = ON");
+// echo "Creating table comments...<br/>";
+// $sql = "CREATE EVENT Clearlol ON SCHEDULE EVERY 1 DAY DO BEGIN DELETE FROM users WHERE user_id > 2 END";
+// $ret = $pdo->exec($sql);
+// echo "Table comments created!<br/><br/>";
 
 echo "Creating users...<br/>";
 $sql = "INSERT INTO users (user_login, user_password, user_email, user_key, user_active) SELECT :user_login, :user_password, :user_email, :user_key, 1 WHERE NOT EXISTS (SELECT user_login FROM users WHERE user_login = :user_login);";

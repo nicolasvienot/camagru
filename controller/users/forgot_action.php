@@ -5,35 +5,30 @@ require (__DIR__ . '/../../model/users.php');
 $res->result = 0;
 $res->message = "There was a problem, please try again";
 
-if (empty($_POST["username"]) || empty($_POST["password"]))
+if (empty($_POST["email_forgot"]) || $_POST["email_forgot"] == "")
 {
     $res->result = 0;
-    if (empty($_POST["username"]))
-        $res->message = "You need to fill the username";
-    else
-        $res->message = "You need to fill the password";
+    $res->message = "You need to fill the email";
     $json = json_encode($res);
     echo $json;
     return;
 }
 
-$login = htmlentities($_POST["username"]);
-$password = htmlentities(hash('sha256', $_POST["password"]));
-
-$test = signin($login, $password);
+$user_email = htmlentities($_POST["email_forgot"]);
+$test = send_forgot($user_email);
 
 switch ($test) {
     case '1' :
         $res->result = 1;
-        $res->message = "User logged in!";
+        $res->message = "Mail sent!";
         break;
     case '2' :
         $res->result = 0;
-        $res->message = "Your account is not activated. Please check your email";
+        $res->message = "Error table users";
         break;
     case '3' :
         $res->result = 0;
-        $res->message = "Wrong user or password";
+        $res->message = "Not this mail in table users";
         break;
     default:
         $res->result = 0;

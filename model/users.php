@@ -57,7 +57,7 @@ function signup($login, $password, $email) {
     $st->bindParam(':user_email', $email);
     $st->bindParam(':user_key', $user_key);
     $st->execute();
-    send_mail($email, $login, $user_key);
+    send_mail_activation($email, $login, $user_key);
     $pdo = null;
     return 1;
 }
@@ -98,7 +98,7 @@ function email_exists($email) {
     return $res;
 }
 
-function send_mail($email, $login, $user_key)
+function send_mail_activation($email, $login, $user_key)
 {
     $subject = "Activate your Camagru account";
     $headers = "MIME-Version: 1.0" . "\r\n";
@@ -107,7 +107,23 @@ function send_mail($email, $login, $user_key)
     $message = 'Welcome on Camagru,
     In order to activate your account, please click on the link below
     or copy/paste it in your browser. <br/>
-    http://localhost/activation.php?log='.urlencode($login).'&key='.urlencode($user_key).' <br/>
+    http://localhost:8080/activation.php?log='.urlencode($login).'&key='.urlencode($user_key).' <br/>
+    -------------- <br/>
+    This is an automated message - Please do not reply directly to this email.';
+    mail($email, $subject, $message, $headers);
+}
+
+function send_mail_forgot($email, $forgot_key)
+{
+    $subject = "Camagru password reset";
+    $headers = "MIME-Version: 1.0" . "\r\n";
+    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+    $headers .= 'From: <nvienot@student.42.fr>' . "\r\n";
+    $message = 'Hey there,
+    Someone requested a new password for your Camagru account. <br/>
+    Click on the link below to reset your password. <br/>
+    http://localhost:8080/resetpassword.php?&keyreset='.urlencode($forgot_key).' <br/>
+    If you didn\'t make this request, you can safely ignore this email. <br/>
     -------------- <br/>
     This is an automated message - Please do not reply directly to this email.';
     mail($email, $subject, $message, $headers);
@@ -151,6 +167,119 @@ function activate_account($login, $key) {
     $pdo = null;
     return $res;
 }
+
+function send_forgot($user_email) {
+    // $res = 0;
+    require (__DIR__ . '/../config/database.php');
+    try {
+        $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    }
+    catch (Exception $e) {
+        die("Unsuccessful access to database: $e");
+    }
+
+    
+    $sql = "SELECT * FROM users WHERE user_email like :user_email";
+    $st = $pdo->prepare($sql);
+    $st->bindValue(':user_email', $user_email, PDO::PARAM_STR);
+    if (!$st->execute())
+        return 2;
+    $data_user = $st->fetch();
+    if ($data_user == null)
+        return 3;
+    $user_id = $data_user['user_id'];
+
+    
+    $sql = "SELECT COUNT(*) FROM resets WHERE user_id = :user_id";
+    $st = $pdo->prepare($sql);
+    $st->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    $st->execute();
+    $data_reset = $st->fetch();
+    if ($data_reset['COUNT(*)'] != 0) {
+        $sql = "DELETE FROM resets WHERE user_id=:user_id";
+        $st = $pdo->prepare($sql);
+        $st->bindParam(':user_id', $user_id);
+        $st->execute();
+    }
+
+    $reset_key = md5(microtime(TRUE)*mt_rand(1, 12345));
+
+    $sql = "INSERT INTO resets (user_id, reset_key) VALUES (:user_id, :reset_key)";
+    $st = $pdo->prepare($sql);
+    $st->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $st->bindValue(':reset_key', $reset_key, PDO::PARAM_STR);
+    $st->execute();
+    send_mail_activation($email, $login, $user_key);
+    $pdo = null;
+    return 1;
+}
+
+function check_reset_password($reset_key)
+{
+    require (__DIR__ . '/../config/database.php');
+    try {
+        $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    }
+    catch (Exception $e) {
+        die("Unsuccessful access to database: $e");
+    }
+    $sql = "SELECT COUNT(*) FROM resets WHERE reset_key like :reset_key ";
+    $st = $pdo->prepare($sql);
+    $st->bindValue(':reset_key', $reset_key, PDO::PARAM_STR);
+    $st->execute();
+    $data_reset = $st->fetch();
+    if ($data_reset['COUNT(*)'] != 1) {
+        return 0;
+    }
+    else
+        return 1;
+    return 0;
+}
+
+// function reset_password($key, $id) {
+//     require (__DIR__ . '/../config/database.php');
+//     try {
+//         $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
+//         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+//     }
+//     catch (Exception $e) {
+//         die("Unsuccessful access to database: $e");
+//     }
+
+//     $sql = "SELECT user_id, user_active FROM users WHERE user_login like :user_login ";
+//     $st = $pdo->prepare($sql);
+//     $st->bindValue(':user_login', $login, PDO::PARAM_STR);
+//     $st->execute();
+//     // $st = $st->fetch();
+//     if ($row = $st->fetch())
+//     {
+//         $user_key = $row['user_key'];
+//         $user_active = $row['user_active'];
+//         if ($user_active == '1') {
+//             $res = 2;
+//         }
+//         else {
+//             if ($key == $user_key) {
+//                 $sql = "UPDATE users SET user_active = 1 WHERE user_login like :user_login";
+//                 $st = $pdo->prepare($sql);
+//                 $st->bindParam(':user_login', $login);
+//                 $st->execute();
+//                 $res = 1;
+//             }
+//             else {
+//                 $res = 3;
+//             }
+//         }
+//     }
+//     else {
+//         $res = 4;
+//     }
+//     $pdo = null;
+//     return $res;
+// }
+
 
 function modify_username($new_login, $login, $user_id)
 {

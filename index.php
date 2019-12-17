@@ -39,6 +39,10 @@ switch ($request) {
         $img_id = $_GET["img_id"];
         require __DIR__ . '/controller/comments.php';
         break;
+    case (preg_match("/^(\/resetpassword.php)/i", $request) ? true : false) :
+        $reset_key = htmlentities($_GET["keyreset"]);
+        require __DIR__ . '/controller/users/resetpassword.php';
+        break;
     default:
         http_response_code(404);
         require __DIR__ . '/view/404.php';

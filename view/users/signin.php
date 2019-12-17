@@ -43,7 +43,7 @@
                     <label class="label">Your email address</label>
                     <div class="field">
                         <div class="control has-icons-left has-icons-right">
-                            <input class="input" id="email" type="email" name="email" placeholder="john@doe.com">
+                            <input class="input" id="email" type="email" name="email_forgot" placeholder="john@doe.com">
                             <span class="icon is-small is-left">
                                 <i class="fas fa-envelope"></i>
                             </span>
