@@ -11,7 +11,7 @@
         <div class="field">
             <label class="label">Modify username</label>
             <div class="control has-icons-left has-icons-right">
-                <input class="input" id="username" type="text" name="login" placeholder="jdoe">
+                <input class="input" id="username" type="text" name="new_login" placeholder="jdoe">
                 <span class="icon is-small is-left">
                 <i class="fas fa-user"></i>
                 </span>
@@ -33,7 +33,7 @@
         <div class="field">
             <label class="label">Modify email</label>
             <div class="control has-icons-left has-icons-right">
-                <input class="input" id="email" type="email" name="email" placeholder="john@doe.com">
+                <input class="input" id="email" type="email" name="new_email" placeholder="john@doe.com">
                 <span class="icon is-small is-left">
                 <i class="fas fa-envelope"></i>
                 </span>
@@ -60,7 +60,6 @@
                     <i class="fas fa-lock"></i>
                 </span>
             </p>
-            <p class="help is-danger" id="password_message" style="display: none;">Password must contain at least 8 characters, one letter and one number</p>
         </div>
         <div class="field">
             <p>New password</p>
@@ -74,7 +73,7 @@
         </div>
         <div class="field">
             <p class="control has-icons-left">
-                <input class="input" id="password_check" type="new_password" name="password_check" placeholder="Confirm new password">
+                <input class="input" id="new_password_check" type="password" name="new_password_check" placeholder="Confirm new password">
                 <span class="icon is-small is-left">
                     <i class="fas fa-lock"></i>
                 </span>
@@ -110,6 +109,8 @@
         <button class="modal-close is-large" aria-label="close" id="close"></button>
     </div> -->
 </div>
+
+<script src="../../public/js/modifyaccount.js"></script>
 
 
 <?php

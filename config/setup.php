@@ -33,7 +33,6 @@ $sql = "CREATE TABLE IF NOT EXISTS images (
     img_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     img_path VARCHAR(255) NOT NULL,
     user_id INT(6) NOT NULL,
-    user_login VARCHAR(255) NOT NULL,
     likes_counter INT(6) DEFAULT '0'
     )";
 $ret = $pdo->exec($sql);
@@ -107,79 +106,63 @@ $st->execute();
 echo "Users created!<br/><br/>";
 
 echo "Creating images...<br/>";
-$sql = "INSERT INTO images (img_path, user_id, user_login) SELECT :img_path, :user_id, :user_login WHERE NOT EXISTS (SELECT img_path FROM images WHERE img_path = :img_path);";
+$sql = "INSERT INTO images (img_path, user_id) SELECT :img_path, :user_id WHERE NOT EXISTS (SELECT img_path FROM images WHERE img_path = :img_path);";
 
 $img_path = 'public/img/uploads/beyonce1.png';
-$user_login = 'beyonce';
 $user_id = '1';
 $st = $pdo->prepare($sql);
 $st->bindParam(':img_path', $img_path);
 $st->bindParam(':user_id', $user_id);
-$st->bindParam(':user_login', $user_login);
 $st->execute();
 
 $img_path = 'public/img/uploads/rick1.png';
-$user_login = 'rick';
 $user_id = '3';
 $st = $pdo->prepare($sql);
 $st->bindParam(':img_path', $img_path);
 $st->bindParam(':user_id', $user_id);
-$st->bindParam(':user_login', $user_login);
 $st->execute();
 
 $img_path = 'public/img/uploads/rick2.png';
-$user_login = 'rick';
 $user_id = '3';
 $st = $pdo->prepare($sql);
 $st->bindParam(':img_path', $img_path);
 $st->bindParam(':user_id', $user_id);
-$st->bindParam(':user_login', $user_login);
 $st->execute();
 
 $img_path = 'public/img/uploads/johnny1.png';
-$user_login = 'johnnyhalliday';
 $user_id = '2';
 $st = $pdo->prepare($sql);
 $st->bindParam(':img_path', $img_path);
 $st->bindParam(':user_id', $user_id);
-$st->bindParam(':user_login', $user_login);
 $st->execute();
 
 $img_path = 'public/img/uploads/gon1.png';
-$user_login = 'gon';
 $user_id = '4';
 $st = $pdo->prepare($sql);
 $st->bindParam(':img_path', $img_path);
 $st->bindParam(':user_id', $user_id);
-$st->bindParam(':user_login', $user_login);
 $st->execute();
 
 $img_path = 'public/img/uploads/beyonce2.png';
-$user_login = 'beyonce';
 $user_id = '1';
 $st = $pdo->prepare($sql);
 $st->bindParam(':img_path', $img_path);
 $st->bindParam(':user_id', $user_id);
-$st->bindParam(':user_login', $user_login);
 $st->execute();
 
 
 $img_path = 'public/img/uploads/gon2.png';
-$user_login = 'gon';
 $user_id = '4';
 $st = $pdo->prepare($sql);
 $st->bindParam(':img_path', $img_path);
 $st->bindParam(':user_id', $user_id);
-$st->bindParam(':user_login', $user_login);
 $st->execute();
 
 $img_path = 'public/img/uploads/johnny2.png';
-$user_login = 'johnnyhalliday';
 $user_id = '2';
 $st = $pdo->prepare($sql);
 $st->bindParam(':img_path', $img_path);
 $st->bindParam(':user_id', $user_id);
-$st->bindParam(':user_login', $user_login);
 $st->execute();
 echo "Images created!<br/><br/>";
 

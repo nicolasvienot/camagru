@@ -152,4 +152,103 @@ function activate_account($login, $key) {
     return $res;
 }
 
+function modify_username($new_login, $login, $user_id)
+{
+    require (__DIR__ . '/../config/database.php');
+    try {
+        $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    }
+    catch (Exception $e) {
+        die("Unsuccessful access to database: $e");
+    }
+
+    $sql = "SELECT COUNT(*) FROM users WHERE user_id = :user_id AND user_login = :user_login";
+    $st = $pdo->prepare($sql);
+    $st->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    $st->bindParam(':user_login', $login, PDO::PARAM_STR);
+    $st->execute();
+    $data_user = $st->fetch();
+    if ($data_user['COUNT(*)'] != 1) {
+        return 0;
+    }
+    $sql = "UPDATE users SET user_login = :user_login WHERE user_id = :user_id";
+    $st = $pdo->prepare($sql);
+    $st->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    $st->bindParam(':user_login', $new_login, PDO::PARAM_STR);
+    if ($st->execute())
+    {
+        session_start();
+        $_SESSION['user'] = $new_login;
+        $_SESSION['user_id'] = $user_id;
+        return 1;
+    }
+    return 0;
+}
+
+function modify_email($new_email, $login, $user_id)
+{
+    require (__DIR__ . '/../config/database.php');
+    try {
+        $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    }
+    catch (Exception $e) {
+        die("Unsuccessful access to database: $e");
+    }
+
+    $sql = "SELECT COUNT(*) FROM users WHERE user_id = :user_id AND user_login = :user_login";
+    $st = $pdo->prepare($sql);
+    $st->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    $st->bindParam(':user_login', $login, PDO::PARAM_STR);
+    $st->execute();
+    $data_user = $st->fetch();
+    if ($data_user['COUNT(*)'] != 1) {
+        return 0;
+    }
+    $sql = "UPDATE users SET user_email = :user_email WHERE user_id = :user_id";
+    $st = $pdo->prepare($sql);
+    $st->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    $st->bindParam(':user_email', $new_email, PDO::PARAM_STR);
+    if ($st->execute())
+        return 1;
+    return 0;
+}
+
+function modify_password($old_password, $new_password, $login, $user_id)
+{
+    require (__DIR__ . '/../config/database.php');
+    try {
+        $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    }
+    catch (Exception $e) {
+        die("Unsuccessful access to database: $e");
+    }
+
+    $sql = "SELECT COUNT(*) FROM users WHERE user_login = :user_login AND user_password = :user_password AND user_id = :user_id";
+    $st = $pdo->prepare($sql);
+    $st->bindValue(':user_login', $login, PDO::PARAM_STR);
+    $st->bindValue(':user_password', $old_password, PDO::PARAM_STR);
+    $st->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $st->execute();
+    $st = $st->fetch();
+    if ($st['COUNT(*)'] == 1)
+    {
+        $sql = "UPDATE users SET user_password = :user_password WHERE user_id = :user_id";
+        $st = $pdo->prepare($sql);
+        $st->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $st->bindParam(':user_password', $new_password, PDO::PARAM_STR);
+        if ($st->execute())
+            $res = 1;
+        else
+            $res = 2;
+    }
+    else 
+        $res = 3;
+    $pdo = null;
+    return $res;
+}
+
+
 ?>
