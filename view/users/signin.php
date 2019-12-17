@@ -25,10 +25,51 @@
         </div>
         <div class="field" id="login">
             <p class="control">
-                <button type="button" class="button is-success" id="signin">Login</button>
+                <div class="buttons">
+                    <button type="button" class="button is-success" id="signin">Login</button>
+                    <button type="button" class="button is-success is-light is-small" id="forgot">Forgot account?</button>
+                </div>
             </p>
         </div>
     </form>
+    <div class="modal" id="modal">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="box">
+                <form id="forgot_form">
+                    <label class="title is-4">Reset password</label>
+                    <br>
+                    <br>
+                    <label class="label">Your email address</label>
+                    <div class="field">
+                        <div class="control has-icons-left has-icons-right">
+                            <input class="input" id="email" type="email" name="email" placeholder="john@doe.com">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="buttons">
+                        <button class="button is-primary" id="send_forgot">Send</button>
+                        <button class="button is-primary" id="close_modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <button class="modal-close is-large" aria-label="close" id="close"></button>
+    </div>
+    <div class="modal" id="modal_close">
+        <div class="modal-background"></div>
+            <div class="modal-content">
+                <div class="box">
+                        <label class="label">Ok c'est fait !</label>
+                        <div class="buttons">
+                            <button class="button is-primary" id="close_modal">Close</button>
+                        </div>
+            </div>
+        </div>
+        <button class="modal-close is-large" aria-label="close" id="close"></button>
+    </div>
 </div>
 
 <script src="../../public/js/signin.js"></script>
