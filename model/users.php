@@ -104,29 +104,24 @@ function send_mail_activation($email, $login, $user_key)
     $headers = "MIME-Version: 1.0" . "\r\n";
     $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
     $headers .= 'From: Camagru <noreply@camagru.com>' . "\r\n";
-    $message = 'Welcome on Camagru, <br/>
-    In order to activate your account, please click on the link below
-    or copy/paste it in your browser. <br/>
-    <a href="http://localhost:8080/activation.php?log='.urlencode($login).'&key='.urlencode($user_key).'"><button>Activate account</button></a> <br/>
-    -------------- <br/>
-    This is an automated message - Please do not reply directly to this email.';
+    $link = 'http://localhost:8080/activation.php?log='.urlencode($login).'&key='.urlencode($user_key);
+    $path = (__DIR__ . '/../public/html/templates/mail_activation.html');
+    $template = file_get_contents($path);
+    $template = str_replace('{{ link }}', $link, $template);
+    $message = str_replace('{{ login }}', $login, $template);
     mail($email, $subject, $message, $headers);
 }
 
 function send_mail_forgot($user_email, $reset_key)
 {
-    $subject = "Camagru password reset";
+    $subject = "Reset your Camagru password";
     $headers = "MIME-Version: 1.0" . "\r\n";
     $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
     $headers .= 'From: Camagru <noreply@camagru.com>' . "\r\n";
-    $message = 'Hey there,
-    Someone requested a new password for your Camagru account. <br/>
-    Click on the button below to reset your password. <br/>
-    <a href="http://localhost:8080/resetpassword.php?&keyreset='.urlencode($reset_key).'"><button>Reset password</button></a> <br/>
-    If you didn\'t make this request, you can safely ignore this email. <br/>
-    This link will expire in 24h. <br/>
-    -------------- <br/>
-    This is an automated message - Please do not reply directly to this email.';
+    $link = 'http://localhost:8080/resetpassword.php?&keyreset='.urlencode($reset_key);
+    $path = (__DIR__ . '/../public/html/templates/mail_resetpassword.html');
+    $template = file_get_contents($path);
+    $message = str_replace('{{ link }}', $link, $template);
     mail($user_email, $subject, $message, $headers);
 }
 
@@ -226,18 +221,65 @@ function check_reset_password($reset_key)
     catch (Exception $e) {
         die("Unsuccessful access to database: $e");
     }
-    $sql = "SELECT COUNT(*) FROM resets WHERE reset_key like :reset_key ";
+    $sql = "SELECT COUNT(*) FROM resets WHERE reset_key like :reset_key";
     $st = $pdo->prepare($sql);
     $st->bindValue(':reset_key', $reset_key, PDO::PARAM_STR);
     $st->execute();
     $data_reset = $st->fetch();
     if ($data_reset['COUNT(*)'] != 1) {
-        return 0;
+        return 2;
     }
-    else
-        return 1;
-    return 0;
+    // else
+    // {
+    //     $sql = "SELECT COUNT(*) FROM resets WHERE reset_key like :reset_key AND WHERE timestamp < NOW() - INTERVAL 1 DAY";
+    //     $st = $pdo->prepare($sql);
+    //     $st->bindValue(':reset_key', $reset_key, PDO::PARAM_STR);
+    //     $st->execute();
+    //     $data_reset = $st->fetch();
+    //     if ($data_reset['COUNT(*)'] != 1)
+    //         return 2;
+    //     else
+    //         return 1;
+    // }
+    return 1;
 }
+
+
+function reset_password($password, $key)
+{
+    require (__DIR__ . '/../config/database.php');
+    try {
+        $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    }
+    catch (Exception $e) {
+        die("Unsuccessful access to database: $e");
+    }
+
+    $sql = "SELECT user_id FROM resets WHERE reset_key like :reset_key";
+    $st = $pdo->prepare($sql);
+    $st->bindValue(':reset_key', $key, PDO::PARAM_STR);
+    $st->execute();
+    $data_reset = $st->fetch();
+    if ($data_reset == null)
+        return 0;
+    $user_id = $data_reset['user_id'];
+
+    $sql = "UPDATE users SET user_password = :user_password WHERE user_id = :user_id";
+    $st = $pdo->prepare($sql);
+    $st->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    $st->bindParam(':user_password', $password, PDO::PARAM_STR);
+    if ($st->execute())
+    {
+        $sql = "DELETE FROM resets WHERE user_id=:user_id";
+        $st = $pdo->prepare($sql);
+        $st->bindParam(':user_id', $user_id);
+        $st->execute();
+        return 1;
+    }
+    return 6;
+}
+
 
 // function reset_password($key, $id) {
 //     require (__DIR__ . '/../config/database.php');

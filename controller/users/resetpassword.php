@@ -22,11 +22,7 @@
                 break;
             case '2' :
                 $res->result = 2;
-                $res->message = "The link provided has already been used!";
-                break;
-            case '3' :
-                $res->result = 3;
-                $res->message = "Your password couldn't be reset... Please contact us at nvienot@student.42.fr or create a new account.";
+                $res->message = "The link provided has been used or has expired!";
                 break;
             default:
                 $res->result = 4;

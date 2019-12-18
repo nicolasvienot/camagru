@@ -16,7 +16,7 @@
                         <br>
                         <?php echo $res->message ?>
                         <?php if ($res->result === 1) {?>
-                            <form id="reset_password">
+                            <form id="reset_form">
                                 <div class="field">
                                     <p class="control has-icons-left">
                                         <input class="input" id="password" type="password" name="password" placeholder="Password">
@@ -35,6 +35,7 @@
                                     </p>
                                     <p class="help is-danger" id="password_check_message" style="display: none;">The two passwords must match</p>
                                 </div>
+                                <input class="input" id="reset_key" name="reset_key" type ="hidden" value="<?php echo $reset_key ?>">
                             </form>
                             <div class="field is-grouped">
                                 <div class="control">
@@ -59,7 +60,7 @@
 
 
 <!-- CAREFUL -->
-<script src="../../public/js/signup.js"></script>
+<script src="../../public/js/resetpassword.js"></script>
 
 <?php
     include (__DIR__ . '/../../controller/templates/footer.php');
