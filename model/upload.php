@@ -9,10 +9,9 @@ function upload_img($img_path, $user_login, $user_id) {
     catch (Exception $e) {
         die("Unsuccessful access to database: $e");
     }
-    $sql = "INSERT INTO images (img_path, user_id, user_login) VALUES (:img_path, :user_id, :user_login)";
+    $sql = "INSERT INTO images (img_path, user_id) VALUES (:img_path, :user_id)";
     $st = $pdo->prepare($sql);
     $st->bindParam(':img_path', $img_path);
-    $st->bindParam(':user_login', $user_login);
     $st->bindParam(':user_id', $user_id);
     $st->execute();
 

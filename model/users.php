@@ -103,30 +103,31 @@ function send_mail_activation($email, $login, $user_key)
     $subject = "Activate your Camagru account";
     $headers = "MIME-Version: 1.0" . "\r\n";
     $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-    $headers .= 'From: <nvienot@student.42.fr>' . "\r\n";
-    $message = 'Welcome on Camagru,
+    $headers .= 'From: Camagru <noreply@camagru.com>' . "\r\n";
+    $message = 'Welcome on Camagru, <br/>
     In order to activate your account, please click on the link below
     or copy/paste it in your browser. <br/>
-    http://localhost:8080/activation.php?log='.urlencode($login).'&key='.urlencode($user_key).' <br/>
+    <a href="http://localhost:8080/activation.php?log='.urlencode($login).'&key='.urlencode($user_key).'"><button>Activate account</button></a> <br/>
     -------------- <br/>
     This is an automated message - Please do not reply directly to this email.';
     mail($email, $subject, $message, $headers);
 }
 
-function send_mail_forgot($email, $forgot_key)
+function send_mail_forgot($user_email, $reset_key)
 {
     $subject = "Camagru password reset";
     $headers = "MIME-Version: 1.0" . "\r\n";
     $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-    $headers .= 'From: <nvienot@student.42.fr>' . "\r\n";
+    $headers .= 'From: Camagru <noreply@camagru.com>' . "\r\n";
     $message = 'Hey there,
     Someone requested a new password for your Camagru account. <br/>
-    Click on the link below to reset your password. <br/>
-    http://localhost:8080/resetpassword.php?&keyreset='.urlencode($forgot_key).' <br/>
+    Click on the button below to reset your password. <br/>
+    <a href="http://localhost:8080/resetpassword.php?&keyreset='.urlencode($reset_key).'"><button>Reset password</button></a> <br/>
     If you didn\'t make this request, you can safely ignore this email. <br/>
+    This link will expire in 24h. <br/>
     -------------- <br/>
     This is an automated message - Please do not reply directly to this email.';
-    mail($email, $subject, $message, $headers);
+    mail($user_email, $subject, $message, $headers);
 }
 
 function activate_account($login, $key) {
@@ -210,7 +211,7 @@ function send_forgot($user_email) {
     $st->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $st->bindValue(':reset_key', $reset_key, PDO::PARAM_STR);
     $st->execute();
-    send_mail_activation($email, $login, $user_key);
+    send_mail_forgot($user_email, $reset_key);
     $pdo = null;
     return 1;
 }

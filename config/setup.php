@@ -6,6 +6,7 @@ echo "Initialization of the CAMAGRU database...<br/><br/>";
 
 $pdo = new PDO($DB_DSN_NOBASE, $DB_USER, $DB_PASSWORD);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$pdo->query("SET GLOBAL event_scheduler = ON");
 
 echo "Creating database...<br/>";
 $sql = "CREATE DATABASE IF NOT EXISTS $DB_NAME;";
@@ -32,7 +33,8 @@ echo "Creating table resets...<br/>";
 $sql = "CREATE TABLE IF NOT EXISTS resets (
     reset_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user_id INT(6) NOT NULL,
-    reset_key VARCHAR(32) NOT NULL
+    reset_key VARCHAR(32) NOT NULL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )";
 $ret = $pdo->exec($sql);
 echo "Table resets created!<br/><br/>";
@@ -40,9 +42,8 @@ echo "Table resets created!<br/><br/>";
 echo "Creating table images...<br/>";
 $sql = "CREATE TABLE IF NOT EXISTS images (
     img_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    img_path VARCHAR(32) NOT NULL,
-    user_id INT(6) NOT NULL,
-    likes_counter INT(6) DEFAULT '0'
+    img_path VARCHAR(64) NOT NULL,
+    user_id INT(6) NOT NULL
     )";
 $ret = $pdo->exec($sql);
 echo "Table images created!<br/>";
@@ -66,11 +67,14 @@ $sql = "CREATE TABLE IF NOT EXISTS comments (
 $ret = $pdo->exec($sql);
 echo "Table comments created!<br/><br/>";
 
-// $pdo->query("SET GLOBAL event_scheduler = ON");
-// echo "Creating table comments...<br/>";
-// $sql = "CREATE EVENT Clearlol ON SCHEDULE EVERY 1 DAY DO BEGIN DELETE FROM users WHERE user_id > 2 END";
-// $ret = $pdo->exec($sql);
-// echo "Table comments created!<br/><br/>";
+echo "Creating clear_resets event...<br/>";
+$sql = "CREATE EVENT IF NOT EXISTS clear_resets
+    ON SCHEDULE EVERY 1 DAY
+    DO
+        DELETE FROM resets WHERE timestamp < NOW() - INTERVAL 1 DAY
+    ";
+$ret = $pdo->exec($sql);
+echo "Event clear_resets created!<br/><br/>";
 
 echo "Creating users...<br/>";
 $sql = "INSERT INTO users (user_login, user_password, user_email, user_key, user_active) SELECT :user_login, :user_password, :user_email, :user_key, 1 WHERE NOT EXISTS (SELECT user_login FROM users WHERE user_login = :user_login);";
