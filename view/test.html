@@ -1,0 +1,99 @@
+<html>
+<head>
+<title>Test Page</title>
+</head>
+<body>
+
+<canvas id="canvas" width="300" height="200" style="border:1px solid" >
+    This text is displayed if your browser does not support HTML5 Canvas.
+</canvas>
+<input  type="button" name="save" value="Drag Image" onClick="drag()"/>
+
+<script type="text/javascript">
+var canvas = document.getElementById("canvas");
+var context = canvas.getContext("2d");
+
+function drag(){
+    context.fillText("Drop an image onto the canvas", 50, 30);
+}
+
+var dx = 5;
+var dy = 5;
+var x = 170
+var y = 100;
+var img = new Image();
+hasText = true;
+
+clearCanvas = function () {
+    if (hasText) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        hasText = false;
+    } else {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+    }
+};
+
+img.addEventListener("load", function() {
+    clearCanvas();
+    context.drawImage(img, x, y);
+}, false);
+
+// To enable drag and drop
+canvas.addEventListener("dragover", function (evt) {
+    evt.preventDefault();
+}, false);
+
+// Handle dropped image file - only Firefox and Google Chrome
+canvas.addEventListener("drop", function (evt) {
+var files = evt.dataTransfer.files;
+if (files.length > 0) {
+    var file = files[0];
+    if (typeof FileReader !== "undefined" && file.type.indexOf("image") != -1) {
+        var reader = new FileReader();
+        reader.onload = function (evt) {
+            img.src = evt.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+}
+evt.preventDefault();
+}, false);
+
+function doKeyDown(evt){
+    console.log(evt.keyCode);
+    switch (evt.keyCode) {
+    case 38:  /* Up arrow was pressed */
+        if (y - dy > 0){ 
+            y -= dy;
+        }
+        break;
+    case 40:  /* Down arrow was pressed */
+        if (y + dy < canvas.height){ 
+            y += dy;
+        }
+        break;
+    case 37:  /* Left arrow was pressed */
+        if (x - dx > 0){ 
+            x -= dx;
+        }
+        break;
+    case 39:  /* Right arrow was pressed */
+        if (x + dx < canvas.width){ 
+            x += dx;
+        }
+        break;
+    }
+    draw();
+}
+
+function draw(){
+    clearCanvas();
+    context.drawImage(img, x, y);
+}
+
+window.addEventListener('keydown', doKeyDown, false);
+
+//setInterval(draw,5);
+</script>
+</body>
+</html>

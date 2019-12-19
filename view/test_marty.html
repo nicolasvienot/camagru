@@ -1,0 +1,172 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Camagru</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+</head>
+
+<section class="bd-index-fullscreen hero is-fullheight is-light">
+  <div class="hero-head">
+    <div class="container">
+        <nav class="navbar" role="navigation" aria-label="main navigation">
+          <div class="navbar-brand">
+            <a class="navbar-item" href="/" >
+              <img src="../../public/img/camagru.png" width="112" height="28">
+            </a>
+            <?php if (isset($_SESSION['user']) && $_SESSION['user'] !== "") {?><a class="navbar-item">Bonjour <?php echo($_SESSION['user']) ?>!</a><?php } ?>
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+            </a>
+          </div>
+          <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+              <?php if (isset($_SESSION['user']) && $_SESSION['user'] !== "") {?><a class="navbar-item" href="/upload">Upload image</a><?php } ?>
+            </div>
+            <div class="navbar-end">
+              <div class="navbar-item">
+                <div class="buttons">
+                    <?php if (isset($_SESSION['user']) && $_SESSION['user'] !== "") {?>
+                        <a class="button is-primary" href="/modifyaccount"><strong>Modify account</strong></a>
+                        <a class="button is-light" href="/logout">Log out</a>
+                    <?php } else { ?>
+                        <a class="button is-primary" href="/signup"><strong>Sign up</strong></a>
+                        <a class="button is-light" href="/signin">Log in</a>
+                    <?php } ?>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+  </div>
+
+<script src="../../public/js/navbar.js"></script>
+
+<div class="hero-body">
+    <div class="container">
+      <body class="bd-index-header">
+
+      <div style="width: 50%; margin: auto; padding: 30px; text-align: center;">
+        <div id="webcam_div"> 
+            <div class="columns is-multiline">
+                <div class="column">
+                    <a>CAM</a>
+                    <div class="card-image">
+                        <figure class="image has-ratio">
+                          <div id="is-relative">
+                            <video id="webcam" height="480px" width="640px" autoplay>No stream available from webcam</video>
+                            <canvas id="canvas" style="top: 0; right: 0; bottom: 0; left: 0; position: absolute; width: 100%; height: 100%;">No stream available from webcam</canvas>
+                          </div>
+                        </figure>
+                        <div id="button_div" class="buttons is-centered"> 
+                          <button id="button" class="button is-info is-light">CLICK HERE TO TAKE PICTURE</button>
+                          <button id="button2" class="button is-info is-light">RESET</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+</body>
+    </div>
+  </div>
+
+  <div class="hero-foot">
+    <div class="container">
+        <div class="content has-text-centered">
+          <p>
+            <strong>Camagru</strong> by <a href="http://github.com/nicolasvienot/" target="_blank">Nicolas Viénot</a>. The source code is licensed
+            <a href="http://opensource.org/licenses/mit-license.php" target="_blank">MIT</a>.
+          </p>
+            <img src="../../public/img/camagru.png" width="112" height="28">
+            <br/>
+            <br/>
+
+        </div>
+      </div>
+  </div>
+</section>
+        
+</html>
+
+<script>
+
+getCamera();
+getPicture();
+
+function getCamera() {
+    var vplay = document.getElementById("webcam_div");
+    vplay.setAttribute('style', 'width:auto');
+    var webcam = document.querySelector("#webcam"), webcamStream, ctx;
+    var canvas = document.querySelector("#canvas");
+    var ctx = canvas.getContext('2d');
+    canvas.width = webcam.videoWidth;
+    canvas.height = webcam.videoHeight;
+    var streamError = 0;
+
+    if (navigator.mediaDevices.getUserMedia) {        
+        navigator.mediaDevices.getUserMedia({video: { width: 640, height: 480 }})
+        .then(function(stream) {
+            webcam.srcObject = stream;
+            // webcamStream = stream;
+        })
+        .catch(function(err) {
+            console.log("Something went wrong : " + err);
+            streamError = 1;
+        });
+    }
+}
+
+function getPicture() {
+    var button = document.getElementById("button");
+    button.disabled = false;
+    button.onclick = function() {
+        var webcam = document.getElementById("webcam")
+        var canvas = document.getElementById("canvas");
+        canvas.width = webcam.offsetWidth;
+        canvas.height = webcam.offsetHeight;
+        canvas.getContext("2d").drawImage(webcam, 0, 0, webcam.width, webcam.height, 0, 0, canvas.width, canvas.height);
+    };
+}
+
+function delete_p(event) {
+    if (confirm('Are you sure you want to delete this image?')) {
+        var data = new FormData();
+        data.append('img_id', event.path[3].id);
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var res = JSON.parse(this.responseText);
+                if (res.result === 1) {
+                    console.log('Image deleted');
+                    var element = document.getElementById(event.path[3].id);
+                    element.parentNode.removeChild(element);
+                } else {
+                    console.log('Error : image not deleted');
+                }
+            }
+        };
+        xmlhttp.open("POST", "../controller/delete_pic.php", true);
+        xmlhttp.send(data);
+    }
+};
+
+var imgs = document.querySelectorAll(".is-one-quarter-desktop");
+imgs.forEach(element => {
+    element.addEventListener('click', delete_p, true);
+});
+
+function reset_cam(event) {
+    var canvas = document.getElementById("canvas");
+    canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+};
+
+document.getElementById("button2").addEventListener('click', reset_cam, true);
+
+</script>

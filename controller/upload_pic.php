@@ -21,12 +21,31 @@ header("Content-type: image/png");
 
 $image = imagecreatefromstring($data);
 
-// $mini_left = imagecreatefrompng('/Users/cnairi/Applications/mamp/apache2/htdocs' . $_POST['hidden_filter']);
-// $filter_width = imageSX($mini_left);
-// $filter_height = imageSY($mini_left);
-// $img_width = imageSX($image);
-// $img_height = imageSY($image);
-// imageCopyResized($image,$mini_left,$img_width / 3,20,0,0,$img_width,$img_height,$filter_width,$filter_height);
+$filter = imagecreatefrompng(__DIR__ . '/../public/img/filters/lgbt.png');
+// list($img_width, $img_height) = getimagesize($image);
+// list($filter_width, $filter_height) = getimagesize($filter);
+
+$filter_width = imageSX($filter);
+$filter_height = imageSY($filter);
+$img_width = imageSX($image);
+$img_height = imageSY($image);
+
+$res->img_width = $img_width;
+$res->img_height = $img_height;
+$res->filter_width = $filter_width;
+$res->filter_height = $filter_height;
+
+imagecopy($image, $filter, $_POST['x'], $_POST['y'], 0, 0, 200, 100);
+
+// imageCopyResized($image, $filter, $_POST['x'], $_POST['y'], 0, 0, 640, 280, 200, 100);
+// imageCopyResized($image, $filter, 0, 0, 0, 0, 640, 480, 200, 100);
+// imagecopyresampled ($image, $filter, 0, 0, $img_width, $img_height, $filter_width, $filter_height, $$filter_width, $filter_height);
+// imageCopyResized($image, $filter,0,0,0,0,$img_width,$img_height,$filter_width,$filter_height);
+
+// imageCopyResized($image, $filter, $img_width / 3, 20, 0, 0, $img_width, $img_height, $filter_width, $filter_height);
+// imagecopyresampled ($image, $filter, $img_width / 3, 20, 0, 0, $img_width, $img_height, $filter_width, $filter_height);
+// imagecopymerge($image, $filter, $_POST['x'], $_POST['y'], 0, 0, 200, 100, 100);
+
 
 $now = DateTime::createFromFormat('U.u', microtime(true));
 $time = $now->format("mdYHisu");
