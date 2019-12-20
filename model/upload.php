@@ -44,7 +44,7 @@ function get_own_images($user_id) {
         // $gallery = $gallery . ('<img src="../' . $img_path .'" style="height: 240px; width: auto;" id="' . $img_id . '">');
 
         $mygallery = $mygallery . ('
-        <div class="column is-one-quarter-desktop is-half-tablet" id="' . $img_id . '">
+        <div class="column is-one-quarter-desktop is-half-tablet gallery" id="' . $img_id . '">
             <div class="card-image">
                 <figure class="image has-ratio">
                     <img src="../' . $img_path . '">

@@ -25,8 +25,7 @@ services:
       CAMAGRU_DBNAME: ${CAMAGRU_DBNAME}
       CAMAGRU_DBUSER: ${CAMAGRU_DBUSER}
       CAMAGRU_DBPASSWORD: ${CAMAGRU_DBPASSWORD}
-      CAMAGRU_PORT: ${CAMAGRU_PORT}
-      CAMAGRU_HOST: db
+      CAMAGRU_DBHOST: db
     volumes:
       - .:/app
     ports:

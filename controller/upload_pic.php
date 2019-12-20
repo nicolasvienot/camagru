@@ -12,6 +12,7 @@ $user_id = $_SESSION['user_id'];
 
 $upload_dir = __DIR__ . '/../public/img/uploads/';
 $img = $_POST['img'];
+$filter = $_POST['filter'];
 $img = str_replace('data:image/png;base64,', '', $img);
 $img = str_replace(' ', '+', $img);
 $data = base64_decode($img);
@@ -21,7 +22,7 @@ header("Content-type: image/png");
 
 $image = imagecreatefromstring($data);
 
-$filter = imagecreatefrompng(__DIR__ . '/../public/img/filters/lgbt.png');
+$filter = imagecreatefrompng(__DIR__ . $filter);
 // list($img_width, $img_height) = getimagesize($image);
 // list($filter_width, $filter_height) = getimagesize($filter);
 
@@ -35,7 +36,7 @@ $res->img_height = $img_height;
 $res->filter_width = $filter_width;
 $res->filter_height = $filter_height;
 
-imagecopy($image, $filter, $_POST['x'], $_POST['y'], 0, 0, 200, 100);
+imagecopy($image, $filter, $_POST['x'], $_POST['y'], 0, 0, $filter_width, $filter_height);
 
 // imageCopyResized($image, $filter, $_POST['x'], $_POST['y'], 0, 0, 640, 280, 200, 100);
 // imageCopyResized($image, $filter, 0, 0, 0, 0, 640, 480, 200, 100);

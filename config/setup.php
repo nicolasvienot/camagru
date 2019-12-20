@@ -6,7 +6,6 @@ echo "Initialization of the CAMAGRU database...<br/><br/>";
 
 $pdo = new PDO($DB_DSN_NOBASE, $DB_USER, $DB_PASSWORD);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$pdo->query("SET GLOBAL event_scheduler = ON");
 
 echo "Creating database...<br/>";
 $sql = "CREATE DATABASE IF NOT EXISTS $DB_NAME;";
@@ -15,6 +14,7 @@ echo "Database camagru created!<br/>";
 
 $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$pdo->query("SET GLOBAL event_scheduler = ON");
 
 echo "Creating table users...<br/>";
 $sql = "CREATE TABLE IF NOT EXISTS users (
@@ -336,7 +336,6 @@ $st->bindParam(':user_id', $user_id);
 $st->bindParam(':comment_content', $comment_content);
 $st->execute();
 echo "Likes created!<br/><br/>";
-
 
 echo "Database CAMAGRU has been succesfully initialized! Congratulation<br/>";
 
