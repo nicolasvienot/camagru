@@ -2,38 +2,45 @@
     include (__DIR__ . '/../controller/templates/header.php');
 ?>
 
-<div id="button_div" class="buttons has-addons is-centered">
-    <button id="button3" class="button is-primary is-selected">WEBCAM</button>
-    <button id="button4" class="button">UPLOAD IMAGE</button>
+<div id="buttonswebcamupload" class="buttons has-addons is-centered">
+    <button id="buttonwebcam" class="button is-primary is-selected">WEBCAM</button>
+    <button id="buttonupload" class="button">UPLOAD IMAGE</button>
 </div>            
 
-<form enctype="multipart/form-data" method="post" id="uploadpic">
-    <label class="file-label is-size-6 has">
-    <input class="file-input" id="buttonfile" name="buttonfile" type="file">
-    <span class="file-cta">
-        <span class="file-icon"><i class="fas fa-upload"></i></span>
-        <span class="file-label">Choose file...</span>
-    </span>
-    </label> 
-    <button class="button is-link is-size-6 has" style="background-color:#C3A239; position:relative; top:5px; display:none;" type="submit" value="Upload Image" name="submit" id="Upload Image">...and upload it !</button>
-    <input name="add_filter" id='add_filter' type="hidden">
-</form>
-
-
-
-<br>
-OK
-<br>
-<div id="webcam_div" style="is-centered"> 
-    <figure class="image container has-ratio" id="drag" style="max-width: 640px;">
+<div id="webcam_div" class="is-centered"> 
+    <figure class="image container has-ratio" id="canvas_webcam" style="max-width: 640px;">
         <video id="webcam" height="480px" width="640px" autoplay>No stream available from webcam</video>
         <canvas id="canvas" height="480px" width="640px" style="top: 0; right: 0; bottom: 0; left: 0; position: absolute; width: 100%; height: 100%;">No stream available from webcam</canvas>
         <canvas id="canvas2" height="480px" width="640px" style="top: 0; right: 0; bottom: 0; left: 0; position: absolute; width: 100%; height: 100%;">No stream available from webcam</canvas>
     </figure>
     <br>
     <div id="button_div2" class="buttons has-addons is-centered">
-        <button id="button2" class="button is-danger">RESET</button>
+        <button id="button2" class="button is-danger">CLEAR PICTURE</button>
         <button id="buttontakepicture" class="button is-success">TAKE PICTURE</button>
+    </div>
+</div>
+<div id="upload_div" class="is-centered" style="display:none;"> 
+    <div class="buttons is-centered">
+        <form enctype="multipart/form-data" method="post" id="uploadpic">
+            <label class="file-label is-size-6">
+                <input class="file-input" id="inputfile" name="buttonfile" type="file" accept="image/*">
+                <span class="file-cta">
+                    <span class="file-icon"><i class="fas fa-upload"></i></span>
+                    <span class="file-label">Choose file...</span>
+                </span>
+            </label>
+        </form>
+    </div>
+    <div id="upload_div2" class="is-centered"> 
+        <figure class="image container has-ratio" id="canvas_upload" style="max-width: 640px; display:none;">
+            <!-- <img id="uploaded_img" height="480px" width="640px" style="display:none;">
+            <canvas id="canvas3" height="480px" width="640px" style="top: 0; right: 0; bottom: 0; left: 0; position: absolute; width: 100%; height: 100%;">No stream available from webcam</canvas>
+            <canvas id="canvas4" height="480px" width="640px" style="top: 0; right: 0; bottom: 0; left: 0; position: absolute; width: 100%; height: 100%;">No stream available from webcam</canvas> -->
+            <canvas id="canvas3" height="480px" width="640px">No stream available from webcam</canvas>
+            <canvas id="canvas4" height="480px" width="640px" style="top: 0; right: 0; bottom: 0; left: 0; position: absolute; width: 100%; height: 100%;">No stream available from webcam</canvas>
+            
+        </figure>
+        <br>
     </div>
 </div>
 <br>
@@ -87,7 +94,7 @@ OK
     </div>
 </div>
 
-<script src="../../public/js/test.js"></script>
+<!-- <script src="../../public/js/test.js"></script> -->
 <script src="../../public/js/upload.js"></script>
 
 

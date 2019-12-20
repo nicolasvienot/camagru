@@ -1,9 +1,9 @@
 var canvas, context;
 var filter = new Image();
+filter.src = '../../public/img/filters/lgbt.png';
 var isDraggable = false;
 var currentX = 0;
 var currentY = 0;
-// var start = 0;
 var interval = "";
 canvas = document.getElementById("canvas2");
 button = document.getElementById("movefilter");
@@ -26,7 +26,6 @@ button.onclick = function(e) {
     }
 }
 
-filter.src = '../../public/img/filters/lgbt.png';
 
 function start_drag() {
     canvas.addEventListener("mousedown", handle_mousedown, true);
@@ -92,5 +91,7 @@ filters.forEach(element => {
 });
 
 function handle_click_filter(event) {
+    console.log('coucou');
     filter.src = event.path[0].getAttribute('src');
+    console.log(filter.src)
 }
