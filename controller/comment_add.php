@@ -12,11 +12,14 @@ $img_id = $_POST['img_id'];
 $comment_content = $_POST['comment_content'];
 
 $comment = add_comment($img_id, $user_id, $comment_content);
-if ($comment === 1)
+if ($comment != 0)
 {
+    $date = get_comment_date($comment);
+    $res->login = $user_login;
     $res->result = 1;
     $res->message = "Comment added.";
-    $res->comment_id = $comment_content;
+    $res->comment_id = $comment;
+    $res->comment_date = $date;
 }
 
 $json = json_encode($res);

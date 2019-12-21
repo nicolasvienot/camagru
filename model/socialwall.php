@@ -32,13 +32,20 @@ function get_images() {
         $data_likes = $st3->fetch();
         $nblikes = $data_likes['COUNT(*)'];
 
-        $sql = "SELECT COUNT(*) FROM likes WHERE img_id = :img_id AND user_id = :user_id";
+        $sql = "SELECT COUNT(*) FROM comments WHERE img_id = :img_id";
         $st4 = $pdo->prepare($sql);
-        $present_id = $_SESSION['user_id'];
         $st4->bindValue(':img_id', $img_id, PDO::PARAM_INT);
-        $st4->bindParam(':user_id', $present_id, PDO::PARAM_INT);
         $st4->execute();
-        $data_likes = $st4->fetch();
+        $data_comments = $st4->fetch();
+        $nbcomms = $data_comments['COUNT(*)'];
+
+        $sql = "SELECT COUNT(*) FROM likes WHERE img_id = :img_id AND user_id = :user_id";
+        $st5 = $pdo->prepare($sql);
+        $present_id = $_SESSION['user_id'];
+        $st5->bindValue(':img_id', $img_id, PDO::PARAM_INT);
+        $st5->bindParam(':user_id', $present_id, PDO::PARAM_INT);
+        $st5->execute();
+        $data_likes = $st5->fetch();
         if ($data_likes['COUNT(*)'] != 0)
         {
             $user_liked = " has-text-danger";
@@ -50,29 +57,27 @@ function get_images() {
 
         $gallery = $gallery.('
         <div class="column is-one-quarter-desktop is-half-tablet">
-            <strong>@'.$login.'</strong> <small>'.$img_date.'</small>
-            <div class="card-image">
+            <strong>'.$login.'</strong> <small>'.$img_date.'</small>
+            <div class="card-image" id="'.$img_id.'">
                 <figure class="image has-ratio">
-                    <img src="'.$img_path.'" id="'.$img_id.'">
+                    <img src="'.$img_path.'">
                 </figure>
-                <div class="card-content is-overlay is-clipped">
-                    <span class="tag is-info">@'.$login.'</span>   
-                </div>
                 <nav class="level is-mobile">
                     <div class="level-left">
-                        <a class="level-item">
-                            <span class="icon is-small"><i class="fas fa-comment"></i></span>
+                        <a class="comment level-item">
+                            <span class="icon is-small"><i class="fas fa-comment"></i></span> 
+                            <p>/</p><span>'.$nbcomms.'</span>
                         </a>
-                        <a class="level-item">
-                            <span class="icon is-small"><i class="fas fa-retweet"></i></span>
+                        <a class="share level-item">
+                            <span class="icon is-small"><i class="fas fa-retweet"></i></span> 
                         </a>
-                        <a class="level-item">
+                        <a class="like level-item">
                             <span class="icon is-small'.$user_liked.'"><i class="fas fa-heart"></i></span>
-                            <span> '.$nblikes.'</span>
+                            <p>/</p><span>'.$nblikes.'</span>
                         </a>
-                        <a class="level-item">
-                            '.$login.'
-                        </a>
+                        <p class="level-item">
+                            @'.$login.'
+                        </p>
                     </div>
                 </nav>
             </div>
@@ -92,24 +97,13 @@ function get_image($img_id) {
         die("Unsuccessful access to database: $e");
     }
 
-    // $sql = "SELECT COUNT(*) FROM images WHERE img_id = :img_id";
-    // $st = $pdo->prepare($sql);
-    // $st->bindParam(':img_id', $img_id, PDO::PARAM_INT);
-    // $st->execute();
-    // $data_img = $st->fetch();
-    // if ($data_img['COUNT(*)'] != 1) {
-    //     return 0;
-    // }
-
     $sql = "SELECT * FROM images WHERE img_id = :img_id";
     $st = $pdo->prepare($sql);
     $st->bindParam(':img_id', $img_id, PDO::PARAM_INT);
     $st->execute();
     $data_img = $st->fetch();
     if ($data_img == null)
-    {
         return 0;
-    }
     $img_path = $data_img['img_path'];
     $user_id = $data_img['user_id'];
 
@@ -147,24 +141,18 @@ function get_image($img_id) {
             <figure class="image has-ratio" id="img_container">
                 <img src="../'.$img_path.'" style="max-width: 640px;" id="'.$img_id.'">
             </figure>
-            <div class="card-content is-overlay is-clipped">
-                <span class="tag is-info">@'.$login.'</span>   
-            </div>
             <nav class="level is-mobile">
                 <div class="level-left">
-                    <a class="level-item">
-                        <span class="icon is-small"><i class="fas fa-reply"></i></span>
-                    </a>
-                    <a class="level-item">
+                    <a class="share level-item">
                         <span class="icon is-small"><i class="fas fa-retweet"></i></span>
                     </a>
-                    <a class="level-item">
+                    <a class="like level-item">
                         <span class="icon is-small'.$user_liked.'"><i class="fas fa-heart"></i></span>
                         <span> '.$nblikes.'</span>
                     </a>
-                    <a class="level-item">
-                        '.$login.'
-                    </a>
+                    <p class="level-item">
+                        @'.$login.'
+                    </p>
                 </div>
             </nav>');
     $pdo = null;
@@ -219,7 +207,7 @@ function get_comments($img_id) {
     catch (Exception $e) {
         die("Unsuccessful access to database: $e");
     }
-    $sql = "SELECT * FROM comments WHERE img_id = :img_id ORDER BY comment_id DESC";
+    $sql = "SELECT * FROM comments WHERE img_id = :img_id ORDER BY comment_id ASC";
     $st = $pdo->prepare($sql);
     $st->bindValue(':img_id', $img_id, PDO::PARAM_INT);
     $st->execute();
@@ -227,6 +215,7 @@ function get_comments($img_id) {
         $comment_id = $data_comment['comment_id'];
         $user_id = $data_comment['user_id'];
         $comment_content = $data_comment['comment_content'];
+        $comment_date = $data_comment['comment_date'];
 
         $sql = "SELECT user_login FROM users WHERE user_id = :user_id";
         $st2 = $pdo->prepare($sql);
@@ -243,9 +232,8 @@ function get_comments($img_id) {
         {
             $button_suppr = '';
         }
-
         $comments = $comments . ('<div id="'.$comment_id.'"><p>
-            <strong>'.$login.'</strong> <small>@'.$login.'</small> <small>31m</small>
+            <strong>'.$login.'</strong> <small>@'.$login.' '.$comment_date.'</small>
             '.$button_suppr.'
             <br>
             '.$comment_content.'
@@ -253,6 +241,26 @@ function get_comments($img_id) {
     }
     $pdo = null;
     return $comments;
+}
+
+function get_comment_date($comment_id)
+{
+    require (__DIR__ . '/../config/database.php');
+    try {
+        $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    }
+    catch (Exception $e) {
+        die("Unsuccessful access to database: $e");
+    }
+    $sql = "SELECT comment_date FROM comments WHERE comment_id = :comment_id";
+    $st = $pdo->prepare($sql);
+    $st->bindValue(':comment_id', $comment_id, PDO::PARAM_INT);
+    $st->execute();
+    $data_comment = $st->fetch();
+    $comment_date = $data_comment['comment_date'];
+    return $comment_date;
+    $pdo = null;
 }
 
 function add_comment($img_id, $user_id, $comment_content) 
@@ -272,7 +280,9 @@ function add_comment($img_id, $user_id, $comment_content)
     $st->bindValue(':img_id', $img_id, PDO::PARAM_INT);
     $st->bindValue(':comment_content', $comment_content, PDO::PARAM_STR);
     if ($st->execute())
-        $res = 1;
+    {
+        $res = $pdo->lastInsertId();
+    }
     $pdo = null;
     return $res;
 }

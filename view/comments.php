@@ -2,12 +2,6 @@
     include (__DIR__ . '/../controller/templates/header.php');
 ?>
 
-<!-- <div style="width: 50%; margin: auto; padding: 30px; text-align: center;">
-    <p style="padding-bottom: 5px;">Work in progress...</p>
-    <br>
-    <progress class="progress is-primary" max="100">30%</progress> <br/>
-</div> -->
-
 <div class="columns">
     <div class="column is-full">
         <div class="card-image">
@@ -19,7 +13,7 @@
 
 <article class="media">
   <div class="media-content">
-    <div class="content">
+    <div class="content" id="comments_div">
         <?php echo $comments ?>
     </div>
   </div>
@@ -38,12 +32,6 @@
           <a class="button is-info" id="submit_comment">Submit</a>
         </div>
       </div>
-      <!-- <div class="level-right">
-        <div class="level-item">
-          <label class="checkbox">
-            <input type="checkbox"> Press enter to submit
-          </label>
-        </div> -->
       </div>
     </nav>
   </div>

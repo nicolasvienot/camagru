@@ -34,7 +34,7 @@ $sql = "CREATE TABLE IF NOT EXISTS resets (
     reset_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user_id INT(6) NOT NULL,
     reset_key VARCHAR(32) NOT NULL,
-    ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
     )";
 $ret = $pdo->exec($sql);
 echo "Table resets created!<br/><br/>";
@@ -44,7 +44,7 @@ $sql = "CREATE TABLE IF NOT EXISTS images (
     img_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     img_path VARCHAR(64) NOT NULL,
     user_id INT(6) NOT NULL,
-    img_date datetime DEFAULT CURRENT_TIMESTAMP
+    img_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
     )";
 $ret = $pdo->exec($sql);
 echo "Table images created!<br/>";
@@ -63,7 +63,8 @@ $sql = "CREATE TABLE IF NOT EXISTS comments (
     comment_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user_id INT(6) NOT NULL,
     img_id INT(6) NOT NULL,
-    comment_content TEXT NOT NULL
+    comment_content TEXT NOT NULL,
+    comment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
     )";
 $ret = $pdo->exec($sql);
 echo "Table comments created!<br/><br/>";
@@ -92,7 +93,7 @@ $st->bindParam(':user_key', $user_key);
 $st->execute();
 
 $st = $pdo->prepare($sql);
-$user_login = 'johnnyhalliday';
+$user_login = 'johnnyh';
 $user_password = hash("sha256", 'bonjour123');
 $user_email = 'johnny@halliday.fr';
 $user_key = md5(microtime(TRUE)*100000);
