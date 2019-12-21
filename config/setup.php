@@ -24,7 +24,7 @@ $sql = "CREATE TABLE IF NOT EXISTS users (
     user_email VARCHAR(255) NOT NULL,
     user_key VARCHAR(32) NOT NULL,
     user_active INT(1) DEFAULT '0',
-    notifications INT(1) DEFAULT '1'
+    user_notification INT(1) DEFAULT '1'
     )";
 $ret = $pdo->exec($sql);
 echo "Table user created!<br/>";

@@ -2,10 +2,20 @@
     include (__DIR__ . '/../../controller/templates/header.php');
 ?>
 
+<?php if ($notif === '1')
+        echo '<script>var notif = 1;</script>';
+    else
+        echo '<script>var notif = 0;</script>'; ?>
+
 <div style="width: 50%; margin: auto; padding: 30px;">
     <div style="text-align: center; padding-bottom: 20px;">
         <h1 class="title is-3">Hi <?php echo $_SESSION['user'] ?></h1>
         <h1 class="title is-4">Modify your account</h1>
+    </div>
+    <div class="buttons has-addons">
+        <button id="notifications" class="button">Notifications</button>
+        <div id="notificationsno" class="button is-disabled" style="pointer-events: none;">No</div>
+        <div id="notificationsyes" class="button is-disabled" style="pointer-events: none;">Yes</div>
     </div>
     <form id="username_form">
         <div class="field">
@@ -85,7 +95,7 @@
                 <button type="button" class="button is-primary" id="update_password">Update password</button>
             </div>
         </div>
-    <form>
+        <form>
     <!-- <div class="modal" id="modal_good">
         <div class="modal-background"></div>
         <div class="modal-content">

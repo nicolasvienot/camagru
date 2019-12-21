@@ -75,8 +75,8 @@
 <br>
 <div class="buttons has-addons is-centered">
   <button id="movefilter" class="button">Move filter</button>
-  <button id="movefilterno" class="button is-danger is-selected is-disabled">No</button>
-  <button id="movefilteryes" class="button is-disabled">Yes</button>
+  <button id="movefilterno" class="button is-danger is-selected is-disabled" style="pointer-events: none;">No</button>
+  <button id="movefilteryes" class="button is-disabled" style="pointer-events: none;">Yes</button>
 </div>
 <br>
 <div class="columns is-multiline is-centered" id="col">

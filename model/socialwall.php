@@ -1,6 +1,6 @@
 <?php
 
-function get_images() {
+function get_images($start_img) {
     require (__DIR__ . '/../config/database.php');
     try {
         $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
@@ -9,10 +9,14 @@ function get_images() {
     catch (Exception $e) {
         die("Unsuccessful access to database: $e");
     }
+    $start = $start_image;
+    $end = $start_image + 8;
     $sql = "SELECT * FROM images ORDER BY img_id DESC";
     $st = $pdo->prepare($sql);
     $st->execute();
 	while ($data_img = $st->fetch()) {
+        if ($start >= $end)
+            break;
         $img_id = $data_img['img_id'];
         $img_path = $data_img['img_path'];
         $user_id = $data_img['user_id'];
@@ -82,6 +86,8 @@ function get_images() {
                 </nav>
             </div>
         </div>');
+
+        $start += 1;
     }
     $pdo = null;
     return $gallery;
@@ -265,7 +271,8 @@ function get_comment_date($comment_id)
 
 function add_comment($img_id, $user_id, $comment_content) 
 {
-    $res = 0;
+    $res->result = 0;
+    $res->id_comment = 0;
     require (__DIR__ . '/../config/database.php');
     try {
         $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
@@ -281,10 +288,49 @@ function add_comment($img_id, $user_id, $comment_content)
     $st->bindValue(':comment_content', $comment_content, PDO::PARAM_STR);
     if ($st->execute())
     {
-        $res = $pdo->lastInsertId();
+        $res->result = 1;
+        $res->id_comment = $pdo->lastInsertId();
+        $sql = "SELECT * FROM images WHERE img_id = :img_id";
+        $st2 = $pdo->prepare($sql);
+        $st2->bindParam(':img_id', $img_id, PDO::PARAM_INT);
+        $st2->execute();
+        $data_images = $st2->fetch();
+        $img_user_id = $data_images['user_id'];
+        $img_path = $data_images['img_path'];
+        $img_date = $data_images['img_date'];
+
+        $sql = "SELECT * FROM users WHERE user_id = :user_id";
+        $st3 = $pdo->prepare($sql);
+        $st3->bindParam(':user_id', $img_user_id, PDO::PARAM_INT);
+        $st3->execute();
+        $data_user = $st3->fetch();
+        if ($data_user['user_notification'] == 1 && $user_id != $img_user_id)
+        {
+            $email = $data_user['user_email'];
+            $login = $data_user['user_login'];
+            $img_path = 'http://localhost:8080/'.$img_path;
+            send_mail_comment($email, $login, $img_path, $img_date, $img_id);
+            $res->result = 2;
+        }
     }
     $pdo = null;
     return $res;
+}
+
+function send_mail_comment($email, $login, $img_path, $img_date, $img_id)
+{
+    $subject = "You have a new comment on your Camagru picture!";
+    $headers = "MIME-Version: 1.0" . "\r\n";
+    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+    $headers .= 'From: Camagru <noreply@camagru.com>' . "\r\n";
+    $path = (__DIR__ . '/../public/html/templates/mail_comment.html');
+    $link = 'http://localhost:8080/comments/?img_id='.$img_id;
+    $template = file_get_contents($path);
+    $template = str_replace('{{ img_path }}', $img_path, $template);
+    $template = str_replace('{{ img_date }}', $img_date, $template);
+    $template = str_replace('{{ link }}', $link, $template);
+    $message = str_replace('{{ login }}', $login, $template);
+    mail($email, $subject, $message, $headers);
 }
 
 function delete_comment($comment_id, $user_id) 

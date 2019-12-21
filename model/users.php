@@ -231,14 +231,14 @@ function check_reset_password($reset_key)
     }
     else
     {
-        $sql = "SELECT COUNT(*) FROM resets WHERE reset_key like :reset_key AND WHERE ts < NOW() - INTERVAL 1 DAY";
-        $st = $pdo->prepare($sql);
-        $st->bindValue(':reset_key', $reset_key, PDO::PARAM_STR);
-        $st->execute();
-        $data_reset = $st->fetch();
-        if ($data_reset['COUNT(*)'] != 1)
-            return 2;
-        else
+        // $sql = "SELECT COUNT(*) FROM resets WHERE reset_key like :reset_key AND WHERE ts < NOW() - INTERVAL 1 DAY";
+        // $st = $pdo->prepare($sql);
+        // $st->bindValue(':reset_key', $reset_key, PDO::PARAM_STR);
+        // $st->execute();
+        // $data_reset = $st->fetch();
+        // if ($data_reset['COUNT(*)'] != 1)
+        //     return 2;
+        // else
             return 1;
     }
     return 1;
@@ -422,5 +422,53 @@ function modify_password($old_password, $new_password, $login, $user_id)
     return $res;
 }
 
+function modify_notification($user_id, $user_notification)
+{
+    require (__DIR__ . '/../config/database.php');
+    try {
+        $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    }
+    catch (Exception $e) {
+        die("Unsuccessful access to database: $e");
+    }
+
+    $sql = "SELECT COUNT(*) FROM users WHERE user_id = :user_id";
+    $st = $pdo->prepare($sql);
+    $st->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    $st->execute();
+    $data_user = $st->fetch();
+    if ($data_user['COUNT(*)'] != 1) {
+        return 0;
+    }
+    $sql = "UPDATE users SET user_notification = :user_notification WHERE user_id = :user_id";
+    $st = $pdo->prepare($sql);
+    $st->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    $st->bindParam(':user_notification', $user_notification, PDO::PARAM_INT);
+    if ($st->execute())
+        return 1;
+    return 0;
+}
+
+function get_user_notif($user_id)
+{
+    require (__DIR__ . '/../config/database.php');
+    try {
+        $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    }
+    catch (Exception $e) {
+        die("Unsuccessful access to database: $e");
+    }
+
+    $sql = "SELECT user_notification FROM users WHERE user_id = :user_id";
+    $st = $pdo->prepare($sql);
+    $st->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    $st->execute();
+    $data_user = $st->fetch();
+    if ($data_user == null)
+        return 0;
+    return $data_user['user_notification'];
+}
 
 ?>

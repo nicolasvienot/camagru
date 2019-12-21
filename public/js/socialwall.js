@@ -1,3 +1,4 @@
+var start_img = 9;
 
 function do_like(event) {
     var data = new FormData();

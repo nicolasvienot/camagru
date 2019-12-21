@@ -5,9 +5,72 @@ const password_check = document.getElementById('new_password_check');
 const update_username = document.getElementById('update_username');
 const update_email = document.getElementById('update_email');
 const update_password = document.getElementById('update_password');
+const button_notifications = document.getElementById("notifications");
 
+// var notif = 0;
 var regex_password = /^(?=.*[a-z])(?=.*[0-9])(?=.{8,})/;
 var regex_email = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+console.log(notif);
+
+if (notif == 1) {
+    document.getElementById("notificationsyes").className = "button is-success is-selected is-disabled"
+    document.getElementById("notificationsno").className = "button is-disabled";
+}
+else {
+    document.getElementById("notificationsyes").className = "button is-disabled";
+    document.getElementById("notificationsno").className = "button is-danger is-selected is-disabled";
+}
+
+button_notifications.onclick = function(e) {
+    button_notifications.disabled = true;
+    e.preventDefault();
+    (notif === 1) ? notif = 0 : notif = 1;
+    var data = new FormData();
+    data.append('type', 4);
+    data.append('user_notification', notif);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var res = JSON.parse(this.responseText);
+            console.log(res);
+            button_notifications.disabled = false;
+            // if (res.result === 1) {
+            //     var modal = document.getElementById('modal_good');
+            //     var html = document.querySelector('html');
+            //     modal.classList.add('is-active');
+            //     html.classList.add('is-clipped');
+            // } else {
+            //     var modal = document.getElementById('modal_bad');
+            //     var html = document.querySelector('html');
+            //     modal.classList.add('is-active');
+            //     html.classList.add('is-clipped');
+            //     modal.querySelector('#close').addEventListener('click', function(e) {
+            //         e.preventDefault();
+            //         modal.classList.remove('is-active');
+            //         html.classList.remove('is-clipped');
+            //         signup_form.addEventListener('keyup', handle_enter, true);
+            //     });
+            //     document.getElementById("tryagain").addEventListener('click', function(e) {
+            //         e.preventDefault();
+            //         modal.classList.remove('is-active');
+            //         html.classList.remove('is-clipped');
+            //         signup_form.addEventListener('keyup', handle_enter, true);
+            //     });
+            // }
+        }
+    };
+    xmlhttp.open("POST", "../../controller/users/modifyaccount_action.php", true);
+    xmlhttp.send(data);
+    if (notif == 1) {
+        document.getElementById("notificationsyes").className = "button is-success is-selected is-disabled"
+        document.getElementById("notificationsno").className = "button is-disabled";
+    }
+    else {
+        document.getElementById("notificationsyes").className = "button is-disabled";
+        document.getElementById("notificationsno").className = "button is-danger is-selected is-disabled";
+    }
+}
 
 username.addEventListener('keyup', function (event) {
     if (username.value === "") {

@@ -11,14 +11,16 @@ $user_id = $_SESSION['user_id'];
 $img_id = $_POST['img_id'];
 $comment_content = $_POST['comment_content'];
 
-$comment = add_comment($img_id, $user_id, $comment_content);
-if ($comment != 0)
+$res_comment = add_comment($img_id, $user_id, $comment_content);
+if ($res_comment->result != 0)
 {
-    $date = get_comment_date($comment);
+    $date = get_comment_date($res_comment->id_comment);
     $res->login = $user_login;
     $res->result = 1;
+    $res->result_add = $res_comment->result;
+
     $res->message = "Comment added.";
-    $res->comment_id = $comment;
+    $res->comment_id = $res_comment->id_comment;
     $res->comment_date = $date;
 }
 

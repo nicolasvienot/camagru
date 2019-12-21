@@ -102,7 +102,6 @@ switch ($type) {
                     $res->result = 0;
                     $res->message = "Error unknown!";
                 }
-                
 
             }
             else
@@ -111,8 +110,23 @@ switch ($type) {
                 $res->message = "Not same password!";
 
             }
-            
-
+        }
+        break;
+    case 4 :
+        session_start();
+        $login = $_SESSION['user'];
+        $user_id = $_SESSION['user_id'];
+        $user_notification = htmlentities($_POST['user_notification']);
+        $test = modify_notification($user_id, $user_notification);
+        if ($test === 1)
+        {
+            $res->result = 1;
+            $res->message = "Notification modified!";
+        }
+        else
+        {
+            $res->result = 0;
+            $res->message = "Error notification!";
         }
         break;
     default:

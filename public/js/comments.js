@@ -59,7 +59,6 @@ function push_comments(event) {
                 var pcomment = document.createElement('p');
                 var test = '<strong>' + res.login + '</strong> <small>@' + res.login + ' ' + res.comment_date + '</small> <a class="delete is-small" id="delete_comment"></a><br>' + comment_content;
                 pcomment.innerHTML = test;
-                console.log(pcomment.children[2]);
                 pcomment.children[2].addEventListener('click', delete_comment, true);
                 divcomment.appendChild(pcomment);
                 document.getElementById("comments_div").append(divcomment);                
