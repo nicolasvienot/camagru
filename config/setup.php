@@ -34,7 +34,7 @@ $sql = "CREATE TABLE IF NOT EXISTS resets (
     reset_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user_id INT(6) NOT NULL,
     reset_key VARCHAR(32) NOT NULL,
-    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )";
 $ret = $pdo->exec($sql);
 echo "Table resets created!<br/><br/>";
@@ -43,7 +43,8 @@ echo "Creating table images...<br/>";
 $sql = "CREATE TABLE IF NOT EXISTS images (
     img_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     img_path VARCHAR(64) NOT NULL,
-    user_id INT(6) NOT NULL
+    user_id INT(6) NOT NULL,
+    img_date datetime DEFAULT CURRENT_TIMESTAMP
     )";
 $ret = $pdo->exec($sql);
 echo "Table images created!<br/>";
@@ -71,7 +72,7 @@ echo "Creating clear_resets event...<br/>";
 $sql = "CREATE EVENT IF NOT EXISTS clear_resets
     ON SCHEDULE EVERY 1 DAY
     DO
-        DELETE FROM resets WHERE timestamp < NOW() - INTERVAL 1 DAY
+        DELETE FROM resets WHERE ts < NOW() - INTERVAL 1 DAY
     ";
 $ret = $pdo->exec($sql);
 echo "Event clear_resets created!<br/><br/>";
@@ -341,4 +342,5 @@ echo "Database CAMAGRU has been succesfully initialized! Congratulation<br/>";
 
 $pdo = null;
 
+echo '<br/><a class="button" href="/">Back to home page</a>';
 ?>

@@ -16,6 +16,7 @@ function get_images() {
         $img_id = $data_img['img_id'];
         $img_path = $data_img['img_path'];
         $user_id = $data_img['user_id'];
+        $img_date = $data_img['img_date'];
 
         $sql = "SELECT user_login FROM users WHERE user_id = :user_id";
         $st2 = $pdo->prepare($sql);
@@ -47,30 +48,30 @@ function get_images() {
             $user_liked = "";
         }
 
-        $gallery = $gallery . ('
+        $gallery = $gallery.('
         <div class="column is-one-quarter-desktop is-half-tablet">
-            <strong>'. $login .'</strong> <small>@'. $login .'</small> <small>31m</small>
+            <strong>@'.$login.'</strong> <small>'.$img_date.'</small>
             <div class="card-image">
                 <figure class="image has-ratio">
-                    <img src="' . $img_path . '" id="' . $img_id . '">
+                    <img src="'.$img_path.'" id="'.$img_id.'">
                 </figure>
                 <div class="card-content is-overlay is-clipped">
-                    <span class="tag is-info">@'. $login .'</span>   
+                    <span class="tag is-info">@'.$login.'</span>   
                 </div>
                 <nav class="level is-mobile">
                     <div class="level-left">
                         <a class="level-item">
-                            <span class="icon is-small"><i class="fas fa-reply"></i></span>
+                            <span class="icon is-small"><i class="fas fa-comment"></i></span>
                         </a>
                         <a class="level-item">
                             <span class="icon is-small"><i class="fas fa-retweet"></i></span>
                         </a>
                         <a class="level-item">
-                            <span class="icon is-small' . $user_liked . '"><i class="fas fa-heart"></i></span>
-                            <span> ' . $nblikes . '</span>
+                            <span class="icon is-small'.$user_liked.'"><i class="fas fa-heart"></i></span>
+                            <span> '.$nblikes.'</span>
                         </a>
                         <a class="level-item">
-                            '. $login .'
+                            '.$login.'
                         </a>
                     </div>
                 </nav>

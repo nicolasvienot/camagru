@@ -4,6 +4,8 @@ var streamError;
 var webcamStream;
 var start = 1;
 var filter = new Image();
+var audio_shutter = new Audio('../../public/mp3/shutter.wav');
+var audio_congrats = new Audio('../../public/mp3/congratulations.wav');
 filter.src = '../../public/img/filters/lgbt.png';
 var isDraggable = false;
 var interval = "";
@@ -48,14 +50,19 @@ function stop_webcam() {
 }
 
 function get_image() {
-    picturetaken = 1;
-    this.disabled = false;
-    var webcam = document.getElementById("webcam")
-    var canvas = document.getElementById("canvas");
-    canvas.width = webcam.videoWidth;
-    canvas.height = webcam.videoHeight;
-    canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-    canvas.getContext("2d").drawImage(webcam, 0, 0, webcam.width, webcam.height, 0, 0, canvas.width, canvas.height);    
+    if (picturetaken == 0)
+    {
+        this.disabled = false;
+        if (audio_shutter)
+            audio_shutter.play();
+        var webcam = document.getElementById("webcam")
+        var canvas = document.getElementById("canvas");
+        canvas.width = webcam.videoWidth;
+        canvas.height = webcam.videoHeight;
+        canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+        canvas.getContext("2d").drawImage(webcam, 0, 0, webcam.width, webcam.height, 0, 0, canvas.width, canvas.height);
+        picturetaken = 1;
+    }
 };
 
 document.getElementById("buttontakepicture").addEventListener('click', get_image, true);
@@ -69,7 +76,6 @@ function delete_p(event) {
             if (this.readyState == 4 && this.status == 200) {
                 var res = JSON.parse(this.responseText);
                 if (res.result === 1) {
-                    console.log('Image deleted');
                     var element = document.getElementById(event.path[3].id);
                     element.parentNode.removeChild(element);
                 } else {
@@ -96,7 +102,7 @@ function reset_cam(event) {
 document.getElementById("button2").addEventListener('click', reset_cam, true);
 
 function share() {
-    if (picturetaken === 1)
+    if (picturetaken === 1 && loading !== 1)
     {
         var data = new FormData();
         if (document.getElementById("upload_div").style.display !== "none")
@@ -110,24 +116,30 @@ function share() {
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 var res = JSON.parse(this.responseText);
-                console.log(res);
                 if (res.result === 1) {
                     var column = document.createElement('div');
                     var card = document.createElement('div');
                     var figure = document.createElement('figure');
                     var img = document.createElement('img');
+                    var divoverlay = document.createElement('div');
+                    var divdelete = document.createElement('div');
+                    divoverlay.className = "overlay-gallery";
+                    divdelete.className = "text";
+                    divdelete.innerText = "Delete image";
                     column.className = "column is-one-quarter-desktop is-half-tablet gallery";
-                    card.className = "card-image";
+                    card.className = "card-image container-gallery";
                     figure.className = "image has-ratio";
-                    img.style.height = '240px';
-                    img.style.width = '320px';
                     column.id = res.img_id;
                     img.src = '../' + res.img_path;
+                    divoverlay.appendChild(divdelete);
                     figure.appendChild(img);
+                    figure.appendChild(divoverlay);
                     card.appendChild(figure);
                     column.appendChild(card);  
                     column.addEventListener('click', delete_p, true);
                     document.getElementById("gallery").prepend(column);
+                    if (audio_congrats)
+                        audio_congrats.play();
                 } else {
                     console.log('Error : not uploaded');
                 }
@@ -156,7 +168,11 @@ function handle_file(event)
                 context.clearRect(0, 0, canvas.width, canvas.height);
                 context.fillStyle = "#FFFFFF";
                 context.fillRect(0, 0, canvas.width, canvas.height);
-                context.drawImage(img, 0, 0);
+                
+                var h_ratio = canvas.width / img.width;
+                var v_ratio = canvas.height / img.height;
+                (h_ratio < v_ratio) ? (ratio = h_ratio) : (ratio = v_ratio);
+                context.drawImage(img, 0,0, img.width, img.height, 0,0, img.width * ratio, img.height * ratio);
                 document.getElementById('canvas_upload').style.display = "";
                 start_drag();
                 loading = 0;
@@ -174,6 +190,7 @@ function handle_button_webcam(event) {
     {
         loading = 1;
         picturetaken = 0;
+        document.getElementById("canvas3").getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
         upload_div = document.getElementById("upload_div");
         webcam_div = document.getElementById("webcam_div");
         webcam_div.style.display = "";
@@ -197,14 +214,15 @@ function handle_button_upload(event) {
     {
         loading = 1;
         picturetaken = 0;
+        document.getElementById("canvas").getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
         upload_div = document.getElementById("upload_div");
         webcam_div = document.getElementById("webcam_div");
         webcam_div.style.display = "none";
         upload_div.style.display = "";
         document.getElementById('canvas_upload').style.display = "none";
         stop_drag();
-        reset_drag();
         stop_webcam();
+        reset_drag();
         canvas_drag = document.getElementById("canvas4");
         context_drag = canvas_drag.getContext("2d");
         buttonwebcam = document.getElementById("buttonwebcam");
@@ -218,7 +236,6 @@ document.getElementById("buttonupload").addEventListener('click', handle_button_
 
 button_drag.onclick = function(e) {
     (start === 1) ? start = 0 : start = 1;
-    console.log(start);
     if (start == 1) {
         document.getElementById("movefilteryes").className = "button is-success is-selected is-disabled"
         document.getElementById("movefilterno").className = "button is-disabled";
@@ -248,7 +265,6 @@ function stop_drag() {
 }
 
 function start_loop() {
-    console.log('yo');
     reset_canvas();
     draw_image();
 }
@@ -257,7 +273,6 @@ function handle_mousedown(event) {
     var rect = canvas_drag.getBoundingClientRect();
     var mouseX = event.clientX - rect.left;
     var mouseY = event.clientY - rect.top;
-    console.log(event.clientX, event.clientY);
     if (mouseX >= (currentX - filter.width / 2) && mouseX <= (currentX + filter.width / 2) && mouseY >= (currentY - filter.height / 2) && mouseY <= (currentY + filter.height / 2)) 
     {
         isDraggable = true;
@@ -281,7 +296,7 @@ function handle_mouseout(event) {
 }
 
 function draw_image() {
-  context_drag.drawImage(filter, currentX - (filter.width / 2), currentY - (filter.height / 2));
+    context_drag.drawImage(filter, currentX - (filter.width / 2), currentY - (filter.height / 2));
 }
 
 function reset_canvas() {
@@ -295,9 +310,17 @@ filters.forEach(element => {
 });
 
 function handle_click_filter(event) {
-    console.log('coucou');
-    filter.src = event.path[0].getAttribute('src');
-    console.log(filter.src)
+    if (start === 1)
+        filter.src = event.path[0].getAttribute('src');
+    else
+    {
+        filter.onload = function() {
+            
+            context_drag.clearRect(0, 0, canvas_drag.width, canvas_drag.height);
+            draw_image();
+        }
+        filter.src = event.path[0].getAttribute('src');
+    }
 }
 
 function reset_drag() {
@@ -307,3 +330,13 @@ function reset_drag() {
     currentY = canvas_drag.height/2;
     context_drag.clearRect(0, 0, canvas_drag.width, canvas_drag.height);
 }
+
+function handle_scroll_endpage(event) {
+
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && loading !== 1) {
+        console.log('bas de page mon vieux');
+        console.log('load more gallery');
+    }
+}
+
+window.addEventListener('scroll', handle_scroll_endpage, true);

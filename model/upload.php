@@ -45,9 +45,12 @@ function get_own_images($user_id) {
 
         $mygallery = $mygallery . ('
         <div class="column is-one-quarter-desktop is-half-tablet gallery" id="' . $img_id . '">
-            <div class="card-image">
+            <div class="card-image container-gallery">
                 <figure class="image has-ratio">
                     <img src="../' . $img_path . '">
+                    <div class="overlay-gallery">
+                        <div class="text">Delete image</div>
+                    </div>
                 </figure>
             </div>
         </div>');

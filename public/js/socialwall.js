@@ -1,5 +1,6 @@
 
 function do_like(event) {
+    console.log('lol');
     var data = new FormData();
     data.append('img_id', event.path[0].offsetParent.children[0].children[0].id);
     var xmlhttp = new XMLHttpRequest();
@@ -26,7 +27,8 @@ function do_like(event) {
     xmlhttp.send(data);
 };
 
-var imgs = document.querySelectorAll(".card-image");
+var imgs = document.querySelectorAll(".level-item");
 imgs.forEach(element => {
+    console.log(element);
     element.addEventListener('click', do_like, true);
 });

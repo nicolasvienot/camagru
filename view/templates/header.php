@@ -16,7 +16,7 @@
             <a class="navbar-item" href="/" >
               <img src="../../public/img/camagru.png" width="112" height="28">
             </a>
-            <?php if (isset($_SESSION['user']) && $_SESSION['user'] !== "") {?><a class="navbar-item">Bonjour <?php echo($_SESSION['user']) ?>!</a><?php } ?>
+            <?php if (isset($_SESSION['user']) && $_SESSION['user'] !== "") {?><a class="navbar-item" style="pointer-events: none;">Hello <?php echo($_SESSION['user']) ?>!</a><?php } ?>
             <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
@@ -25,7 +25,7 @@
           </div>
           <div id="navbarBasicExample" class="navbar-menu">
             <div class="navbar-start">
-              <?php if (isset($_SESSION['user']) && $_SESSION['user'] !== "") {?><a class="navbar-item" href="/upload">Upload image</a><?php } ?>
+              <?php if (isset($_SESSION['user']) && $_SESSION['user'] !== "") {?><a class="navbar-item" href="/upload">Share picture</a><?php } ?>
             </div>
             <div class="navbar-end">
               <div class="navbar-item">

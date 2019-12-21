@@ -229,18 +229,18 @@ function check_reset_password($reset_key)
     if ($data_reset['COUNT(*)'] != 1) {
         return 2;
     }
-    // else
-    // {
-    //     $sql = "SELECT COUNT(*) FROM resets WHERE reset_key like :reset_key AND WHERE timestamp < NOW() - INTERVAL 1 DAY";
-    //     $st = $pdo->prepare($sql);
-    //     $st->bindValue(':reset_key', $reset_key, PDO::PARAM_STR);
-    //     $st->execute();
-    //     $data_reset = $st->fetch();
-    //     if ($data_reset['COUNT(*)'] != 1)
-    //         return 2;
-    //     else
-    //         return 1;
-    // }
+    else
+    {
+        $sql = "SELECT COUNT(*) FROM resets WHERE reset_key like :reset_key AND WHERE ts < NOW() - INTERVAL 1 DAY";
+        $st = $pdo->prepare($sql);
+        $st->bindValue(':reset_key', $reset_key, PDO::PARAM_STR);
+        $st->execute();
+        $data_reset = $st->fetch();
+        if ($data_reset['COUNT(*)'] != 1)
+            return 2;
+        else
+            return 1;
+    }
     return 1;
 }
 

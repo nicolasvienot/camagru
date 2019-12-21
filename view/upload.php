@@ -2,6 +2,39 @@
     include (__DIR__ . '/../controller/templates/header.php');
 ?>
 
+<style>
+
+.overlay-gallery {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: #F44F52;
+}
+
+.container-gallery:hover .overlay-gallery {
+  opacity: 1;
+}
+
+.text {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+</style>
+
 <div id="buttonswebcamupload" class="buttons has-addons is-centered">
     <button id="buttonwebcam" class="button is-primary is-selected">WEBCAM</button>
     <button id="buttonupload" class="button">UPLOAD IMAGE</button>
@@ -33,12 +66,8 @@
     </div>
     <div id="upload_div2" class="is-centered"> 
         <figure class="image container has-ratio" id="canvas_upload" style="max-width: 640px; display:none;">
-            <!-- <img id="uploaded_img" height="480px" width="640px" style="display:none;">
-            <canvas id="canvas3" height="480px" width="640px" style="top: 0; right: 0; bottom: 0; left: 0; position: absolute; width: 100%; height: 100%;">No stream available from webcam</canvas>
-            <canvas id="canvas4" height="480px" width="640px" style="top: 0; right: 0; bottom: 0; left: 0; position: absolute; width: 100%; height: 100%;">No stream available from webcam</canvas> -->
             <canvas id="canvas3" height="480px" width="640px">No stream available from webcam</canvas>
             <canvas id="canvas4" height="480px" width="640px" style="top: 0; right: 0; bottom: 0; left: 0; position: absolute; width: 100%; height: 100%;">No stream available from webcam</canvas>
-            
         </figure>
         <br>
     </div>
@@ -81,12 +110,6 @@
 <button id="buttonhome" class="button is-light is-info">HOME</button>
 </div>
 <br>
-<br>
-
-<br>
-<br>
-<br>
-<br>
 <div style="margin: auto; padding: 30px; text-align: center;">
     <h2 class="title is-size-5">My gallery</h2>
     <div class="columns is-multiline" id="gallery">
@@ -94,7 +117,6 @@
     </div>
 </div>
 
-<!-- <script src="../../public/js/test.js"></script> -->
 <script src="../../public/js/upload.js"></script>
 
 
