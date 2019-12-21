@@ -9,14 +9,13 @@ function get_images($start_img) {
     catch (Exception $e) {
         die("Unsuccessful access to database: $e");
     }
-    $start = $start_image;
-    $end = $start_image + 8;
-    $sql = "SELECT * FROM images ORDER BY img_id DESC";
+    $nb_img = 8;
+    $sql = "SELECT * FROM images ORDER BY img_id DESC LIMIT :start_img, :nb_img";
     $st = $pdo->prepare($sql);
+    $st->bindParam(':start_img', $start_img, PDO::PARAM_INT);
+    $st->bindParam(':nb_img', $nb_img, PDO::PARAM_INT);
     $st->execute();
 	while ($data_img = $st->fetch()) {
-        if ($start >= $end)
-            break;
         $img_id = $data_img['img_id'];
         $img_path = $data_img['img_path'];
         $user_id = $data_img['user_id'];
@@ -51,13 +50,9 @@ function get_images($start_img) {
         $st5->execute();
         $data_likes = $st5->fetch();
         if ($data_likes['COUNT(*)'] != 0)
-        {
             $user_liked = " has-text-danger";
-        }
         else
-        {
             $user_liked = "";
-        }
 
         $gallery = $gallery.('
         <div class="column is-one-quarter-desktop is-half-tablet">
@@ -86,8 +81,6 @@ function get_images($start_img) {
                 </nav>
             </div>
         </div>');
-
-        $start += 1;
     }
     $pdo = null;
     return $gallery;

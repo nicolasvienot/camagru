@@ -1,4 +1,5 @@
-var start_img = 9;
+var start_img = 8;
+var loading = 0;
 
 function do_like(event) {
     var data = new FormData();
@@ -28,9 +29,11 @@ function do_like(event) {
     xmlhttp.send(data);
 };
 
+
 var likes = document.querySelectorAll(".like");
 likes.forEach(element => {
     element.addEventListener('click', do_like, true);
+    element.setAttribute('listener', 'true');
 });
 
 function do_comments(event) {
@@ -41,6 +44,7 @@ function do_comments(event) {
 var comments = document.querySelectorAll(".comment");
 comments.forEach(element => {
     element.addEventListener('click', do_comments, true);
+    element.setAttribute('listener', 'true');
 });
 
 function do_share(event) {
@@ -59,4 +63,67 @@ function do_share(event) {
 var shares = document.querySelectorAll(".share");
 shares.forEach(element => {
     element.addEventListener('click', do_share, true);
+    element.setAttribute('listener', 'true');
 });
+
+function handle_scroll_endpage(event) {
+    
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && (event.deltaY > 0) && loading !== 1)
+    {
+        loading = 1;
+        var data = new FormData();
+        data.append('start_img', start_img);
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var res = JSON.parse(this.responseText);
+                console.log(res)
+                if (res.result === 1) {
+                    document.getElementById('loadingbutton').style.display = "";
+                    setTimeout(() => {
+                        document.getElementById('loadingbutton').style.display = "none";
+                        document.getElementById('col_gallery').insertAdjacentHTML('beforeend', res.gallery);
+                        start_img += 8;
+                        var shares = document.querySelectorAll(".share");
+                        shares.forEach(element => {
+                            if (element.getAttribute('listener') !== 'true') {
+                                element.addEventListener('click', do_share, true);
+                                element.setAttribute('listener', 'true');
+                            }
+                        });
+                        var comments = document.querySelectorAll(".comment");
+                        comments.forEach(element => {
+                            if (element.getAttribute('listener') !== 'true') {
+                                element.addEventListener('click', do_comments, true);
+                                element.setAttribute('listener', 'true');
+                            }
+                        });
+                        var likes = document.querySelectorAll(".like");
+                        likes.forEach(element => {
+                            if (element.getAttribute('listener') !== 'true') {
+                                element.addEventListener('click', do_like, true);
+                                element.setAttribute('listener', 'true');
+                            }
+                        });
+                        setTimeout(() => { 
+                            loading = 0;
+                        }, 500);
+                    }, 1000);
+                }  
+                else if (res.result === 2)
+                {
+                    setTimeout(() => { loading = 0 }, 1000);
+                    console.log('End of images'); 
+                }       
+                else {
+                    setTimeout(() => { loading = 0 }, 1000);
+                    console.log('Error getting more images');
+                }
+            }
+        };
+        xmlhttp.open("POST", "../controller/socialwall_images.php", true);
+        xmlhttp.send(data);
+    }
+}
+
+window.addEventListener('wheel', handle_scroll_endpage, true);
