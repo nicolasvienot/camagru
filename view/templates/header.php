@@ -16,7 +16,7 @@
             <a class="navbar-item" href="/" >
               <img src="../../public/img/camagru.png" width="112" height="28">
             </a>
-            <?php if (isset($_SESSION['user']) && $_SESSION['user'] !== "") {?><a class="navbar-item" style="pointer-events: none;">Hello <?php echo($_SESSION['user']) ?>!</a><?php } ?>
+            <?php if (isset($_SESSION['user']) && $_SESSION['user'] != "" && isset($_SESSION['user_id']) && $_SESSION['user_id'] !== "") {?><a class="navbar-item" style="pointer-events: none;">Hello <?php echo($_SESSION['user']) ?>!</a><?php } ?>
             <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
@@ -25,12 +25,12 @@
           </div>
           <div id="navbarBasicExample" class="navbar-menu">
             <div class="navbar-start">
-              <?php if (isset($_SESSION['user']) && $_SESSION['user'] !== "") {?><a class="navbar-item" href="/upload">Share picture</a><?php } ?>
+              <?php if (isset($_SESSION['user']) && $_SESSION['user'] != "" && isset($_SESSION['user_id']) && $_SESSION['user_id'] !== "") {?><a class="navbar-item" href="/upload">Share picture</a><?php } ?>
             </div>
             <div class="navbar-end">
               <div class="navbar-item">
                 <div class="buttons">
-                    <?php if (isset($_SESSION['user']) && $_SESSION['user'] !== "") {?>
+                    <?php if (isset($_SESSION['user']) && $_SESSION['user'] != "" && isset($_SESSION['user_id']) && $_SESSION['user_id'] !== "") {?>
                         <a class="button is-primary" href="/modifyaccount"><strong>Modify account</strong></a>
                         <a class="button is-light" href="/logout">Log out</a>
                     <?php } else { ?>

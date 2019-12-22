@@ -1,6 +1,13 @@
 <?php
 
+session_start();
+
 require (__DIR__ . '/../../model/users.php');
+
+$res = new stdClass();
+$res->result = 0;
+$res->message = "Start!";
+
 
 if (empty($_POST["password"]) || empty($_POST["password_check"]) || $_POST["password"] == "" || $_POST["password_check"] == "") {
     $res->result = 0;

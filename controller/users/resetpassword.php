@@ -8,6 +8,7 @@ if (!isset($reset_key) || $reset_key === "") {
 else
 {
     $test = check_reset_password($reset_key);
+    $res = new stdClass();
     switch ($test) {
         case '1' :
             $res->result = 1;

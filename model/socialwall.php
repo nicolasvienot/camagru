@@ -16,6 +16,7 @@ function get_images($start_img, $connected) {
     $st->bindParam(':start_img', $start_img, PDO::PARAM_INT);
     $st->bindParam(':nb_img', $nb_img, PDO::PARAM_INT);
     $st->execute();
+    $gallery = "";
 	while ($data_img = $st->fetch()) {
         $img_id = $data_img['img_id'];
         $img_path = $data_img['img_path'];
@@ -48,7 +49,7 @@ function get_images($start_img, $connected) {
             $st5->bindParam(':user_id', $present_id, PDO::PARAM_INT);
             $st5->execute();
             $data_likes = $st5->fetch();
-            if ($data_likes['COUNT(*)'] != 0)
+            if ($data_likes['COUNT(*)'] !== '0')
                 $user_liked = " has-text-danger";
             else
                 $user_liked = "";
@@ -121,7 +122,7 @@ function get_image($img_id) {
     $st4->bindParam(':user_id', $present_id, PDO::PARAM_INT);
     $st4->execute();
     $data_likes = $st4->fetch();
-    if ($data_likes['COUNT(*)'] !== 0)
+    if ($data_likes['COUNT(*)'] !== '0')
         $user_liked = " has-text-danger";
     else
         $user_liked = "";
@@ -164,7 +165,7 @@ function manage_likes($img_id, $user_id)
     $st->bindValue(':img_id', $img_id, PDO::PARAM_STR);
     $st->execute();
     $likes_data = $st->fetch();
-    if ($likes_data['COUNT(*)'] != 0)
+    if ($likes_data['COUNT(*)'] !== '0')
     {
         $sql = "DELETE FROM likes WHERE user_id = :user_id AND img_id = :img_id";
         $st = $pdo->prepare($sql);
@@ -199,6 +200,7 @@ function get_comments($img_id) {
     $st = $pdo->prepare($sql);
     $st->bindValue(':img_id', $img_id, PDO::PARAM_INT);
     $st->execute();
+    $comments = "";
 	while ($data_comment = $st->fetch()) {
         $comment_id = $data_comment['comment_id'];
         $user_id = $data_comment['user_id'];
@@ -245,6 +247,7 @@ function get_comment_date($comment_id)
 
 function add_comment($img_id, $user_id, $comment_content) 
 {
+    $res = new stdClass();
     $res->result = 0;
     $res->id_comment = 0;
     require (__DIR__ . '/../config/database.php');

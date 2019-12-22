@@ -2,6 +2,10 @@
 
 require (__DIR__ . '/../../model/users.php');
 
+$res = new stdClass();
+$res->result = 0;
+$res->message = "Start!";
+
 if (empty($_POST["login"]) || empty($_POST["email"]) || empty($_POST["password"]) || empty($_POST["password_check"]) || empty($_POST["terms"])) {
     $res->result = 0;
     $res->message = "You need to fill all the form!";

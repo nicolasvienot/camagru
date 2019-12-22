@@ -1,6 +1,5 @@
 <?php
 
-session_start();
 if (isset($_SESSION['user']) && $_SESSION['user'] !== "") {
     $logged = 1;
     require (__DIR__ . '/../../view/templates/header.php');

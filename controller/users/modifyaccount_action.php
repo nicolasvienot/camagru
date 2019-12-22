@@ -1,6 +1,12 @@
 <?php
 
+session_start();
+
 require (__DIR__ . '/../../model/users.php');
+
+$res = new stdClass();
+$res->result = 0;
+$res->message = "Start!";
 
 if (empty($_POST['type'])) {
     $res->result = 0;
@@ -21,7 +27,6 @@ switch ($type) {
         }
         else {
             $new_login = htmlentities($_POST['new_login']);
-            session_start();
             $login = $_SESSION['user'];
             $user_id = $_SESSION['user_id'];
             // do checks
@@ -41,7 +46,6 @@ switch ($type) {
         }
         else {
             $new_email = htmlentities($_POST['new_email']);
-            session_start();
             $login = $_SESSION['user'];
             $user_id = $_SESSION['user_id'];
             // do checks            
@@ -60,7 +64,6 @@ switch ($type) {
             $old_password = htmlentities($_POST['old_password']);
             $new_password = htmlentities($_POST['new_password']);
             $new_password_check = htmlentities($_POST['new_password_check']);
-            session_start();
             $login = $_SESSION['user'];
             $user_id = $_SESSION['user_id'];
             // do checks
@@ -92,7 +95,6 @@ switch ($type) {
         }
         break;
     case 4 :
-        session_start();
         $login = $_SESSION['user'];
         $user_id = $_SESSION['user_id'];
         $user_notification = htmlentities($_POST['user_notification']);

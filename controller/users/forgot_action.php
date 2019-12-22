@@ -1,7 +1,10 @@
 <?php
 
+session_start();
+
 require (__DIR__ . '/../../model/users.php');
 
+$res = new stdClass();
 $res->result = 0;
 $res->message = "There was a problem, please try again";
 

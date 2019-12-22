@@ -39,6 +39,7 @@ function get_own_images($user_id) {
     $st = $pdo->prepare($sql);
     $st->bindParam(':user_id', $user_id);
     $st->execute();
+    $mygallery = "";
 	while ($data_img = $st->fetch()) {
         $img_id = $data_img['img_id'];
         $img_path = $data_img['img_path'];

@@ -2,12 +2,12 @@
 
 require (__DIR__ . '/../../model/users.php');
 
-session_start();
 if (!isset($login) || $login === "" || !isset($key) || $key === "") {
     require( __DIR__ . '/../../controller/index.php');
 }
 else {
     $test = activate_account($login, $key);
+    $res = new stdClass();
     switch ($test) {
         case '1' :
             $res->result = 1;

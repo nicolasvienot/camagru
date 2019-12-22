@@ -2,7 +2,6 @@
 
 require (__DIR__ . '/../model/upload.php');
 
-session_start();
 if (isset($_SESSION['user']) && $_SESSION['user'] !== "") {
     $user_login = $_SESSION['user'];
     $user_id = $_SESSION['user_id'];

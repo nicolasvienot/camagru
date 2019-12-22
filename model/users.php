@@ -74,7 +74,7 @@ function user_exists($login) {
     $st->bindValue(':user_login', $login, PDO::PARAM_STR);
     $st->execute();
     $st = $st->fetch();
-    if ($st['COUNT(*)'] != 0)
+    if ($st['COUNT(*)'] !== '0')
         $res = 1;
     $pdo = null;
     return $res;
@@ -95,7 +95,7 @@ function email_exists($email) {
     $st->bindValue(':user_email', $email, PDO::PARAM_STR);
     $st->execute();
     $st = $st->fetch();
-    if ($st['COUNT(*)'] != 0)
+    if ($st['COUNT(*)'] !== '0')
         $res = 1;
     $pdo = null;
     return $res;
@@ -188,7 +188,7 @@ function send_forgot($user_email) {
     $st->bindParam(':user_id', $user_id, PDO::PARAM_INT);
     $st->execute();
     $data_reset = $st->fetch();
-    if ($data_reset['COUNT(*)'] != 0) {
+    if ($data_reset['COUNT(*)'] !== '0') {
         $sql = "DELETE FROM resets WHERE user_id=:user_id";
         $st = $pdo->prepare($sql);
         $st->bindParam(':user_id', $user_id);
@@ -221,7 +221,7 @@ function check_reset_password($reset_key)
     $st->bindValue(':reset_key', $reset_key, PDO::PARAM_STR);
     $st->execute();
     $data_reset = $st->fetch();
-    if ($data_reset['COUNT(*)'] != 1)
+    if ($data_reset['COUNT(*)'] !== '1')
         $res = 2;
     else
     {
@@ -230,7 +230,7 @@ function check_reset_password($reset_key)
         // $st->bindValue(':reset_key', $reset_key, PDO::PARAM_STR);
         // $st->execute();
         // $data_reset = $st->fetch();
-        // if ($data_reset['COUNT(*)'] != 1)
+        // if ($data_reset['COUNT(*)'] !== '1')
         //     $res = 3;
         // else
         $res = 1;
@@ -294,7 +294,7 @@ function modify_username($new_login, $login, $user_id)
     $st->bindParam(':user_login', $login, PDO::PARAM_STR);
     $st->execute();
     $data_user = $st->fetch();
-    if ($data_user['COUNT(*)'] != 1)
+    if ($data_user['COUNT(*)'] !== '1')
         $res = 0;
     else {
         $sql = "UPDATE users SET user_login = :user_login WHERE user_id = :user_id";
@@ -329,7 +329,7 @@ function modify_email($new_email, $login, $user_id)
     $st->bindParam(':user_login', $login, PDO::PARAM_STR);
     $st->execute();
     $data_user = $st->fetch();
-    if ($data_user['COUNT(*)'] != 1)
+    if ($data_user['COUNT(*)'] !== '1')
         $res = 0;
     else {
         $sql = "UPDATE users SET user_email = :user_email WHERE user_id = :user_id";
@@ -360,7 +360,7 @@ function modify_password($old_password, $new_password, $login, $user_id)
     $st->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $st->execute();
     $st = $st->fetch();
-    if ($st['COUNT(*)'] === 1) {
+    if ($st['COUNT(*)'] === '1') {
         $sql = "UPDATE users SET user_password = :user_password WHERE user_id = :user_id";
         $st = $pdo->prepare($sql);
         $st->bindParam(':user_id', $user_id, PDO::PARAM_INT);
@@ -392,7 +392,7 @@ function modify_notification($user_id, $user_notification)
     $st->bindParam(':user_id', $user_id, PDO::PARAM_INT);
     $st->execute();
     $data_user = $st->fetch();
-    if ($data_user['COUNT(*)'] != 1)
+    if ($data_user['COUNT(*)'] !== '1')
         $res = 0;
     else {
         $sql = "UPDATE users SET user_notification = :user_notification WHERE user_id = :user_id";

@@ -1,12 +1,14 @@
 <?php
 
+session_start();
+
 require (__DIR__ . '/../model/upload.php');
 
+$res = new stdClass();
 $res->result = 0;
 $res->message = "There was a problem, please try again";
 $res->img_path = "";
 
-session_start();
 $user_login = $_SESSION['user'];
 $user_id = $_SESSION['user_id'];
 

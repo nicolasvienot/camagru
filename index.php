@@ -1,5 +1,6 @@
 <?php
 
+session_start();
 require (__DIR__ . '/model/router.php');
 
 $test_db = check_db();

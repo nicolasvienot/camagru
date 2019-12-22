@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 require (__DIR__ . '/../model/socialwall.php');
 
 $res->result = 0;
