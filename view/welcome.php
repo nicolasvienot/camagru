@@ -2,9 +2,9 @@
     include (__DIR__ . '/../controller/templates/header.php');
 ?>
 
-<div style="width: 50%; margin: auto; padding: 30px; text-align: center;">
-    <div class="title is-2">Welcome to Camagru!</div>
-    <div class="title is-4">Please signup or login to be able to post your own pictures, comment, like or share :D</div>
+<div style="width: 80%; margin: auto; padding: 30px; text-align: center;">
+    <div class="title is-size-4-touch">Welcome to Camagru!</div>
+    <div class="subtitle is-size-6-touch">Please signup or login to be able to post your own pictures, comment, like or share...</div>
 </div>
 <div class="columns is-multiline" id="col_gallery">
     <?php echo $gallery ?>

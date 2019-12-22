@@ -68,7 +68,7 @@
     </div>
     <div id="upload_div2" class="is-centered"> 
         <figure class="image container has-ratio" id="canvas_upload" style="max-width: 640px; display:none;">
-            <canvas id="canvas3" height="480px" width="640px">No stream available from webcam</canvas>
+            <canvas id="canvas3" height="480px" width="640px" style="top: 0; right: 0; bottom: 0; left: 0; width: 100%;">No stream available from webcam</canvas>
             <canvas id="canvas4" height="480px" width="640px" style="top: 0; right: 0; bottom: 0; left: 0; position: absolute; width: 100%; height: 100%;">No stream available from webcam</canvas>
         </figure>
         <br>

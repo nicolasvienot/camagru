@@ -3,7 +3,7 @@
 ?>
 
 <div style="width: 50%; margin: auto; padding: 30px; text-align: center;">
-    <div class="title is-2">Social Wall</div>
+    <div class="title is-2 is-size-4-touch">Social Wall</div>
 </div>
 <div class="columns is-multiline" id="col_gallery">
     <?php echo $gallery ?>

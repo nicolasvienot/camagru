@@ -274,26 +274,10 @@ function start_loop() {
 }
 
 function handle_mousedown(event) {
-    var ratio_w = canvas_drag.offsetWidth / canvas_drag.width;
-    var ratio_h = canvas_drag.offsetHeight / canvas_drag.height;
-
-    var rect_c = canvas_drag.getBoundingClientRect();
-    var mouseX = (event.clientX - rect_c.left) / ratio_w;
-    var mouseY = (event.clientY - rect_c.top) / ratio_h;
-    console.log(mouseX)
-    console.log(mouseY)
-
-
-    var filter_width = filter.width * ratio_w;
-    var filter_height = filter.height * ratio_h;
-    console.log(filter_width)
-    console.log(filter_height)
-
-
-    filter_width = filter.width;
-    filter_height = filter.height;
-
-    if (mouseX >= (currentX - filter_width / 2) && mouseX <= (currentX + filter_width / 2) && mouseY >= (currentY - filter_height / 2) && mouseY <= (currentY + filter_height / 2)) 
+    var rect = canvas_drag.getBoundingClientRect();
+    var mouseX = event.clientX - rect.left;
+    var mouseY = event.clientY - rect.top;
+    if (mouseX >= (currentX - filter.width / 2) && mouseX <= (currentX + filter.width / 2) && mouseY >= (currentY - filter.height / 2) && mouseY <= (currentY + filter.height / 2)) 
     {
         isDraggable = true;
     }
@@ -301,11 +285,9 @@ function handle_mousedown(event) {
 
 function handle_mousemove(event) {
     if (isDraggable) {
-        var ratio_w = canvas_drag.offsetWidth / canvas_drag.width;
-        var ratio_h = canvas_drag.offsetHeight / canvas_drag.height;
-        var rect = canvas_drag.getBoundingClientRect();
-        currentX = (event.clientX - rect.left) / ratio_h;
-        currentY = (event.clientY - rect.top) / ratio_w;
+    var rect = canvas_drag.getBoundingClientRect();
+    currentX = event.clientX - rect.left;
+    currentY = event.clientY - rect.top;
     }
 }
 

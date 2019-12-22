@@ -4,7 +4,7 @@
 
 <div style="width: 50%; margin: auto; padding: 30px;">
     <div style="text-align: center; padding-bottom: 20px;">
-        <h1 class="title is-3">Sign up to join the community!</h1>
+        <h1 class="title is-size-4-touch">Sign up to join the community!</h1>
     </div>
     <form id="signup_form">
         <div class="field">

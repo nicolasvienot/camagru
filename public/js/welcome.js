@@ -19,6 +19,13 @@ function handle_scroll_endpage(event) {
                     setTimeout(() => {
                         document.getElementById('loadingbutton').style.display = "none";
                         document.getElementById('col_gallery').insertAdjacentHTML('beforeend', res.gallery);
+                        var items = document.querySelectorAll(".level-item");
+                        items.forEach(element => {
+                            if (element.getAttribute('clickable') !== 'false') {
+                                element.style = 'pointer-events:none;';
+                                element.setAttribute('clickable', 'false');
+                            }
+                        });
                         start_img += 8;
                         setTimeout(() => { 
                             loading = 0;
