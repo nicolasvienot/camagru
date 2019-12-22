@@ -1,5 +1,6 @@
 var start_img = 8;
 var loading = 0;
+var nomore_img = 0;
 
 function do_like(event) {
     var data = new FormData();
@@ -68,7 +69,7 @@ shares.forEach(element => {
 
 function handle_scroll_endpage(event) {
     
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && (event.deltaY > 0) && loading !== 1)
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && (event.deltaY > 0) && loading !== 1 && nomore_img === 0)
     {
         loading = 1;
         var data = new FormData();
@@ -114,8 +115,8 @@ function handle_scroll_endpage(event) {
                 else if (res.result === 2)
                 {
                     document.getElementById('endimages').style.display = "";
+                    nomore_img = 1;
                     setTimeout(() => { loading = 0 }, 1000);
-                    console.log('End of images'); 
                 }       
                 else {
                     setTimeout(() => { loading = 0 }, 1000);

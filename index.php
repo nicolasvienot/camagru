@@ -1,20 +1,20 @@
 <?php
 
-require (__DIR__ . '/config/database.php');
-try {
-    $pdo = new PDO($DB_DSN_NOBASE, $DB_USER, $DB_PASSWORD);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-}
-catch (Exception $e) {
-    die("Unsuccessful access to database: $e");
-}
-$sql = "SHOW DATABASES LIKE 'camagru'";
-$st = $pdo->prepare($sql);
-$st->execute();
-if ($st->fetch() == "")
-{
-    require __DIR__ . '/view/db.php';
-    return;
+require (__DIR__ . '/model/router.php');
+
+$test_db = check_db();
+
+switch ($test_db) {
+    case '' :
+        require __DIR__ . '/view/dbnotfound.php';
+        return;
+        break;
+    case false :
+        require __DIR__ . '/view/dbnotfound.php';
+        return;
+        break;
+    default:
+        break;
 }
 
 $request = $_SERVER['REQUEST_URI'];
@@ -40,9 +40,6 @@ switch ($request) {
         break;
     case '/terms/' :
         require __DIR__ . '/view/terms.php';
-        break;
-    case '/404/' :
-        require __DIR__ . '/view/404.php';
         break;
     case '/404/' :
         require __DIR__ . '/view/404.php';
