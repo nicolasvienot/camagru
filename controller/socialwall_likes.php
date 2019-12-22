@@ -2,7 +2,7 @@
 
 session_start();
 
-require (__DIR__ . '/../model/socialwall.php');
+require(__DIR__ . '/../model/socialwall.php');
 
 $res = new stdClass();
 $res->result = 0;
@@ -17,8 +17,7 @@ if ($like !== 0) {
     if ($like === 1) {
         $res->result = 1;
         $res->message = "Like added.";
-    }
-    else {
+    } else {
         $res->result = 2;
         $res->message = "Like removed.";
     }
@@ -26,5 +25,3 @@ if ($like !== 0) {
 
 $json = json_encode($res);
 echo $json;
-
-?>

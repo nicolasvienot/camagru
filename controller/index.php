@@ -2,9 +2,6 @@
 
 if (isset($_SESSION['user']) && $_SESSION['user'] !== "") {
     require(__DIR__ . '/../controller/socialwall.php');
-}
-else {
+} else {
     require(__DIR__ . '/../controller/welcome.php');
 }
-
-?>

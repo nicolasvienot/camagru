@@ -1,12 +1,12 @@
 <?php
 
-function get_images($start_img, $connected) {
-    require (__DIR__ . '/../config/database.php');
+function get_images($start_img, $connected)
+{
+    require(__DIR__ . '/../config/database.php');
     try {
         $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    }
-    catch (Exception $e) {
+    } catch (Exception $e) {
         die("Unsuccessful access to database: $e");
     }
     $nb_img = 8;
@@ -17,7 +17,7 @@ function get_images($start_img, $connected) {
     $st->bindParam(':nb_img', $nb_img, PDO::PARAM_INT);
     $st->execute();
     $gallery = "";
-	while ($data_img = $st->fetch()) {
+    while ($data_img = $st->fetch()) {
         $img_id = $data_img['img_id'];
         $img_path = $data_img['img_path'];
         $user_id = $data_img['user_id'];
@@ -40,8 +40,7 @@ function get_images($start_img, $connected) {
         $st4->execute();
         $data_comments = $st4->fetch();
         $nbcomms = $data_comments['COUNT(*)'];
-        if ($connected === 1)
-        {
+        if ($connected === 1) {
             $sql = "SELECT COUNT(*) FROM likes WHERE img_id = :img_id AND user_id = :user_id";
             $st5 = $pdo->prepare($sql);
             $present_id = $_SESSION['user_id'];
@@ -49,13 +48,15 @@ function get_images($start_img, $connected) {
             $st5->bindParam(':user_id', $present_id, PDO::PARAM_INT);
             $st5->execute();
             $data_likes = $st5->fetch();
-            if ($data_likes['COUNT(*)'] !== '0')
+            if ($data_likes['COUNT(*)'] !== '0') {
                 $user_liked = " has-text-danger";
-            else
+            } else {
                 $user_liked = "";
-        }
-        else
+            }
+        } else {
+            $user_liked = "";
             $share = "";
+        }
         $gallery = $gallery.('
         <div class="column is-one-quarter-desktop is-half-tablet">
             <strong>'.$login.'</strong> <small>'.$img_date.'</small>
@@ -85,13 +86,13 @@ function get_images($start_img, $connected) {
     return $gallery;
 }
 
-function get_image($img_id) {
-    require (__DIR__ . '/../config/database.php');
+function get_image($img_id)
+{
+    require(__DIR__ . '/../config/database.php');
     try {
         $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    }
-    catch (Exception $e) {
+    } catch (Exception $e) {
         die("Unsuccessful access to database: $e");
     }
     $sql = "SELECT * FROM images WHERE img_id = :img_id";
@@ -99,8 +100,9 @@ function get_image($img_id) {
     $st->bindParam(':img_id', $img_id, PDO::PARAM_INT);
     $st->execute();
     $data_img = $st->fetch();
-    if ($data_img == null)
+    if ($data_img == null) {
         return 0;
+    }
     $img_path = $data_img['img_path'];
     $user_id = $data_img['user_id'];
     $sql = "SELECT user_login FROM users WHERE user_id = :user_id";
@@ -122,10 +124,11 @@ function get_image($img_id) {
     $st4->bindParam(':user_id', $present_id, PDO::PARAM_INT);
     $st4->execute();
     $data_likes = $st4->fetch();
-    if ($data_likes['COUNT(*)'] !== '0')
+    if ($data_likes['COUNT(*)'] !== '0') {
         $user_liked = " has-text-danger";
-    else
+    } else {
         $user_liked = "";
+    }
     $image = ('
             <figure class="image has-ratio" id="img_container">
                 <img src="../'.$img_path.'" style="max-width: 640px;" id="'.$img_id.'">
@@ -148,15 +151,14 @@ function get_image($img_id) {
     return $image;
 }
 
-function manage_likes($img_id, $user_id) 
+function manage_likes($img_id, $user_id)
 {
     $res = 0;
-    require (__DIR__ . '/../config/database.php');
+    require(__DIR__ . '/../config/database.php');
     try {
         $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    }
-    catch (Exception $e) {
+    } catch (Exception $e) {
         die("Unsuccessful access to database: $e");
     }
     $sql = "SELECT COUNT(*) FROM likes WHERE user_id = :user_id AND img_id = :img_id";
@@ -165,17 +167,14 @@ function manage_likes($img_id, $user_id)
     $st->bindValue(':img_id', $img_id, PDO::PARAM_STR);
     $st->execute();
     $likes_data = $st->fetch();
-    if ($likes_data['COUNT(*)'] !== '0')
-    {
+    if ($likes_data['COUNT(*)'] !== '0') {
         $sql = "DELETE FROM likes WHERE user_id = :user_id AND img_id = :img_id";
         $st = $pdo->prepare($sql);
         $st->bindValue(':user_id', $user_id, PDO::PARAM_INT);
         $st->bindValue(':img_id', $img_id, PDO::PARAM_INT);
         $st->execute();
         $res = 2;
-    }
-    else
-    {
+    } else {
         $sql = "INSERT INTO likes (user_id, img_id) VALUES (:user_id, :img_id)";
         $st = $pdo->prepare($sql);
         $st->bindValue(':user_id', $user_id, PDO::PARAM_INT);
@@ -187,13 +186,13 @@ function manage_likes($img_id, $user_id)
     return $res;
 }
 
-function get_comments($img_id) {
-    require (__DIR__ . '/../config/database.php');
+function get_comments($img_id)
+{
+    require(__DIR__ . '/../config/database.php');
     try {
         $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    }
-    catch (Exception $e) {
+    } catch (Exception $e) {
         die("Unsuccessful access to database: $e");
     }
     $sql = "SELECT * FROM comments WHERE img_id = :img_id ORDER BY comment_id ASC";
@@ -201,7 +200,7 @@ function get_comments($img_id) {
     $st->bindValue(':img_id', $img_id, PDO::PARAM_INT);
     $st->execute();
     $comments = "";
-	while ($data_comment = $st->fetch()) {
+    while ($data_comment = $st->fetch()) {
         $comment_id = $data_comment['comment_id'];
         $user_id = $data_comment['user_id'];
         $comment_content = $data_comment['comment_content'];
@@ -212,10 +211,11 @@ function get_comments($img_id) {
         $st2->execute();
         $data_user = $st2->fetch();
         $login = $data_user['user_login'];
-        if ($login === $_SESSION['user'])
+        if ($login === $_SESSION['user']) {
             $button_suppr = '<a class="delete is-small" id="delete_comment"></a>';
-        else
+        } else {
             $button_suppr = '';
+        }
         $comments = $comments . ('<div id="'.$comment_id.'"><p>
             <strong>'.$login.'</strong> <small>@'.$login.' '.$comment_date.'</small>
             '.$button_suppr.'
@@ -227,12 +227,11 @@ function get_comments($img_id) {
 
 function get_comment_date($comment_id)
 {
-    require (__DIR__ . '/../config/database.php');
+    require(__DIR__ . '/../config/database.php');
     try {
         $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    }
-    catch (Exception $e) {
+    } catch (Exception $e) {
         die("Unsuccessful access to database: $e");
     }
     $sql = "SELECT comment_date FROM comments WHERE comment_id = :comment_id";
@@ -245,17 +244,16 @@ function get_comment_date($comment_id)
     return $comment_date;
 }
 
-function add_comment($img_id, $user_id, $comment_content) 
+function add_comment($img_id, $user_id, $comment_content)
 {
     $res = new stdClass();
     $res->result = 0;
     $res->id_comment = 0;
-    require (__DIR__ . '/../config/database.php');
+    require(__DIR__ . '/../config/database.php');
     try {
         $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    }
-    catch (Exception $e) {
+    } catch (Exception $e) {
         die("Unsuccessful access to database: $e");
     }
     $sql = "INSERT INTO comments (user_id, img_id, comment_content) VALUES (:user_id, :img_id, :comment_content)";
@@ -263,8 +261,7 @@ function add_comment($img_id, $user_id, $comment_content)
     $st->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $st->bindValue(':img_id', $img_id, PDO::PARAM_INT);
     $st->bindValue(':comment_content', $comment_content, PDO::PARAM_STR);
-    if ($st->execute())
-    {
+    if ($st->execute()) {
         $res->result = 1;
         $res->id_comment = $pdo->lastInsertId();
         $sql = "SELECT * FROM images WHERE img_id = :img_id";
@@ -280,8 +277,7 @@ function add_comment($img_id, $user_id, $comment_content)
         $st3->bindParam(':user_id', $img_user_id, PDO::PARAM_INT);
         $st3->execute();
         $data_user = $st3->fetch();
-        if ($data_user['user_notification'] == 1 && $user_id != $img_user_id)
-        {
+        if ($data_user['user_notification'] == 1 && $user_id != $img_user_id) {
             $email = $data_user['user_email'];
             $login = $data_user['user_login'];
             $img_path = 'http://localhost:8080/'.$img_path;
@@ -309,15 +305,14 @@ function send_mail_comment($email, $login, $img_path, $img_date, $img_id)
     mail($email, $subject, $message, $headers);
 }
 
-function delete_comment($comment_id, $user_id) 
+function delete_comment($comment_id, $user_id)
 {
     $res = 0;
-    require (__DIR__ . '/../config/database.php');
+    require(__DIR__ . '/../config/database.php');
     try {
         $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    }
-    catch (Exception $e) {
+    } catch (Exception $e) {
         die("Unsuccessful access to database: $e");
     }
     $sql = "SELECT * FROM comments WHERE comment_id = :comment_id";
@@ -325,19 +320,18 @@ function delete_comment($comment_id, $user_id)
     $st->bindValue(':comment_id', $comment_id, PDO::PARAM_INT);
     $st->execute();
     $data_comment = $st->fetch();
-    if ($data_comment === null)
+    if ($data_comment === null) {
         $res = 0;
-    else if ($data_comment['user_id'] !== $user_id)
+    } elseif ($data_comment['user_id'] !== $user_id) {
         $res = 2;
-    else {
+    } else {
         $sql = "DELETE FROM comments WHERE comment_id = :comment_id";
         $st = $pdo->prepare($sql);
         $st->bindValue(':comment_id', $comment_id, PDO::PARAM_INT);
-        if ($st->execute())
+        if ($st->execute()) {
             $res = 1;
+        }
     }
     $pdo = null;
     return $res;
 }
-
-?>

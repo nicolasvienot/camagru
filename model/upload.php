@@ -1,12 +1,12 @@
 <?php
 
-function upload_img($img_path, $user_login, $user_id) {
-    require (__DIR__ . '/../config/database.php');
+function upload_img($img_path, $user_login, $user_id)
+{
+    require(__DIR__ . '/../config/database.php');
     try {
         $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    }
-    catch (Exception $e) {
+    } catch (Exception $e) {
         die("Unsuccessful access to database: $e");
     }
     $sql = "INSERT INTO images (img_path, user_id) VALUES (:img_path, :user_id)";
@@ -14,8 +14,9 @@ function upload_img($img_path, $user_login, $user_id) {
     $st->bindParam(':img_path', $img_path);
     $st->bindParam(':user_id', $user_id);
     $res = $st->execute();
-    if ($res === false)
+    if ($res === false) {
         return (0);
+    }
     $sql = "SELECT img_id FROM images WHERE img_path=:img_path";
     $st = $pdo->prepare($sql);
     $st->bindParam(':img_path', $img_path);
@@ -26,13 +27,13 @@ function upload_img($img_path, $user_login, $user_id) {
     return $img_id;
 }
 
-function get_own_images($user_id) {
-    require (__DIR__ . '/../config/database.php');
+function get_own_images($user_id)
+{
+    require(__DIR__ . '/../config/database.php');
     try {
         $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    }
-    catch (Exception $e) {
+    } catch (Exception $e) {
         die("Unsuccessful access to database: $e");
     }
     $sql = "SELECT * FROM images WHERE user_id = :user_id ORDER BY img_id DESC";
@@ -40,7 +41,7 @@ function get_own_images($user_id) {
     $st->bindParam(':user_id', $user_id);
     $st->execute();
     $mygallery = "";
-	while ($data_img = $st->fetch()) {
+    while ($data_img = $st->fetch()) {
         $img_id = $data_img['img_id'];
         $img_path = $data_img['img_path'];
         $mygallery = $mygallery . ('
@@ -61,12 +62,11 @@ function get_own_images($user_id) {
 
 function delete_image_db($img_id)
 {
-    require (__DIR__ . '/../config/database.php');
+    require(__DIR__ . '/../config/database.php');
     try {
         $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    }
-    catch (Exception $e) {
+    } catch (Exception $e) {
         die("Unsuccessful access to database: $e");
     }
     $sql = "SELECT img_path FROM images WHERE img_id=:img_id";
@@ -74,8 +74,7 @@ function delete_image_db($img_id)
     $st->bindParam(':img_id', $img_id);
     $st->execute();
     $data_img = $st->fetch();
-    if ($data_img == null)
-    {
+    if ($data_img == null) {
         return 0;
     }
     $img_path = $data_img['img_path'];
@@ -87,5 +86,3 @@ function delete_image_db($img_id)
     $pdo = null;
     return $img_path;
 }
-
-?>

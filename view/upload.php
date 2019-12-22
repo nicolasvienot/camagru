@@ -1,5 +1,5 @@
 <?php
-    include (__DIR__ . '/../controller/templates/header.php');
+    include(__DIR__ . '/../controller/templates/header.php');
 ?>
 
 <style>
@@ -123,5 +123,5 @@
 
 
 <?php
-    include (__DIR__ . '/../controller/templates/footer.php');
+    include(__DIR__ . '/../controller/templates/footer.php');
 ?>

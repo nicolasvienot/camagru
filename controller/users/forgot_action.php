@@ -2,7 +2,7 @@
 
 session_start();
 
-require (__DIR__ . '/../../model/users.php');
+require(__DIR__ . '/../../model/users.php');
 
 $res = new stdClass();
 $res->result = 0;
@@ -20,15 +20,15 @@ $user_email = htmlentities($_POST["email_forgot"]);
 $test = send_forgot($user_email);
 
 switch ($test) {
-    case '1' :
+    case '1':
         $res->result = 1;
         $res->message = "Mail sent!";
         break;
-    case '2' :
+    case '2':
         $res->result = 0;
         $res->message = "Error table users";
         break;
-    case '3' :
+    case '3':
         $res->result = 0;
         $res->message = "Not this mail in table users";
         break;
@@ -40,5 +40,3 @@ switch ($test) {
 
 $json = json_encode($res);
 echo $json;
-
-?>

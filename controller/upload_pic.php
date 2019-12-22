@@ -2,7 +2,7 @@
 
 session_start();
 
-require (__DIR__ . '/../model/upload.php');
+require(__DIR__ . '/../model/upload.php');
 
 $res = new stdClass();
 $res->result = 0;
@@ -43,7 +43,7 @@ if ($data !== false) {
                 $img_id = upload_img($img_path, $user_login, $user_id);
                 if ($img_id !== 0) {
                     $success = imagepng($image, $file_path);
-                    if ($success !== false){
+                    if ($success !== false) {
                         $res->exists = file_exists($file_path);
                         $res->result = 1;
                         $res->message = "Image uploaded.";
@@ -58,7 +58,3 @@ if ($data !== false) {
 
 $json = json_encode($res);
 echo $json;
-
-
-
-?>

@@ -2,7 +2,7 @@
 
 session_start();
 
-require (__DIR__ . '/../model/socialwall.php');
+require(__DIR__ . '/../model/socialwall.php');
 
 $res = new stdClass();
 $res->result = 0;
@@ -27,5 +27,3 @@ if ($res_comment->result !== 0) {
 
 $json = json_encode($res);
 echo $json;
-
-?>

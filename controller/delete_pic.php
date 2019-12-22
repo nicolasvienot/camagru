@@ -2,7 +2,7 @@
 
 session_start();
 
-require (__DIR__ . '/../model/upload.php');
+require(__DIR__ . '/../model/upload.php');
 
 $res = new stdClass();
 $res->result = 0;
@@ -22,5 +22,3 @@ if ($path !== 0) {
 
 $json = json_encode($res);
 echo $json;
-
-?>

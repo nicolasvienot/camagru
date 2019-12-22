@@ -1,12 +1,12 @@
 <?php
 
-function check_db() {
-    require (__DIR__ . '/../config/database.php');
+function check_db()
+{
+    require(__DIR__ . '/../config/database.php');
     try {
         $pdo = new PDO($DB_DSN_NOBASE, $DB_USER, $DB_PASSWORD);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    }
-    catch (Exception $e) {
+    } catch (Exception $e) {
         die("Unsuccessful access to database: $e");
     }
     $sql = "SHOW DATABASES LIKE 'camagru'";
@@ -16,5 +16,3 @@ function check_db() {
     $pdo = null;
     return ($res);
 }
-
-?>

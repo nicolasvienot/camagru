@@ -1,5 +1,5 @@
 <?php
-    include (__DIR__ . '/../controller/templates/header.php');
+    include(__DIR__ . '/../controller/templates/header.php');
 ?>
 
 <div style="width: 50%; margin: auto; padding: 30px; text-align: center;">
@@ -16,5 +16,5 @@
 <script src="../public/js/socialwall.js"></script>
 
 <?php
-    include (__DIR__ . '/../controller/templates/footer.php');
+    include(__DIR__ . '/../controller/templates/footer.php');
 ?>

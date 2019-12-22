@@ -1,5 +1,5 @@
 <?php
-    include (__DIR__ . '/../controller/templates/header.php');
+    include(__DIR__ . '/../controller/templates/header.php');
 ?>
 
 <div class="columns">
@@ -39,5 +39,5 @@
 <script src="../public/js/comments.js"></script>
 
 <?php
-    include (__DIR__ . '/../controller/templates/footer.php');
+    include(__DIR__ . '/../controller/templates/footer.php');
 ?>

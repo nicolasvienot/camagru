@@ -2,7 +2,7 @@
 
 session_start();
 
-require (__DIR__ . '/../../model/users.php');
+require(__DIR__ . '/../../model/users.php');
 
 $res = new stdClass();
 $res->result = 0;
@@ -35,7 +35,7 @@ $password = hash("sha256", $password);
 $test = reset_password($password, $key);
 
 switch ($test) {
-    case '1' :
+    case '1':
         $res->result = 1;
         $res->message = "The password has been reset, you can now log in!";
         break;
@@ -47,5 +47,3 @@ switch ($test) {
 
 $json = json_encode($res);
 echo $json;
-
-?>

@@ -2,7 +2,7 @@
 
 session_start();
 
-require (__DIR__ . '/../../model/users.php');
+require(__DIR__ . '/../../model/users.php');
 
 $res = new stdClass();
 $res->result = 0;
@@ -19,13 +19,12 @@ if (empty($_POST['type'])) {
 $type = $login = htmlentities($_POST['type']);
 
 switch ($type) {
-    case 1 :
+    case 1:
         $res->type = 1;
         if (empty($_POST["new_login"]) || $_POST["new_login"] === "") {
             $res->result = 0;
             $res->message = "Empty login!";
-        }
-        else {
+        } else {
             $new_login = htmlentities($_POST['new_login']);
             $login = $_SESSION['user'];
             $user_id = $_SESSION['user_id'];
@@ -38,29 +37,27 @@ switch ($type) {
             $res->message = "I would need to modify the username!";
         }
         break;
-    case 2 :
+    case 2:
         $res->type = 2;
         if (empty($_POST["new_email"]) || $_POST["new_email"] === "") {
             $res->result = 0;
             $res->message = "Empty email!";
-        }
-        else {
+        } else {
             $new_email = htmlentities($_POST['new_email']);
             $login = $_SESSION['user'];
             $user_id = $_SESSION['user_id'];
-            // do checks            
+            // do checks
             modify_email($new_email, $login, $user_id);
             $res->result = 1;
             $res->message = "I would need to modify the email!";
         }
         break;
-    case 3 :
+    case 3:
         $res->type = 3;
         if (empty($_POST["old_password"]) || $_POST["old_password"] === "" || empty($_POST["new_password"]) || $_POST["new_password"] === "" || empty($_POST["new_password_check"]) || $_POST["new_password_check"] === "") {
             $res->result = 0;
             $res->message = "Empty password!";
-        }
-        else {
+        } else {
             $old_password = htmlentities($_POST['old_password']);
             $new_password = htmlentities($_POST['new_password']);
             $new_password_check = htmlentities($_POST['new_password_check']);
@@ -74,27 +71,23 @@ switch ($type) {
                 if ($test === 1) {
                     $res->result = 1;
                     $res->message = "Password modified!";
-                }
-                else if ($test === 2) {
+                } elseif ($test === 2) {
                     $res->result = 0;
                     $res->message = "Problem in update!";
-                }
-                else if ($test === 3) {
+                } elseif ($test === 3) {
                     $res->result = 0;
                     $res->message = "User unknown or bad password!";
-                }
-                else {
+                } else {
                     $res->result = 0;
                     $res->message = "Error unknown!";
                 }
-            }
-            else {
+            } else {
                 $res->result = 0;
                 $res->message = "Not same password!";
             }
         }
         break;
-    case 4 :
+    case 4:
         $login = $_SESSION['user'];
         $user_id = $_SESSION['user_id'];
         $user_notification = htmlentities($_POST['user_notification']);
@@ -102,8 +95,7 @@ switch ($type) {
         if ($test === 1) {
             $res->result = 1;
             $res->message = "Notification modified!";
-        }
-        else {
+        } else {
             $res->result = 0;
             $res->message = "Error notification!";
         }
@@ -117,5 +109,3 @@ switch ($type) {
 
 $json = json_encode($res);
 echo $json;
-
-?>

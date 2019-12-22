@@ -1,5 +1,5 @@
 <?php
-    include (__DIR__ . '/../controller/templates/header.php');
+    include(__DIR__ . '/../controller/templates/header.php');
 ?>
 
 <section class="section is-medium">
@@ -18,5 +18,5 @@
   </section>
 
 <?php
-    include (__DIR__ . '/../controller/templates/footer.php');
+    include(__DIR__ . '/../controller/templates/footer.php');
 ?>
