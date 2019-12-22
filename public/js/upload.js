@@ -70,13 +70,14 @@ document.getElementById("buttontakepicture").addEventListener('click', get_image
 function delete_p(event) {
     if (confirm('Are you sure you want to delete this image?')) {
         var data = new FormData();
-        data.append('img_id', event.path[3].id);
+        var img_id = event.currentTarget.id;
+        data.append('img_id', img_id);
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 var res = JSON.parse(this.responseText);
                 if (res.result === 1) {
-                    var element = document.getElementById(event.path[3].id);
+                    var element = document.getElementById(img_id);
                     element.parentNode.removeChild(element);
                 } else {
                     console.log('Error : image not deleted');
@@ -88,9 +89,9 @@ function delete_p(event) {
     }
 };
 
-var imgs = document.querySelectorAll(".gallery");
+var imgs = document.querySelectorAll(".delete_p");
 imgs.forEach(element => {
-    element.addEventListener('click', delete_p, true);
+    element.addEventListener('click', delete_p, false);
 });
 
 function reset_cam(event) {
@@ -126,7 +127,7 @@ function share() {
                     divoverlay.className = "overlay-gallery";
                     divdelete.className = "text";
                     divdelete.innerText = "Delete image";
-                    column.className = "column is-one-quarter-desktop is-half-tablet gallery";
+                    column.className = "delete_p column is-one-quarter-desktop is-half-tablet gallery";
                     card.className = "card-image container-gallery";
                     figure.className = "image has-ratio";
                     column.id = res.img_id;
@@ -136,7 +137,7 @@ function share() {
                     figure.appendChild(divoverlay);
                     card.appendChild(figure);
                     column.appendChild(card);  
-                    column.addEventListener('click', delete_p, true);
+                    column.addEventListener('click', delete_p, false);
                     document.getElementById("gallery").prepend(column);
                     if (audio_congrats)
                         audio_congrats.play();
@@ -331,12 +332,12 @@ function reset_drag() {
     context_drag.clearRect(0, 0, canvas_drag.width, canvas_drag.height);
 }
 
-function handle_scroll_endpage(event) {
+// function handle_scroll_endpage(event) {
 
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && loading !== 1) {
-        console.log('bas de page mon vieux');
-        console.log('load more gallery');
-    }
-}
+//     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && loading !== 1) {
+//         console.log('bas de page mon vieux');
+//         console.log('load more gallery');
+//     }
+// }
 
-window.addEventListener('scroll', handle_scroll_endpage, true);
+// window.addEventListener('scroll', handle_scroll_endpage, true);

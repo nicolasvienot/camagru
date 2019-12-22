@@ -60,6 +60,10 @@ switch ($request) {
         $reset_key = htmlentities($_GET["keyreset"]);
         require __DIR__ . '/controller/users/resetpassword.php';
         break;
+    case (preg_match("/^(\/public\/img\/uploads\/)/i", $request) ? true : false) :
+        header('Content-Type: image/png');
+        require __DIR__ . '/public/img/uploads/filenotfound.png';
+        break;
     default:
         http_response_code(404);
         require __DIR__ . '/view/404.php';

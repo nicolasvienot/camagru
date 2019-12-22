@@ -15,6 +15,7 @@
   opacity: 0;
   transition: .5s ease;
   background-color: #F44F52;
+  cursor: pointer;
 }
 
 .container-gallery:hover .overlay-gallery {
@@ -31,6 +32,7 @@
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   text-align: center;
+  cursor: pointer;
 }
 
 </style>
