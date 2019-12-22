@@ -11,9 +11,7 @@ signin.addEventListener("click", function(event) {
   xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       var res = JSON.parse(this.responseText);
-      console.log(res);
       if (res.result === 1) {
-        console.log("Connected");
         window.location.replace("/");
       } else {
         var passworddiv = document.getElementById("passworddiv");
@@ -35,7 +33,6 @@ send_forgot.addEventListener("click", function(event) {
   xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       var res = JSON.parse(this.responseText);
-      console.log(res);
 
       // var modal = document.getElementById('modal');
       // var html = document.querySelector('html');
@@ -59,7 +56,6 @@ send_forgot.addEventListener("click", function(event) {
       //     // signup_form.addEventListener('keyup', handle_enter, true);
       // });
       // if (res.result === 1) {
-      //     console.log('Connected');
       //     window.location.replace("/");
       // } else {
       //     var passworddiv = document.getElementById('passworddiv');
@@ -95,7 +91,6 @@ forgot.addEventListener("click", function(event) {
 
 signin_form.addEventListener("keyup", function(event) {
   if (event.keyCode === 13) {
-    console.log("click");
     event.preventDefault();
     signin.click();
   }

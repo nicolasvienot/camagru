@@ -17,7 +17,6 @@ function handle_scroll_endpage(event) {
     xmlhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
         var res = JSON.parse(this.responseText);
-        console.log(res);
         if (res.result === 1) {
           document.getElementById("loadingbutton").style.display = "";
           setTimeout(() => {

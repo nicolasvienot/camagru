@@ -11,8 +11,6 @@ const button_notifications = document.getElementById("notifications");
 var regex_password = /^(?=.*[a-z])(?=.*[0-9])(?=.{8,})/;
 var regex_email = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-console.log(notif);
-
 if (notif == 1) {
   document.getElementById("notificationsyes").className =
     "button is-success is-selected is-disabled";
@@ -34,7 +32,6 @@ button_notifications.onclick = function(e) {
   xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       var res = JSON.parse(this.responseText);
-      console.log(res);
       button_notifications.disabled = false;
       // if (res.result === 1) {
       //     var modal = document.getElementById('modal_good');
@@ -86,7 +83,6 @@ username.addEventListener("keyup", function(event) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
-        console.log(this.responseText);
         if (this.responseText) {
           username.className = "input is-success";
           document.getElementById("username_available").style.display = "block";
@@ -166,9 +162,6 @@ update_username.addEventListener("click", function(event) {
   xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       var res = JSON.parse(this.responseText);
-      console.log(res);
-      console.log(res.result);
-      console.log(res.message);
       if (res.result === 1) {
         // var modal = document.getElementById('modal_good');
         // var html = document.querySelector('html');
@@ -206,9 +199,6 @@ update_email.addEventListener("click", function(event) {
   xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       var res = JSON.parse(this.responseText);
-      console.log(res);
-      console.log(res.result);
-      console.log(res.message);
       // if (res.result === 1) {
       //     var modal = document.getElementById('modal_good');
       //     var html = document.querySelector('html');
@@ -246,9 +236,6 @@ update_password.addEventListener("click", function(event) {
   xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       var res = JSON.parse(this.responseText);
-      console.log(res);
-      console.log(res.result);
-      console.log(res.message);
       // if (res.result === 1) {
       //     var modal = document.getElementById('modal_good');
       //     var html = document.querySelector('html');

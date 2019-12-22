@@ -31,7 +31,6 @@ document.querySelector(".like").addEventListener("click", do_like, true);
 
 function do_share(event) {
   var img_id = document.getElementById("img_container").children[0].id;
-  console.log(img_id);
   var twitter_url = "http://twitter.com/share?";
   var params = {
     url: "http://localhost:8080/comments/?img_id=" + img_id,
@@ -61,7 +60,6 @@ function push_comments(event) {
   xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       var res = JSON.parse(this.responseText);
-      console.log(res);
       if (res.result !== 0) {
         var divcomment = document.createElement("div");
         divcomment.id = res.comment_id;
@@ -81,7 +79,7 @@ function push_comments(event) {
         document.getElementById("comments_div").append(divcomment);
         document.getElementById("comment_content").value = "";
       } else {
-        console.log("Error push comment");
+        console.log("Error push_comment");
       }
     }
   };
@@ -96,16 +94,14 @@ function delete_comment(event) {
   if (confirm("Are you sure you want to delete this comment?")) {
     var data = new FormData();
     data.append("comment_id", event.path[2].id);
-    console.log(event.path[2].id);
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
         var res = JSON.parse(this.responseText);
-        console.log(res);
         if (res.result === 1) {
           document.getElementById(event.path[2].id).remove();
         } else {
-          console.log("Error");
+          console.log("Error delete_comment");
         }
       }
     };
