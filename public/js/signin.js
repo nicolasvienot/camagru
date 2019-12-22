@@ -11,6 +11,7 @@ signin.addEventListener('click', function (event) {
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             var res = JSON.parse(this.responseText);
+            console.log(res)
             if (res.result === 1) {
                 console.log('Connected');
                 window.location.replace("/");

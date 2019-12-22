@@ -5,8 +5,7 @@ require (__DIR__ . '/../../model/users.php');
 $res->result = 0;
 $res->message = "There was a problem, please try again";
 
-if (empty($_POST["email_forgot"]) || $_POST["email_forgot"] == "")
-{
+if (empty($_POST["email_forgot"]) || $_POST["email_forgot"] == "") {
     $res->result = 0;
     $res->message = "You need to fill the email";
     $json = json_encode($res);

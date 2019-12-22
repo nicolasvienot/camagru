@@ -13,6 +13,7 @@ function check_db() {
     $st = $pdo->prepare($sql);
     $st->execute();
     $res = $st->fetch();
+    $pdo = null;
     return ($res);
 }
 

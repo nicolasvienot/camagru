@@ -21,28 +21,24 @@ function get_images($start_img, $connected) {
         $img_path = $data_img['img_path'];
         $user_id = $data_img['user_id'];
         $img_date = $data_img['img_date'];
-
         $sql = "SELECT user_login FROM users WHERE user_id = :user_id";
         $st2 = $pdo->prepare($sql);
         $st2->bindParam(':user_id', $user_id, PDO::PARAM_INT);
         $st2->execute();
         $data_user = $st2->fetch();
         $login = $data_user['user_login'];
-
         $sql = "SELECT COUNT(*) FROM likes WHERE img_id = :img_id";
         $st3 = $pdo->prepare($sql);
         $st3->bindValue(':img_id', $img_id, PDO::PARAM_INT);
         $st3->execute();
         $data_likes = $st3->fetch();
         $nblikes = $data_likes['COUNT(*)'];
-
         $sql = "SELECT COUNT(*) FROM comments WHERE img_id = :img_id";
         $st4 = $pdo->prepare($sql);
         $st4->bindValue(':img_id', $img_id, PDO::PARAM_INT);
         $st4->execute();
         $data_comments = $st4->fetch();
         $nbcomms = $data_comments['COUNT(*)'];
-
         if ($connected === 1)
         {
             $sql = "SELECT COUNT(*) FROM likes WHERE img_id = :img_id AND user_id = :user_id";
@@ -58,10 +54,7 @@ function get_images($start_img, $connected) {
                 $user_liked = "";
         }
         else
-        {
             $share = "";
-        }
-
         $gallery = $gallery.('
         <div class="column is-one-quarter-desktop is-half-tablet">
             <strong>'.$login.'</strong> <small>'.$img_date.'</small>
@@ -100,7 +93,6 @@ function get_image($img_id) {
     catch (Exception $e) {
         die("Unsuccessful access to database: $e");
     }
-
     $sql = "SELECT * FROM images WHERE img_id = :img_id";
     $st = $pdo->prepare($sql);
     $st->bindParam(':img_id', $img_id, PDO::PARAM_INT);
@@ -110,21 +102,18 @@ function get_image($img_id) {
         return 0;
     $img_path = $data_img['img_path'];
     $user_id = $data_img['user_id'];
-
     $sql = "SELECT user_login FROM users WHERE user_id = :user_id";
     $st2 = $pdo->prepare($sql);
     $st2->bindParam(':user_id', $user_id, PDO::PARAM_INT);
     $st2->execute();
     $data_user = $st2->fetch();
     $login = $data_user['user_login'];
-
     $sql = "SELECT COUNT(*) FROM likes WHERE img_id = :img_id";
     $st3 = $pdo->prepare($sql);
     $st3->bindValue(':img_id', $img_id, PDO::PARAM_INT);
     $st3->execute();
     $data_likes = $st3->fetch();
     $nblikes = $data_likes['COUNT(*)'];
-
     $sql = "SELECT COUNT(*) FROM likes WHERE img_id = :img_id AND user_id = :user_id";
     $st4 = $pdo->prepare($sql);
     $present_id = $_SESSION['user_id'];
@@ -132,15 +121,10 @@ function get_image($img_id) {
     $st4->bindParam(':user_id', $present_id, PDO::PARAM_INT);
     $st4->execute();
     $data_likes = $st4->fetch();
-    if ($data_likes['COUNT(*)'] != 0)
-    {
+    if ($data_likes['COUNT(*)'] !== 0)
         $user_liked = " has-text-danger";
-    }
     else
-    {
         $user_liked = "";
-    }
-
     $image = ('
             <figure class="image has-ratio" id="img_container">
                 <img src="../'.$img_path.'" style="max-width: 640px;" id="'.$img_id.'">
@@ -220,28 +204,20 @@ function get_comments($img_id) {
         $user_id = $data_comment['user_id'];
         $comment_content = $data_comment['comment_content'];
         $comment_date = $data_comment['comment_date'];
-
         $sql = "SELECT user_login FROM users WHERE user_id = :user_id";
         $st2 = $pdo->prepare($sql);
         $st2->bindParam(':user_id', $user_id, PDO::PARAM_INT);
         $st2->execute();
         $data_user = $st2->fetch();
         $login = $data_user['user_login'];
-        
         if ($login === $_SESSION['user'])
-        {
             $button_suppr = '<a class="delete is-small" id="delete_comment"></a>';
-        }
         else
-        {
             $button_suppr = '';
-        }
         $comments = $comments . ('<div id="'.$comment_id.'"><p>
             <strong>'.$login.'</strong> <small>@'.$login.' '.$comment_date.'</small>
             '.$button_suppr.'
-            <br>
-            '.$comment_content.'
-        </p></div>');
+            <br>'.$comment_content.'</p></div>');
     }
     $pdo = null;
     return $comments;
@@ -263,8 +239,8 @@ function get_comment_date($comment_id)
     $st->execute();
     $data_comment = $st->fetch();
     $comment_date = $data_comment['comment_date'];
-    return $comment_date;
     $pdo = null;
+    return $comment_date;
 }
 
 function add_comment($img_id, $user_id, $comment_content) 
@@ -296,7 +272,6 @@ function add_comment($img_id, $user_id, $comment_content)
         $img_user_id = $data_images['user_id'];
         $img_path = $data_images['img_path'];
         $img_date = $data_images['img_date'];
-
         $sql = "SELECT * FROM users WHERE user_id = :user_id";
         $st3 = $pdo->prepare($sql);
         $st3->bindParam(':user_id', $img_user_id, PDO::PARAM_INT);
@@ -342,7 +317,6 @@ function delete_comment($comment_id, $user_id)
     catch (Exception $e) {
         die("Unsuccessful access to database: $e");
     }
-
     $sql = "SELECT * FROM comments WHERE comment_id = :comment_id";
     $st = $pdo->prepare($sql);
     $st->bindValue(':comment_id', $comment_id, PDO::PARAM_INT);

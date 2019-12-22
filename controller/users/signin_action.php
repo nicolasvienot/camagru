@@ -5,8 +5,7 @@ require (__DIR__ . '/../../model/users.php');
 $res->result = 0;
 $res->message = "There was a problem, please try again";
 
-if (empty($_POST["username"]) || empty($_POST["password"]))
-{
+if (empty($_POST["username"]) || empty($_POST["password"])) {
     $res->result = 0;
     if (empty($_POST["username"]))
         $res->message = "You need to fill the username";
@@ -19,7 +18,6 @@ if (empty($_POST["username"]) || empty($_POST["password"]))
 
 $login = htmlentities($_POST["username"]);
 $password = htmlentities(hash('sha256', $_POST["password"]));
-
 $test = signin($login, $password);
 
 switch ($test) {

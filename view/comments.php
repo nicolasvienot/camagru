@@ -10,7 +10,6 @@
     </div>
 </div>
 
-
 <article class="media">
   <div class="media-content">
     <div class="content" id="comments_div">

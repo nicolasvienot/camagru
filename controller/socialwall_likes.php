@@ -11,15 +11,12 @@ $user_id = $_SESSION['user_id'];
 $img_id = $_POST['img_id'];
 
 $like = manage_likes($img_id, $user_id);
-if ($like !== 0)
-{
-    if ($like === 1)
-    {
+if ($like !== 0) {
+    if ($like === 1) {
         $res->result = 1;
         $res->message = "Like added.";
     }
-    else
-    {
+    else {
         $res->result = 2;
         $res->message = "Like removed.";
     }

@@ -9,8 +9,7 @@ $start_img = $_POST['start_img'];
 $connected = $_POST['connected'];
 $gallery = get_images($start_img, $connected);
 
-if ($gallery !== 0)
-{
+if ($gallery !== 0) {
     if ($gallery === null)
         $res->result = 2;
     else

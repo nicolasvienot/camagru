@@ -8,5 +8,4 @@ else {
     require(__DIR__ . '/../../view/users/signup.php');
 }
 
-
 ?>

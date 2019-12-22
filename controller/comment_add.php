@@ -12,8 +12,7 @@ $img_id = $_POST['img_id'];
 $comment_content = $_POST['comment_content'];
 
 $res_comment = add_comment($img_id, $user_id, $comment_content);
-if ($res_comment->result != 0)
-{
+if ($res_comment->result !== 0) {
     $date = get_comment_date($res_comment->id_comment);
     $res->login = $user_login;
     $res->result = 1;

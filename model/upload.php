@@ -13,8 +13,9 @@ function upload_img($img_path, $user_login, $user_id) {
     $st = $pdo->prepare($sql);
     $st->bindParam(':img_path', $img_path);
     $st->bindParam(':user_id', $user_id);
-    $st->execute();
-
+    $res = $st->execute();
+    if ($res === false)
+        return (0);
     $sql = "SELECT img_id FROM images WHERE img_path=:img_path";
     $st = $pdo->prepare($sql);
     $st->bindParam(':img_path', $img_path);
@@ -41,8 +42,6 @@ function get_own_images($user_id) {
 	while ($data_img = $st->fetch()) {
         $img_id = $data_img['img_id'];
         $img_path = $data_img['img_path'];
-        // $gallery = $gallery . ('<img src="../' . $img_path .'" style="height: 240px; width: auto;" id="' . $img_id . '">');
-
         $mygallery = $mygallery . ('
         <div class="delete_p column is-one-quarter-desktop is-half-tablet gallery" id="' . $img_id . '">
             <div class="card-image container-gallery">
@@ -54,8 +53,6 @@ function get_own_images($user_id) {
                 </figure>
             </div>
         </div>');
-
-        // $gallery = $gallery . ('<img height=240px width=320px src="../' . $img_path .'">');
     }
     $pdo = null;
     return $mygallery;

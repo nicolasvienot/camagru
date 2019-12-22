@@ -11,8 +11,7 @@ $user_id = $_SESSION['user_id'];
 $img_id = $_POST['img_id'];
 
 $path = delete_image_db($img_id);
-if ($path !== 0)
-{
+if ($path !== 0) {
     unlink('../' . $path) or die("Couldn't delete file");
     $res->path = $path;
     $res->result = 1;
