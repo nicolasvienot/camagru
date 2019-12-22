@@ -1,6 +1,6 @@
 <?php
 
-function get_images($start_img) {
+function get_images($start_img, $connected) {
     require (__DIR__ . '/../config/database.php');
     try {
         $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
@@ -10,6 +10,7 @@ function get_images($start_img) {
         die("Unsuccessful access to database: $e");
     }
     $nb_img = 8;
+    $share = '<a class="share level-item"><span class="icon is-small"><i class="fas fa-retweet"></i></span></a>';
     $sql = "SELECT * FROM images ORDER BY img_id DESC LIMIT :start_img, :nb_img";
     $st = $pdo->prepare($sql);
     $st->bindParam(':start_img', $start_img, PDO::PARAM_INT);
@@ -42,17 +43,24 @@ function get_images($start_img) {
         $data_comments = $st4->fetch();
         $nbcomms = $data_comments['COUNT(*)'];
 
-        $sql = "SELECT COUNT(*) FROM likes WHERE img_id = :img_id AND user_id = :user_id";
-        $st5 = $pdo->prepare($sql);
-        $present_id = $_SESSION['user_id'];
-        $st5->bindValue(':img_id', $img_id, PDO::PARAM_INT);
-        $st5->bindParam(':user_id', $present_id, PDO::PARAM_INT);
-        $st5->execute();
-        $data_likes = $st5->fetch();
-        if ($data_likes['COUNT(*)'] != 0)
-            $user_liked = " has-text-danger";
+        if ($connected === 1)
+        {
+            $sql = "SELECT COUNT(*) FROM likes WHERE img_id = :img_id AND user_id = :user_id";
+            $st5 = $pdo->prepare($sql);
+            $present_id = $_SESSION['user_id'];
+            $st5->bindValue(':img_id', $img_id, PDO::PARAM_INT);
+            $st5->bindParam(':user_id', $present_id, PDO::PARAM_INT);
+            $st5->execute();
+            $data_likes = $st5->fetch();
+            if ($data_likes['COUNT(*)'] != 0)
+                $user_liked = " has-text-danger";
+            else
+                $user_liked = "";
+        }
         else
-            $user_liked = "";
+        {
+            $share = "";
+        }
 
         $gallery = $gallery.('
         <div class="column is-one-quarter-desktop is-half-tablet">
@@ -65,14 +73,11 @@ function get_images($start_img) {
                     <div class="level-left">
                         <a class="comment level-item">
                             <span class="icon is-small"><i class="fas fa-comment"></i></span> 
-                            <p>/</p><span>'.$nbcomms.'</span>
-                        </a>
-                        <a class="share level-item">
-                            <span class="icon is-small"><i class="fas fa-retweet"></i></span> 
-                        </a>
+                            <p>&nbsp;</p><span>'.$nbcomms.'</span>
+                        </a>'.$share.'
                         <a class="like level-item">
                             <span class="icon is-small'.$user_liked.'"><i class="fas fa-heart"></i></span>
-                            <p>/</p><span>'.$nblikes.'</span>
+                            <p>&nbsp;</p><span>'.$nblikes.'</span>
                         </a>
                         <p class="level-item">
                             @'.$login.'

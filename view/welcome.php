@@ -3,13 +3,18 @@
 ?>
 
 <div style="width: 50%; margin: auto; padding: 30px; text-align: center;">
-    <div style="text-align: center; padding-bottom: 20px;">
-        <h1 class="title is-2">Welcome to Camagru!</h1>
-    </div>
-    <p style="padding-bottom: 5px;">Work in progress...</p>
-    <br>
-    <progress class="progress is-primary" max="100">30%</progress> <br/>
+    <div class="title is-2">Welcome to Camagru!</div>
+    <div class="title is-4">Please signup or login to be able to post your own pictures, comment, like or share :D</div>
 </div>
+<div class="columns is-multiline" id="col_gallery">
+    <?php echo $gallery ?>
+</div>
+<button class="button is-loading is-centered is-fullwidth" id="loadingbutton" style="display: none;">Loading</button>
+<div style="width: 50%; margin: auto; padding: 30px; text-align: center; display:none;" id="endimages">
+    <div class="title is-5 is-centered">No more images to display :(</div>
+</div>
+
+<script src="../public/js/welcome.js"></script>
 
 <?php
     include (__DIR__ . '/../controller/templates/footer.php');

@@ -8,7 +8,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user'] === "") {
 }
 else {
     $start_img = 0; 
-    $gallery = get_images($start_img);
+    $gallery = get_images($start_img, 1);
 }
 
 require(__DIR__ . '/../view/socialwall.php');

@@ -6,7 +6,8 @@ $res->result = 0;
 $res->message = "There was a problem, please try again";
 
 $start_img = $_POST['start_img'];
-$gallery = get_images($start_img);
+$connected = $_POST['connected'];
+$gallery = get_images($start_img, $connected);
 
 if ($gallery !== 0)
 {
