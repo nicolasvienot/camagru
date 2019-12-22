@@ -2,7 +2,7 @@
 
 require(__DIR__ . '/../model/upload.php');
 
-if (isset($_SESSION['user']) && $_SESSION['user'] !== "") {
+if (isset($_SESSION['user']) && $_SESSION['user'] != "" && isset($_SESSION['user_id']) && $_SESSION['user_id'] != "") {
     $user_login = $_SESSION['user'];
     $user_id = $_SESSION['user_id'];
     $gallery = get_own_images($user_id);

@@ -1,5 +1,5 @@
 <?php
-    include (__DIR__ . '/../../controller/templates/header.php');
+    include(__DIR__ . '/../../controller/templates/header.php');
 ?>
 
 <div style="width: 50%; margin: auto; padding: 30px;">
@@ -21,6 +21,7 @@
             </div>
             <p class="help is-success" id="username_available" style="display: none;">This username is available</p>
             <p class="help is-danger" id="username_not_available" style="display: none;">This username is not available</p>
+            <p class="help is-danger" id="username_wrong_format" style="display: none;">Username must be between 4 and 16 alpha numeric characters</p>
         </div>
         <div class="field">
             <label class="label">Email</label>
@@ -34,7 +35,9 @@
                 <i class="fas fa-exclamation-triangle" id="notvalidemail" style="display: none;"></i>
                 </span>
             </div>
-            <p class="help is-danger" id="email_message" style="display: none;">This email is invalid</p>
+            <p class="help is-success" id="email_available" style="display: none;">This email is available</p>
+            <p class="help is-danger" id="email_not_available" style="display: none;">This email is not available</p>
+            <p class="help is-danger" id="email_wrong_format" style="display: none;">This email is invalid</p>
         </div>
         <div class="field">
             <label class="label">Password</label>
@@ -58,13 +61,14 @@
         <div class="field" style="margin-top: 10px;">
             <div class="control">
                 <label class="checkbox">
-                    <input type="checkbox" name="terms">
+                    <input type="checkbox" name="terms" id="terms">
                     I agree to the <a href="/terms" target="_blank">terms and conditions</a>
                 </label>
             </div>
         </div>
         <div class="field is-grouped">
             <div class="control">
+                <p class="help is-danger" id="form_wrong_format" style="display: none;">Please check all the fields</p>
                 <button type="button" class="button is-primary" id="signup">Sign up</button>
             </div>
         </div>
@@ -78,13 +82,13 @@
                 <a href="/"><button class="button is-success">Go to home page</button></a>
             </div>
         </div>
-        <!-- <button class="modal-close is-large" aria-label="close" id="close"></button> -->
     </div>
     <div class="modal" id="modal_bad">
         <div class="modal-background"></div>
         <div class="modal-content">
             <div class="box">
-                <label class="label">It looks like there was an error!</label>
+                <label class="label">It looks like there was an error...</label>
+                <label class="label has-text-danger" id="messageerror"></label>
                 <label class="label">Please try again.</label>
                 <button class="button is-primary" id="tryagain">Try again</button>
             </div>
@@ -96,5 +100,5 @@
 <script src="../../public/js/signup.js"></script>
 
 <?php
-    include (__DIR__ . '/../../controller/templates/footer.php');
+    include(__DIR__ . '/../../controller/templates/footer.php');
 ?>

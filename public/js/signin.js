@@ -4,6 +4,7 @@ const signin_form = document.getElementById("signin_form");
 const send_forgot = document.getElementById("send_forgot");
 const forgot_form = document.getElementById("forgot_form");
 const forgot = document.getElementById("forgot");
+const form_message = document.getElementById("form_wrong_format");
 
 signin.addEventListener("click", function(event) {
   var data = new FormData(signin_form);
@@ -12,13 +13,11 @@ signin.addEventListener("click", function(event) {
     if (this.readyState == 4 && this.status == 200) {
       var res = JSON.parse(this.responseText);
       if (res.result === 1) {
+        form_message.style = "none";
         window.location.replace("/");
       } else {
-        var passworddiv = document.getElementById("passworddiv");
-        var newDiv = document.createElement("div");
-        var newContent = document.createTextNode(res.message);
-        newDiv.appendChild(newContent);
-        passworddiv.appendChild(newDiv);
+        form_message.style = "block";
+        form_message.innerText = res.message;
       }
     }
   };

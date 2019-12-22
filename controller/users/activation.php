@@ -2,9 +2,7 @@
 
 require(__DIR__ . '/../../model/users.php');
 
-if (!isset($login) || $login === "" || !isset($key) || $key === "") {
-    require(__DIR__ . '/../../controller/index.php');
-} else {
+if (isset($login) && $login != "" && isset($key) && $key != "") {
     $test = activate_account($login, $key);
     $res = new stdClass();
     switch ($test) {
@@ -26,4 +24,6 @@ if (!isset($login) || $login === "" || !isset($key) || $key === "") {
             break;
     }
     require(__DIR__ . '/../../view/users/activation.php');
+} else {
+    require(__DIR__ . '/../../controller/index.php');
 }

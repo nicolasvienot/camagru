@@ -50,7 +50,6 @@ comments.forEach(element => {
 
 function do_share(event) {
   var img_id = event.currentTarget.parentElement.parentElement.parentElement.id;
-  console.log(img_id);
   var twitter_url = "http://twitter.com/share?";
   var params = {
     url: "http://localhost:8080/comments/?img_id=" + img_id,
@@ -87,7 +86,6 @@ function handle_scroll_endpage(event) {
     xmlhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
         var res = JSON.parse(this.responseText);
-        console.log(res);
         if (res.result === 1) {
           document.getElementById("loadingbutton").style.display = "";
           setTimeout(() => {

@@ -2,9 +2,7 @@
 
 require(__DIR__ . '/../../model/users.php');
 
-if (!isset($reset_key) || $reset_key === "") {
-    require(__DIR__ . '/../../controller/index.php');
-} else {
+if (isset($_SESSION['user']) && $_SESSION['user'] != "" && isset($_SESSION['user_id']) && $_SESSION['user_id'] != "") {
     $test = check_reset_password($reset_key);
     $res = new stdClass();
     switch ($test) {
@@ -22,4 +20,6 @@ if (!isset($reset_key) || $reset_key === "") {
             break;
     }
     require(__DIR__ . '/../../view/users/resetpassword.php');
+} else {
+    require(__DIR__ . '/../../controller/index.php');
 }

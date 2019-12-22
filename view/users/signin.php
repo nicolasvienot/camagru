@@ -1,5 +1,5 @@
 <?php
-    include (__DIR__ . '/../../controller/templates/header.php');
+    include(__DIR__ . '/../../controller/templates/header.php');
 ?>
 
 <div style="width: 50%; margin: auto; padding: 30px;">
@@ -25,6 +25,7 @@
         </div>
         <div class="field" id="login">
             <p class="control">
+                <p class="help is-danger" id="form_wrong_format" style="display: none;"></p>
                 <div class="buttons">
                     <button type="button" class="button is-success" id="signin">Login</button>
                     <button type="button" class="button is-success is-light is-small" id="forgot">Forgot account?</button>
@@ -75,5 +76,5 @@
 <script src="../../public/js/signin.js"></script>
 
 <?php
-    include (__DIR__ . '/../../controller/templates/footer.php');
+    include(__DIR__ . '/../../controller/templates/footer.php');
 ?>

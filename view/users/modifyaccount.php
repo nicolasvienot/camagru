@@ -1,11 +1,12 @@
 <?php
-    include (__DIR__ . '/../../controller/templates/header.php');
+    include(__DIR__ . '/../../controller/templates/header.php');
 ?>
 
-<?php if ($notif === '1')
-        echo '<script>var notif = 1;</script>';
-    else
-        echo '<script>var notif = 0;</script>'; ?>
+<?php if ($notif === '1') {
+    echo '<script>var notif = 1;</script>';
+} else {
+    echo '<script>var notif = 0;</script>';
+} ?>
 
 <div style="width: 50%; margin: auto; padding: 30px;">
     <div style="text-align: center; padding-bottom: 20px;">
@@ -32,7 +33,10 @@
             </div>
             <p class="help is-success" id="username_available" style="display: none;">This username is available</p>
             <p class="help is-danger" id="username_not_available" style="display: none;">This username is not available</p>
+            <p class="help is-danger" id="username_wrong_format" style="display: none;">Username must be between 4 and 16 alpha numeric characters</p>
         </div>
+        <label class="label is-size-6" id="username_message" style="display: none;"></label>
+        <p class="help is-danger" id="form_username_wrong_format" style="display: none;">Please check the field</p>
         <div class="field is-grouped">
             <div class="control">
                 <button type="button" class="button is-primary" id="update_username">Update username</button>
@@ -52,8 +56,12 @@
                 <i class="fas fa-exclamation-triangle" id="notvalidemail" style="display: none;"></i>
                 </span>
             </div>
-            <p class="help is-danger" id="email_message" style="display: none;">This email is invalid</p>
+            <p class="help is-success" id="email_available" style="display: none;">This email is available</p>
+            <p class="help is-danger" id="email_not_available" style="display: none;">This email is not available</p>
+            <p class="help is-danger" id="email_wrong_format" style="display: none;">This email is invalid</p>
         </div>
+        <label class="label is-size-6" id="email_message" style="display: none;"></label>
+        <p class="help is-danger" id="form_email_wrong_format" style="display: none;">Please check the field</p>
         <div class="field is-grouped">
             <div class="control">
                 <button type="button" class="button is-primary" id="update_email">Update email</button>
@@ -90,39 +98,19 @@
             </p>
             <p class="help is-danger" id="password_check_message" style="display: none;">The two passwords must match</p>
         </div>
+        <label class="label is-size-6" id="password_f_message" style="display: none;"></label>
+        <p class="help is-danger" id="form_password_wrong_format" style="display: none;">Please check all the fields</p>
         <div class="field is-grouped">
             <div class="control">
                 <button type="button" class="button is-primary" id="update_password">Update password</button>
             </div>
         </div>
         <form>
-    <!-- <div class="modal" id="modal_good">
-        <div class="modal-background"></div>
-        <div class="modal-content">
-            <div class="box">
-                <label class="label">Congratulation, your account has been created!</label>
-                <label class="label">Check your mailbox to activate it.</label>
-                <a href="/"><button class="button is-success">Go to home page</button></a>
-            </div>
-        </div>
-        <button class="modal-close is-large" aria-label="close" id="close"></button>
-    </div> -->
-    <!-- <div class="modal" id="modal_bad">
-        <div class="modal-background"></div>
-        <div class="modal-content">
-            <div class="box">
-                <label class="label">It looks like there was an error!</label>
-                <label class="label">Please try again.</label>
-                <button class="button is-primary" id="tryagain">Try again</button>
-            </div>
-        </div>
-        <button class="modal-close is-large" aria-label="close" id="close"></button>
-    </div> -->
 </div>
 
 <script src="../../public/js/modifyaccount.js"></script>
 
 
 <?php
-    include (__DIR__ . '/../../controller/templates/footer.php');
+    include(__DIR__ . '/../../controller/templates/footer.php');
 ?>
