@@ -2,7 +2,7 @@
 
 session_start();
 
-require(__DIR__ . '/../model/upload.php');
+require_once(__DIR__ . '/../model/upload.php');
 
 $res = new stdClass();
 $res->result = 0;

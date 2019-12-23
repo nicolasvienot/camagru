@@ -8,4 +8,4 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != "" && isset($_SESSION['user
     exit;
 }
 
-require_once(__DIR__ . '/../../controller/index.php');
+require(__DIR__ . '/../../controller/index.php');

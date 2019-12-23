@@ -1,6 +1,6 @@
 <?php
 
-require(__DIR__ . '/../../model/users.php');
+require_once(__DIR__ . '/../../model/users.php');
 
 if (isset($login) && $login != "" && isset($key) && $key != "") {
     $test = activate_account($login, $key);

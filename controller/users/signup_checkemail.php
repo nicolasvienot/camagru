@@ -1,6 +1,6 @@
 <?php
 
-require(__DIR__ . '/../../model/users.php');
+require_once(__DIR__ . '/../../model/users.php');
 
 $res = new stdClass();
 $res->result = 0;

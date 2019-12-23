@@ -2,7 +2,7 @@
 
 session_start();
 
-require(__DIR__ . '/../model/socialwall.php');
+require_once(__DIR__ . '/../model/socialwall.php');
 
 $res = new stdClass();
 $res->result = 0;

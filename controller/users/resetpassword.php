@@ -1,6 +1,6 @@
 <?php
 
-require(__DIR__ . '/../../model/users.php');
+require_once(__DIR__ . '/../../model/users.php');
 
 if (isset($reset_key) && $reset_key != "") {
     $test = check_reset_password($reset_key);

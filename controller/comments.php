@@ -1,6 +1,6 @@
 <?php
 
-require(__DIR__ . '/../model/socialwall.php');
+require_once(__DIR__ . '/../model/socialwall.php');
 
 if (isset($_SESSION['user']) && $_SESSION['user'] != "" && isset($_SESSION['user_id']) && $_SESSION['user_id'] != "") {
     $image = get_image($img_id);

@@ -53,16 +53,18 @@ function get_images($start_img, $connected)
             } else {
                 $user_liked = "";
             }
+            $image = '<a href="'.$ROOT.'comments/?img_id='.$img_id.'"><img src="'.$ROOT.$img_path.'"></a>';
         } else {
             $user_liked = "";
             $share = "";
+            $image = '<img src="'.$ROOT.$img_path.'">';
         }
         $gallery = $gallery.('
         <div class="column is-one-quarter-desktop is-half-tablet">
             <strong>'.$login.'</strong> <small>'.$img_date.'</small>
             <div class="card-image" id="'.$img_id.'">
                 <figure class="image has-ratio">
-                    <img src="'.$ROOT.$img_path.'">
+                '.$image.'
                 </figure>
                 <nav class="level is-mobile">
                     <div class="level-left">

@@ -1,6 +1,6 @@
 <?php
 
-require(__DIR__ . '/../../model/users.php');
+require_once(__DIR__ . '/../../model/users.php');
 
 if (isset($_SESSION['user']) && $_SESSION['user'] != "" && isset($_SESSION['user_id']) && $_SESSION['user_id'] != "") {
     $user_id = $_SESSION['user_id'];
