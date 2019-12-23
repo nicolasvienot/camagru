@@ -5,6 +5,7 @@ const send_forgot = document.getElementById("send_forgot");
 const forgot_form = document.getElementById("forgot_form");
 const forgot = document.getElementById("forgot");
 const form_message = document.getElementById("form_wrong_format");
+const forgot_message = document.getElementById("forgot_message");
 
 signin.addEventListener("click", function(event) {
   var data = new FormData(signin_form);
@@ -26,43 +27,21 @@ signin.addEventListener("click", function(event) {
 });
 
 send_forgot.addEventListener("click", function(event) {
+  forgot_message.style.display = "none";
   event.preventDefault();
   var data = new FormData(forgot_form);
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       var res = JSON.parse(this.responseText);
-
-      // var modal = document.getElementById('modal');
-      // var html = document.querySelector('html');
-      // modal.classList.remove('is-active');
-      // html.classList.remove('is-clipped');
-
-      // var modal_close = document.getElementById('modal_close');
-      // var html = document.querySelector('html');
-      // modal_close.classList.add('is-active');
-      // html.classList.add('is-clipped');
-      // modal_close.querySelector('#close').addEventListener('click', function(e) {
-      //     e.preventDefault();
-      //     modal_close.classList.remove('is-active');
-      //     html.classList.remove('is-clipped');
-      //     // signup_form.addEventListener('keyup', handle_enter, true);
-      // });
-      // document.getElementById("close_modal").addEventListener('click', function(e) {
-      //     e.preventDefault();
-      //     modal_close.classList.remove('is-active');
-      //     html.classList.remove('is-clipped');
-      //     // signup_form.addEventListener('keyup', handle_enter, true);
-      // });
-      // if (res.result === 1) {
-      //     window.location.replace("/");
-      // } else {
-      //     var passworddiv = document.getElementById('passworddiv');
-      //     var newDiv = document.createElement("div");
-      //     var newContent = document.createTextNode(res.message);
-      //     newDiv.appendChild(newContent);
-      //     passworddiv.appendChild(newDiv);
-      // }
+      forgot_message.style.display = "block";
+      forgot_message.className = "label has-text-success is-size-6";
+      forgot_message.innerText = res.message;
+      send_forgot.style.display = "none";
+    } else {
+      forgot_message.style.display = "block";
+      forgot_message.className = "label has-text-danger is-size-6";
+      forgot_message.innerText = res.message;
     }
   };
   xmlhttp.open("POST", "../../controller/users/forgot_action.php", true);
@@ -70,6 +49,7 @@ send_forgot.addEventListener("click", function(event) {
 });
 
 forgot.addEventListener("click", function(event) {
+  send_forgot.style.display = "block";
   var modal = document.getElementById("modal");
   var html = document.querySelector("html");
   modal.classList.add("is-active");
@@ -78,13 +58,11 @@ forgot.addEventListener("click", function(event) {
     e.preventDefault();
     modal.classList.remove("is-active");
     html.classList.remove("is-clipped");
-    // signup_form.addEventListener('keyup', handle_enter, true);
   });
   document.getElementById("close_modal").addEventListener("click", function(e) {
     e.preventDefault();
     modal.classList.remove("is-active");
     html.classList.remove("is-clipped");
-    // signup_form.addEventListener('keyup', handle_enter, true);
   });
 });
 

@@ -50,6 +50,7 @@
                             </span>
                         </div>
                     </div>
+                    <label class="label is-size-6" id="forgot_message" style="display: none;"></label>
                     <div class="buttons">
                         <button class="button is-primary" id="send_forgot">Send</button>
                         <button class="button is-primary" id="close_modal">Close</button>
@@ -63,10 +64,9 @@
         <div class="modal-background"></div>
             <div class="modal-content">
                 <div class="box">
-                        <label class="label">Ok c'est fait !</label>
-                        <div class="buttons">
-                            <button class="button is-primary" id="close_modal">Close</button>
-                        </div>
+                <div class="buttons">
+                    <button class="button is-primary" id="close_modal">Close</button>
+                </div>
             </div>
         </div>
         <button class="modal-close is-large" aria-label="close" id="close"></button>

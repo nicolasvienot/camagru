@@ -37,6 +37,8 @@
                                 </div>
                                 <input class="input" id="reset_key" name="reset_key" type ="hidden" value="<?php echo $reset_key ?>">
                             </form>
+                            <p class="help is-danger" id="form_password_wrong_format" style="display: none;">Please check all the fields</p>
+                            <label class="label is-size-6" id="password_f_message" style="display: none;"></label>
                             <div class="field is-grouped">
                                 <div class="control">
                                     <button type="button" class="button is-primary" id="reset">Reset</button>
