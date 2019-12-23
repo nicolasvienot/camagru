@@ -6,7 +6,7 @@
     <div style="text-align: center; padding-bottom: 20px;">
         <h1 class="title is-size-4-touch">Sign up to join the community!</h1>
     </div>
-    <form id="signup_form">
+    <form id="signup_form" onsubmit="return false">
         <div class="field">
             <label class="label">Username</label>
             <div class="control has-icons-left has-icons-right">

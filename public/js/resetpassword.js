@@ -56,7 +56,7 @@ reset.addEventListener("click", function(event) {
           password_check.className = "input";
           document.getElementById("password_check_message").style.display =
             "none";
-          // reset.style.display = "none";
+          reset.style.display = "none";
         } else {
           password_f_message.style.display = "block";
           password_f_message.className = "label has-text-danger is-size-6";

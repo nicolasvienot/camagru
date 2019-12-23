@@ -265,16 +265,27 @@ function reset_password($password, $key)
         $res = 0;
     } else {
         $user_id = $data_reset['user_id'];
-        $sql = "UPDATE users SET user_password = :user_password WHERE user_id = :user_id";
-        $st = $pdo->prepare($sql);
-        $st->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-        $st->bindParam(':user_password', $password, PDO::PARAM_STR);
-        if ($st->execute()) {
-            $sql = "DELETE FROM resets WHERE user_id=:user_id";
-            $st = $pdo->prepare($sql);
-            $st->bindParam(':user_id', $user_id);
-            $st->execute();
-            $res = 1;
+        $sql = "SELECT user_password FROM users WHERE user_id = :user_id";
+        $st2 = $pdo->prepare($sql);
+        $st2->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $st2->execute();
+        $data_password = $st2->fetch();
+        if ($data_password == null) {
+            $res = 0;
+        } elseif ($data_password['user_password'] === $password) {
+            $res = 2;
+        } else {
+            $sql = "UPDATE users SET user_password = :user_password WHERE user_id = :user_id";
+            $st3 = $pdo->prepare($sql);
+            $st3->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+            $st3->bindParam(':user_password', $password, PDO::PARAM_STR);
+            if ($st3->execute()) {
+                $sql = "DELETE FROM resets WHERE user_id=:user_id";
+                $st4 = $pdo->prepare($sql);
+                $st4->bindParam(':user_id', $user_id);
+                $st4->execute();
+                $res = 1;
+            }
         }
     }
     $pdo = null;

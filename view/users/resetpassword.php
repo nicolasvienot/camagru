@@ -16,7 +16,7 @@
                         <br>
                         <?php echo $res->message ?>
                         <?php if ($res->result === 1) {?>
-                            <form id="reset_form">
+                            <form id="reset_form" onsubmit="return false">
                                 <div class="field">
                                     <p class="control has-icons-left">
                                         <input class="input" id="password" type="password" name="password" placeholder="Password">
@@ -41,7 +41,7 @@
                             <label class="label is-size-6" id="password_f_message" style="display: none;"></label>
                             <div class="field is-grouped">
                                 <div class="control">
-                                    <button type="button" class="button is-primary" id="reset">Reset</button>
+                                    <div type="button" class="button is-primary" id="reset">Reset</div>
                                 </div>
                             </div>
                         <?php } ?>

@@ -6,13 +6,12 @@ require_once(__DIR__ . '/../../model/users.php');
 
 $res = new stdClass();
 $res->result = 0;
-$res->message = "Start!";
+$res->message = "There was an error, please try again or contact us!";
 
 if (isset($_POST["password"]) && isset($_POST["password_check"]) && $_POST["password"] != "" && $_POST["password_check"] != "") {
     $new_password = $_POST['password'];
     $new_password_check = $_POST['password_check'];
     $key = $_POST["reset_key"];
-    
     if ($new_password === $new_password_check) {
         $regex = '/^(?=.*[a-z])(?=.*[0-9])(?=.{8,})/';
         if (preg_match($regex, $new_password)) {
@@ -21,6 +20,9 @@ if (isset($_POST["password"]) && isset($_POST["password_check"]) && $_POST["pass
             if ($test === 1) {
                 $res->result = 1;
                 $res->message = "The password has been reset, you can now log in!";
+            } elseif ($test === 2) {
+                $res->result = 0;
+                $res->message = "Please select a different password!";
             } else {
                 $res->result = 0;
                 $res->message = "There was an error, please try again or contact us!";

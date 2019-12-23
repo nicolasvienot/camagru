@@ -6,7 +6,7 @@
     <div style="text-align: center; padding-bottom: 20px;">
         <h1 class="title is-size-4-touch">We're glad to see you back!</h1> 
     </div>
-    <form id="signin_form">
+    <form id="signin_form" onsubmit="return false">
         <div class="field">
             <p class="control has-icons-left">
                 <input class="input" id="username" name="username" placeholder="Username">
@@ -37,7 +37,7 @@
         <div class="modal-background"></div>
         <div class="modal-content">
             <div class="box">
-                <form id="forgot_form">
+                <form id="forgot_form" onsubmit="return false">
                     <label class="title is-4">Reset password</label>
                     <br>
                     <br>
@@ -52,24 +52,24 @@
                     </div>
                     <label class="label is-size-6" id="forgot_message" style="display: none;"></label>
                     <div class="buttons">
-                        <button class="button is-primary" id="send_forgot">Send</button>
-                        <button class="button is-primary" id="close_modal">Close</button>
+                        <div class="button is-primary" id="send_forgot">Send</div>
+                        <div class="button is-primary" id="close_modal">Close</div>
                     </div>
                 </form>
             </div>
         </div>
-        <button class="modal-close is-large" aria-label="close" id="close"></button>
+        <div class="modal-close is-large" aria-label="close" id="close"></div>
     </div>
     <div class="modal" id="modal_close">
         <div class="modal-background"></div>
             <div class="modal-content">
                 <div class="box">
                 <div class="buttons">
-                    <button class="button is-primary" id="close_modal">Close</button>
+                    <div class="button is-primary" id="close_modal">Close</div>
                 </div>
             </div>
         </div>
-        <button class="modal-close is-large" aria-label="close" id="close"></button>
+        <div class="modal-close is-large" aria-label="close" id="close"></div>
     </div>
 </div>
 

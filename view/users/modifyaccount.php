@@ -18,7 +18,7 @@
         <div id="notificationsno" class="button is-disabled" style="pointer-events: none;">No</div>
         <div id="notificationsyes" class="button is-disabled" style="pointer-events: none;">Yes</div>
     </div>
-    <form id="username_form">
+    <form id="username_form" onsubmit="return false">
         <div class="field">
             <label class="label">Modify username</label>
             <div class="control has-icons-left has-icons-right">
@@ -43,7 +43,7 @@
             </div>
         </div>
     </form>
-    <form id ="email_form">
+    <form id ="email_form" onsubmit="return false">
         <div class="field">
             <label class="label">Modify email</label>
             <div class="control has-icons-left has-icons-right">
@@ -68,7 +68,7 @@
             </div>
         </div>
     </form>
-    <form id="password_form">
+    <form id="password_form" onsubmit="return false">
         <div class="field">
             <label class="label">Modify password</label>
             <p>Actual password</p>

@@ -34,14 +34,16 @@ send_forgot.addEventListener("click", function(event) {
   xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       var res = JSON.parse(this.responseText);
-      forgot_message.style.display = "block";
-      forgot_message.className = "label has-text-success is-size-6";
-      forgot_message.innerText = res.message;
-      send_forgot.style.display = "none";
-    } else {
-      forgot_message.style.display = "block";
-      forgot_message.className = "label has-text-danger is-size-6";
-      forgot_message.innerText = res.message;
+      if (res.result === 1) {
+        forgot_message.style.display = "block";
+        forgot_message.className = "label has-text-success is-size-6";
+        forgot_message.innerText = res.message;
+        send_forgot.style.display = "none";
+      } else {
+        forgot_message.style.display = "block";
+        forgot_message.className = "label has-text-danger is-size-6";
+        forgot_message.innerText = res.message;
+      }
     }
   };
   xmlhttp.open("POST", "../../controller/users/forgot_action.php", true);
@@ -66,9 +68,11 @@ forgot.addEventListener("click", function(event) {
   });
 });
 
-signin_form.addEventListener("keyup", function(event) {
+signin_form.addEventListener("keyup", handle_enter, true);
+
+function handle_enter() {
   if (event.keyCode === 13) {
     event.preventDefault();
     signin.click();
   }
-});
+}
