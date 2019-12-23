@@ -45,10 +45,10 @@ function get_own_images($user_id)
         $img_id = $data_img['img_id'];
         $img_path = $data_img['img_path'];
         $mygallery = $mygallery . ('
-        <div class="delete_p column is-one-quarter-desktop is-half-tablet gallery" id="' . $img_id . '">
+        <div class="delete_p column is-one-quarter-desktop is-half-tablet gallery" id="'.$img_id.'">
             <div class="card-image container-gallery">
                 <figure class="image has-ratio">
-                    <img src="../' . $img_path . '">
+                    <img src="'.$ROOT.$img_path.'">
                     <div class="overlay-gallery">
                         <div class="text">Delete image</div>
                     </div>

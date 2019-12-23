@@ -271,6 +271,7 @@ update_email.addEventListener("click", function(event) {
 });
 
 update_password.addEventListener("click", function(event) {
+  password_f_message.style.display = "none";
   if (
     password.value === password_check.value &&
     password.value != "" &&

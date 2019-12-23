@@ -62,7 +62,7 @@ function get_images($start_img, $connected)
             <strong>'.$login.'</strong> <small>'.$img_date.'</small>
             <div class="card-image" id="'.$img_id.'">
                 <figure class="image has-ratio">
-                    <img src="'.$img_path.'">
+                    <img src="'.$ROOT.$img_path.'">
                 </figure>
                 <nav class="level is-mobile">
                     <div class="level-left">
@@ -131,7 +131,7 @@ function get_image($img_id)
     }
     $image = ('
             <figure class="image has-ratio" id="img_container">
-                <img src="../'.$img_path.'" style="max-width: 640px;" id="'.$img_id.'">
+                <img src="'.$ROOT.$img_path.'" style="max-width: 640px;" id="'.$img_id.'">
             </figure>
             <nav class="level is-mobile">
                 <div class="level-left">
@@ -280,7 +280,7 @@ function add_comment($img_id, $user_id, $comment_content)
         if ($data_user['user_notification'] == 1 && $user_id != $img_user_id) {
             $email = $data_user['user_email'];
             $login = $data_user['user_login'];
-            $img_path = 'http://localhost:8080/'.$img_path;
+            $img_path = $ROOT.$img_path;
             send_mail_comment($email, $login, $img_path, $img_date, $img_id);
             $res->result = 2;
         }
@@ -291,12 +291,13 @@ function add_comment($img_id, $user_id, $comment_content)
 
 function send_mail_comment($email, $login, $img_path, $img_date, $img_id)
 {
+    require(__DIR__ . '/../config/database.php');
     $subject = "You have a new comment on your Camagru picture!";
     $headers = "MIME-Version: 1.0" . "\r\n";
     $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
     $headers .= 'From: Camagru <noreply@camagru.com>' . "\r\n";
     $path = (__DIR__ . '/../public/html/templates/mail_comment.html');
-    $link = 'http://localhost:8080/comments/?img_id='.$img_id;
+    $link = $ROOT.'comments/?img_id='.$img_id;
     $template = file_get_contents($path);
     $template = str_replace('{{ img_path }}', $img_path, $template);
     $template = str_replace('{{ img_date }}', $img_date, $template);

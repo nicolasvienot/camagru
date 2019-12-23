@@ -107,11 +107,12 @@ function email_exists($email)
 
 function send_mail_activation($email, $login, $user_key)
 {
+    require(__DIR__ . '/../config/database.php');
     $subject = "Activate your Camagru account";
     $headers = "MIME-Version: 1.0" . "\r\n";
     $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
     $headers .= 'From: Camagru <noreply@camagru.com>' . "\r\n";
-    $link = 'http://localhost:8080/activation.php?log='.urlencode($login).'&key='.urlencode($user_key);
+    $link = $ROOT.'activation.php?log='.urlencode($login).'&key='.urlencode($user_key);
     $path = (__DIR__ . '/../public/html/templates/mail_activation.html');
     $template = file_get_contents($path);
     $template = str_replace('{{ link }}', $link, $template);
@@ -121,11 +122,12 @@ function send_mail_activation($email, $login, $user_key)
 
 function send_mail_forgot($user_email, $reset_key)
 {
+    require(__DIR__ . '/../config/database.php');
     $subject = "Reset your Camagru password";
     $headers = "MIME-Version: 1.0" . "\r\n";
     $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
     $headers .= 'From: Camagru <noreply@camagru.com>' . "\r\n";
-    $link = 'http://localhost:8080/resetpassword.php?&keyreset='.urlencode($reset_key);
+    $link = $ROOT.'resetpassword.php?&keyreset='.urlencode($reset_key);
     $path = (__DIR__ . '/../public/html/templates/mail_resetpassword.html');
     $template = file_get_contents($path);
     $message = str_replace('{{ link }}', $link, $template);

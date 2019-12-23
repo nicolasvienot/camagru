@@ -24,7 +24,7 @@ if (isset($_POST['type']) && $_POST['type'] != "") {
                     } else {
                         if (user_exists($new_login)) {
                             $res->result = 0;
-                            $res->message = "User already exists, please choose another!";
+                            $res->message = "Username already exists, please choose another!";
                         } else {
                             $res->login = $login;
                             $res->user_id = $user_id;
@@ -49,13 +49,13 @@ if (isset($_POST['type']) && $_POST['type'] != "") {
                 if (isset($_SESSION['user']) && $_SESSION['user'] != "" && isset($_SESSION['user_id']) && $_SESSION['user_id'] != "") {
                     $login = $_SESSION['user'];
                     $user_id = $_SESSION['user_id'];
-                    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    if (!filter_var($new_email, FILTER_VALIDATE_EMAIL)) {
                         $res->result = 0;
                         $res->message = "The email is not well formated!";
                     } else {
-                        if (email_exists($email)) {
+                        if (email_exists($new_email)) {
                             $res->result = 0;
-                            $res->message = "Eser already exists, please choose another!";
+                            $res->message = "Email already exists, please choose another!";
                         } else {
                             modify_email($new_email, $login, $user_id);
                             $res->result = 1;
@@ -80,27 +80,32 @@ if (isset($_POST['type']) && $_POST['type'] != "") {
                 if (isset($_SESSION['user']) && $_SESSION['user'] != "" && isset($_SESSION['user_id']) && $_SESSION['user_id'] != "") {
                     $login = $_SESSION['user'];
                     $user_id = $_SESSION['user_id'];
-                    // do checks
                     if ($new_password === $new_password_check) {
-                        $new_password = hash("sha256", $new_password);
-                        $old_password = hash("sha256", $old_password);
-                        $test = modify_password($old_password, $new_password, $login, $user_id);
-                        if ($test === 1) {
-                            $res->result = 1;
-                            $res->message = "Your password modified!";
-                        } elseif ($test === 2) {
-                            $res->result = 0;
-                            $res->message = "Problem in password update, please try again or contact us!";
-                        } elseif ($test === 3) {
-                            $res->result = 0;
-                            $res->message = "There was an error, please try again or contact us!";
+                        $regex = '/^(?=.*[a-z])(?=.*[0-9])(?=.{8,})/';
+                        if (preg_match($regex, $new_password)) {
+                            $new_password = hash("sha256", $new_password);
+                            $old_password = hash("sha256", $old_password);
+                            $test = modify_password($old_password, $new_password, $login, $user_id);
+                            if ($test === 1) {
+                                $res->result = 1;
+                                $res->message = "Your password has been modified!";
+                            } elseif ($test === 2) {
+                                $res->result = 0;
+                                $res->message = "Problem in password update, please try again or contact us!";
+                            } elseif ($test === 3) {
+                                $res->result = 0;
+                                $res->message = "There was an error, please try again or contact us!";
+                            } else {
+                                $res->result = 0;
+                                $res->message = "Error unknown!";
+                            }
                         } else {
                             $res->result = 0;
-                            $res->message = "Error unknown!";
+                            $res->message = "The new password is not well formated!";
                         }
                     } else {
                         $res->result = 0;
-                        $res->message = "Not same password!";
+                        $res->message = "The two password are different!";
                     }
                 } else {
                     $res->result = 0;

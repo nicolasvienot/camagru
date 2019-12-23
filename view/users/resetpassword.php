@@ -1,5 +1,5 @@
 <?php
-    include (__DIR__ . '/../../controller/templates/header.php');
+    include(__DIR__ . '/../../controller/templates/header.php');
 ?>
 
 <div style="width: 50%; margin: auto; padding: 30px;">
@@ -9,7 +9,7 @@
                 <div class="content is-mobile">
                     <p>
                         <?php if ($res->result === 1) {?>
-                        <strong>Success</strong>
+                        <strong>Welcome</strong>
                         <?php } else { ?>
                         <strong>Error</strong>
                         <?php } ?>
@@ -63,5 +63,5 @@
 <script src="../../public/js/resetpassword.js"></script>
 
 <?php
-    include (__DIR__ . '/../../controller/templates/footer.php');
+    include(__DIR__ . '/../../controller/templates/footer.php');
 ?>
