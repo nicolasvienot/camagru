@@ -374,14 +374,25 @@ function modify_password($old_password, $new_password, $login, $user_id)
     $st->execute();
     $st = $st->fetch();
     if ($st['COUNT(*)'] === '1') {
-        $sql = "UPDATE users SET user_password = :user_password WHERE user_id = :user_id";
-        $st = $pdo->prepare($sql);
-        $st->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-        $st->bindParam(':user_password', $new_password, PDO::PARAM_STR);
-        if ($st->execute()) {
-            $res = 1;
-        } else {
+        $sql = "SELECT user_password FROM users WHERE user_id = :user_id";
+        $st2 = $pdo->prepare($sql);
+        $st2->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $st2->execute();
+        $data_password = $st2->fetch();
+        if ($data_password == null) {
             $res = 2;
+        } elseif ($data_password['user_password'] === $new_password) {
+            $res = 4;
+        } else {
+            $sql = "UPDATE users SET user_password = :user_password WHERE user_id = :user_id";
+            $st4 = $pdo->prepare($sql);
+            $st4->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+            $st4->bindParam(':user_password', $new_password, PDO::PARAM_STR);
+            if ($st4->execute()) {
+                $res = 1;
+            } else {
+                $res = 2;
+            }
         }
     } else {
         $res = 3;

@@ -94,7 +94,10 @@ if (isset($_POST['type']) && $_POST['type'] != "") {
                                 $res->message = "Problem in password update, please try again or contact us!";
                             } elseif ($test === 3) {
                                 $res->result = 0;
-                                $res->message = "There was an error, please try again or contact us!";
+                                $res->message = "Wrong actual password!";
+                            } elseif ($test === 4) {
+                                $res->result = 0;
+                                $res->message = "Can't use same password!";
                             } else {
                                 $res->result = 0;
                                 $res->message = "Error unknown!";
