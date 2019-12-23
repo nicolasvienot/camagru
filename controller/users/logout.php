@@ -5,6 +5,7 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != "" && isset($_SESSION['user
     $_SESSION['user_id'] = "";
     session_destroy();
     header("Location: /");
+    exit;
 }
 
-require(__DIR__ . '/../../controller/index.php');
+require_once(__DIR__ . '/../../controller/index.php');

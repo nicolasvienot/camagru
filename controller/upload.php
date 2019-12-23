@@ -8,5 +8,6 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != "" && isset($_SESSION['user
     $gallery = get_own_images($user_id);
     require(__DIR__ . '/../view/upload.php');
 } else {
-    require(__DIR__ . '/../controller/index.php');
+    header("Location: /");
+    exit;
 }

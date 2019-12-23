@@ -60,7 +60,7 @@ function get_own_images($user_id)
     return $mygallery;
 }
 
-function delete_image_db($img_id)
+function delete_image_db($img_id, $user_id)
 {
     require(__DIR__ . '/../config/database.php');
     try {
@@ -69,9 +69,10 @@ function delete_image_db($img_id)
     } catch (Exception $e) {
         die("Unsuccessful access to database: $e");
     }
-    $sql = "SELECT img_path FROM images WHERE img_id=:img_id";
+    $sql = "SELECT img_path FROM images WHERE img_id=:img_id AND user_id = :user_id";
     $st = $pdo->prepare($sql);
     $st->bindParam(':img_id', $img_id);
+    $st->bindParam(':user_id', $user_id);
     $st->execute();
     $data_img = $st->fetch();
     if ($data_img == null) {

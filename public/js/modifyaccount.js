@@ -189,6 +189,10 @@ update_username.addEventListener("click", function(event) {
           username_message.style.display = "block";
           username_message.className = "label has-text-success is-size-6";
           username_message.innerText = res.message;
+          document.getElementById("username_header").innerText =
+            "Hello " + username.value + "!";
+          document.getElementById("username_page").innerText =
+            "Hi " + username.value;
           username.value = "";
           username.className = "input";
           document.getElementById("username_available").style.display = "none";

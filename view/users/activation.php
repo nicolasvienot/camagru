@@ -1,5 +1,5 @@
 <?php
-    include (__DIR__ . '/../../controller/templates/header.php');
+    include(__DIR__ . '/../../controller/templates/header.php');
 ?>
 
 <div style="width: 50%; margin: auto; padding: 30px;">
@@ -32,5 +32,5 @@
 </div>
 
 <?php
-    include (__DIR__ . '/../../controller/templates/footer.php');
+    include(__DIR__ . '/../../controller/templates/footer.php');
 ?>

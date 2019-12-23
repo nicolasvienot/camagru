@@ -10,7 +10,7 @@
 
 <div style="width: 50%; margin: auto; padding: 30px;">
     <div style="text-align: center; padding-bottom: 20px;">
-        <h1 class="title is-3">Hi <?php echo $_SESSION['user'] ?></h1>
+        <h1 class="title is-3" id="username_page">Hi <?php echo $_SESSION['user'] ?></h1>
         <h1 class="title is-4">Modify your account</h1>
     </div>
     <div class="buttons has-addons">

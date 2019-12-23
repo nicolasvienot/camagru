@@ -60,8 +60,6 @@
     </div>
 </div>
 
-
-<!-- CAREFUL -->
 <script src="../../public/js/resetpassword.js"></script>
 
 <?php

@@ -7,5 +7,6 @@ if (isset($_SESSION['user']) && $_SESSION['user'] != "" && isset($_SESSION['user
     $notif = get_user_notif($user_id);
     require(__DIR__ . '/../../view/users/modifyaccount.php');
 } else {
-    require(__DIR__ . '/../../controller/index.php');
+    header("Location: /");
+    exit;
 }

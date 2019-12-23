@@ -1,3 +1,4 @@
+<?php include(__DIR__ . '/../../config/database.php'); ?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,9 +15,9 @@
         <nav class="navbar" role="navigation" aria-label="main navigation">
           <div class="navbar-brand">
             <a class="navbar-item" href="/" >
-              <img src="../../public/img/camagru.png" width="112" height="28">
+              <img src="<?php echo $ROOT?>public/img/camagru.png" width="112" height="28">
             </a>
-            <?php if ($logged === 1) {?><a class="navbar-item" style="pointer-events: none;">Hello <?php echo($_SESSION['user']) ?>!</a><?php } ?>
+            <?php if ($logged === 1) {?><a class="navbar-item" id="username_header" style="pointer-events: none;">Hello <?php echo($_SESSION['user']) ?>!</a><?php } ?>
             <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
@@ -45,7 +46,7 @@
       </div>
   </div>
 
-<script src="../../public/js/navbar.js"></script>
+<script src="<?php echo $ROOT ?>public/js/navbar.js"></script>
 
 <div class="hero-body">
     <div class="container">

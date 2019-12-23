@@ -1,16 +1,24 @@
 <?php
 
-include 'database.php';
+require(__DIR__ . '/database.php');
 
 echo "Initialization of the CAMAGRU database...<br/><br/>";
-
 $pdo = new PDO($DB_DSN_NOBASE, $DB_USER, $DB_PASSWORD);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+echo "Cleaning previous database if exists...<br/>";
+$sql = "DROP DATABASE IF EXISTS $DB_NAME;";
+$ret = $pdo->exec($sql);
+echo "Database camagru cleaned!<br/><br/>";
+
+echo "Getting default imgs...<br/>";
+get_default_imgs();
+echo "All images restored!<br/><br/>";
 
 echo "Creating database...<br/>";
 $sql = "CREATE DATABASE IF NOT EXISTS $DB_NAME;";
 $ret = $pdo->exec($sql);
-echo "Database camagru created!<br/>";
+echo "Database camagru created!<br/><br/>";
 
 $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -27,7 +35,7 @@ $sql = "CREATE TABLE IF NOT EXISTS users (
     user_notification INT(1) DEFAULT '1'
     )";
 $ret = $pdo->exec($sql);
-echo "Table user created!<br/>";
+echo "Table user created!<br/><br/>";
 
 echo "Creating table resets...<br/>";
 $sql = "CREATE TABLE IF NOT EXISTS resets (
@@ -47,7 +55,7 @@ $sql = "CREATE TABLE IF NOT EXISTS images (
     img_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
     )";
 $ret = $pdo->exec($sql);
-echo "Table images created!<br/>";
+echo "Table images created!<br/><br/>";
 
 echo "Creating table likes...<br/>";
 $sql = "CREATE TABLE IF NOT EXISTS likes (
@@ -344,3 +352,16 @@ echo "Database CAMAGRU has been succesfully initialized! Congratulation<br/>";
 $pdo = null;
 
 echo '<br/><a class="button" href="/">Back to home page</a>';
+
+function get_default_imgs()
+{
+    $imgs = array("beyonce1.png", "beyonce2.png", "filenotfound.png", "gon1.png", "gon2.png", "johnny1.png", "johnny2.png", "rick1.png", "rick2.png");
+
+    foreach ($imgs as &$img) {
+        $dest_dir = __DIR__ . '/../public/img/uploads/' . $img;
+        $source_dir = __DIR__ . '/../resources/' . $img;
+        if (!file_exists($dest_dir)) {
+            copy($source_dir, $dest_dir);
+        }
+    }
+}

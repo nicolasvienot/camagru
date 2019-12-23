@@ -25,5 +25,6 @@ if (isset($login) && $login != "" && isset($key) && $key != "") {
     }
     require(__DIR__ . '/../../view/users/activation.php');
 } else {
-    require(__DIR__ . '/../../controller/index.php');
+    header("Location: /");
+    exit;
 }
