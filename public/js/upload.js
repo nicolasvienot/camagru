@@ -20,7 +20,15 @@ function start_webcam() {
   loading = 1;
   var vplay = document.getElementById("webcam_div");
   vplay.setAttribute("style", "width:auto");
-  if (navigator.mediaDevices.getUserMedia) {
+  if (!navigator.mediaDevices) {
+    loading = 0;
+      if (streamError !== 1)
+        document.getElementById("canvas_webcam").innerHTML +=
+          '<p style="text-align:center;">No webcam found</p>';
+      streamError = 1;
+      console.log("Something went wrong, likely to be https connection");
+  }
+  else if (navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices
       .getUserMedia({ video: { width: 640, height: 480 } })
       .then(function(stream) {
