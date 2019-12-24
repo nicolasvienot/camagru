@@ -5,8 +5,8 @@ services:
     restart: always
     environment:
       MYSQL_USER: me
-      MYSQL_PASSWORD: ${CAMAGRU_DBPASSWORD}
-      MYSQL_ROOT_PASSWORD: ${CAMAGRU_DBPASSWORD}
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
     ports:
       - "3306:3306"
   adminer:
@@ -22,15 +22,16 @@ services:
     image: webdevops/php-apache-dev
     restart: always
     environment:
-      CAMAGRU_DBNAME: ${CAMAGRU_DBNAME}
-      CAMAGRU_DBUSER: ${CAMAGRU_DBUSER}
-      CAMAGRU_DBPASSWORD: ${CAMAGRU_DBPASSWORD}
+      CAMAGRU_DBNAME: 'camagru'
+      CAMAGRU_DBUSER: 'root'
+      CAMAGRU_DBPASSWORD: 'password'
       CAMAGRU_DBHOST: db
+      CAMAGRU_ROOT: https://35.189.123.16/
     volumes:
       - .:/app
     ports:
-      - "8080:80"
-      - "8443:443"
+      - "80:80"
+      - "443:443"
     depends_on:
       - db
     links:
