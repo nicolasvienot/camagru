@@ -21,14 +21,20 @@ function start_webcam() {
   var vplay = document.getElementById("webcam_div");
   vplay.setAttribute("style", "width:auto");
   if (!navigator.mediaDevices) {
+    if (streamError !== 1)
+      document.getElementById("canvas_webcam").innerHTML +=
+        '<p style="text-align:center;">No webcam found</p>';
+    if (start !== 0) {
+      document.getElementById("movefilteryes").className = "button is-disabled";
+      document.getElementById("movefilterno").className =
+        "button is-danger is-selected is-disabled";
+      stop_drag();
+    }
+    start = 0;
     loading = 0;
-      if (streamError !== 1)
-        document.getElementById("canvas_webcam").innerHTML +=
-          '<p style="text-align:center;">No webcam found</p>';
-      streamError = 1;
-      console.log("Something went wrong, likely to be https connection");
-  }
-  else if (navigator.mediaDevices.getUserMedia) {
+    streamError = 1;
+    console.log("Something went wrong, likely to be https connection");
+  } else if (navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices
       .getUserMedia({ video: { width: 640, height: 480 } })
       .then(function(stream) {
@@ -37,21 +43,32 @@ function start_webcam() {
         webcamStream = stream;
         streamError = 0;
         webcam.onloadeddata = function() {
-          document.getElementById("movefilteryes").className =
-            "button is-success is-selected is-disabled";
-          document.getElementById("movefilterno").className =
-            "button is-disabled";
-          if (start === 1) start_drag();
+          if (start !== 1) {
+            document.getElementById("movefilteryes").className =
+              "button is-success is-selected is-disabled";
+            document.getElementById("movefilterno").className =
+              "button is-disabled";
+            start_drag();
+          }
+          start = 1;
           loading = 0;
         };
       })
       .catch(function(err) {
-        loading = 0;
+        if (start !== 0) {
+          document.getElementById("movefilteryes").className =
+            "button is-disabled";
+          document.getElementById("movefilterno").className =
+            "button is-danger is-selected is-disabled";
+          stop_drag();
+        }
         if (streamError !== 1)
           document.getElementById("canvas_webcam").innerHTML +=
             '<p style="text-align:center;">No webcam found</p>';
         streamError = 1;
         console.log("Something went wrong : " + err);
+        start = 0;
+        loading = 0;
       });
   }
 }
@@ -219,8 +236,16 @@ function handle_file(event) {
           final_height
         );
         document.getElementById("canvas_upload").style.display = "";
-        if (start === 1) start_drag();
+        if (start !== 1) {
+          document.getElementById("movefilteryes").className =
+            "button is-success is-selected is-disabled";
+          document.getElementById("movefilterno").className =
+            "button is-disabled";
+          start_drag();
+        }
+        start = 1;
         document.getElementById("inputfile").value = "";
+
         loading = 0;
         picturetaken = 1;
       };
@@ -251,7 +276,7 @@ function handle_button_webcam(event) {
     reset_drag();
     canvas_drag = document.getElementById("canvas2");
     context_drag = canvas_drag.getContext("2d");
-    if (streamError === 0) draw_image();
+    streamError = 0;
     buttonupload = document.getElementById("buttonupload");
     this.className = "button is-primary is-selected";
     buttonupload.className = "button";
@@ -283,7 +308,6 @@ function handle_button_upload(event) {
     reset_drag();
     canvas_drag = document.getElementById("canvas4");
     context_drag = canvas_drag.getContext("2d");
-    draw_image();
     buttonwebcam = document.getElementById("buttonwebcam");
     this.className = "button is-primary is-selected";
     buttonwebcam.className = "button";
