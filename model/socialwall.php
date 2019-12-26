@@ -291,13 +291,18 @@ function add_comment($img_id, $user_id, $comment_content)
     return $res;
 }
 
-function send_mail_comment($email, $login, $img_path, $img_date, $img_id)
+send_mail_comment('nvienot@gmail.com', 'nico', 'lol', 'lol', 'lol', 'lol');
+
+function send_mail_comment($user_email, $login, $img_path, $img_date, $img_id)
 {
     require(__DIR__ . '/../config/database.php');
-    $subject = "You have a new comment on your Camagru picture!";
-    $headers = "MIME-Version: 1.0" . "\r\n";
-    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-    $headers .= 'From: Camagru <noreply@camagru.com>' . "\r\n";
+    require(__DIR__ . "/../lib/sendgrid/sendgrid-php/sendgrid-php.php");
+    
+    $email = new \SendGrid\Mail\Mail();
+    $email->setFrom("noreply@camagru.com", "Camagru");
+    $email->setSubject("You have a new comment on your Camagru picture!");
+    $email->addTo($user_email, $login);
+    
     $path = (__DIR__ . '/../public/html/templates/mail_comment.html');
     $link = $ROOT.'comments/?img_id='.$img_id;
     $template = file_get_contents($path);
@@ -305,7 +310,20 @@ function send_mail_comment($email, $login, $img_path, $img_date, $img_id)
     $template = str_replace('{{ img_date }}', $img_date, $template);
     $template = str_replace('{{ link }}', $link, $template);
     $message = str_replace('{{ login }}', $login, $template);
-    mail($email, $subject, $message, $headers);
+
+    $email->addContent(
+        "text/html",
+        $message
+    );
+    $sendgrid = new \SendGrid('');
+    try {
+        $response = $sendgrid->send($email);
+        print $response->statusCode() . "\n";
+        print_r($response->headers());
+        print $response->body() . "\n";
+    } catch (Exception $e) {
+        echo 'Caught exception: '. $e->getMessage() ."\n";
+    }
 }
 
 function delete_comment($comment_id, $user_id)

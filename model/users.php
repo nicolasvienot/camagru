@@ -105,33 +105,67 @@ function email_exists($email)
     return $res;
 }
 
-function send_mail_activation($email, $login, $user_key)
+function send_mail_activation($user_email, $login, $user_key)
 {
     require(__DIR__ . '/../config/database.php');
-    $subject = "Activate your Camagru account";
-    $headers = "MIME-Version: 1.0" . "\r\n";
-    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-    $headers .= 'From: Camagru <noreply@camagru.com>' . "\r\n";
-    $link = $ROOT.'activation.php?log='.urlencode($login).'&key='.urlencode($user_key);
+    require(__DIR__ . "/../lib/sendgrid/sendgrid-php/sendgrid-php.php");
+    
+    $email = new \SendGrid\Mail\Mail();
+    $email->setFrom("noreply@camagru.com", "Camagru");
+    $email->setSubject("Activate your Camagru account");
+    $email->addTo($user_email, $login);
+    
     $path = (__DIR__ . '/../public/html/templates/mail_activation.html');
+    $link = $ROOT.'activation.php?log='.urlencode($login).'&key='.urlencode($user_key);
     $template = file_get_contents($path);
     $template = str_replace('{{ link }}', $link, $template);
     $message = str_replace('{{ login }}', $login, $template);
-    mail($email, $subject, $message, $headers);
+
+    print $message;
+
+    $email->addContent(
+        "text/html",
+        $message
+    );
+    $sendgrid = new \SendGrid('');
+    try {
+        $response = $sendgrid->send($email);
+        print $response->statusCode() . "\n";
+        print_r($response->headers());
+        print $response->body() . "\n";
+    } catch (Exception $e) {
+        echo 'Caught exception: '. $e->getMessage() ."\n";
+    }
 }
 
 function send_mail_forgot($user_email, $reset_key)
 {
     require(__DIR__ . '/../config/database.php');
-    $subject = "Reset your Camagru password";
-    $headers = "MIME-Version: 1.0" . "\r\n";
-    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-    $headers .= 'From: Camagru <noreply@camagru.com>' . "\r\n";
+    require(__DIR__ . "/../lib/sendgrid/sendgrid-php/sendgrid-php.php");
+    
+    $email = new \SendGrid\Mail\Mail();
+    $email->setFrom("noreply@camagru.com", "Camagru");
+    $email->setSubject("Reset your Camagru password");
+    $email->addTo($user_email);
+    
     $link = $ROOT.'resetpassword.php?&keyreset='.urlencode($reset_key);
     $path = (__DIR__ . '/../public/html/templates/mail_resetpassword.html');
     $template = file_get_contents($path);
     $message = str_replace('{{ link }}', $link, $template);
-    mail($user_email, $subject, $message, $headers);
+
+    $email->addContent(
+        "text/html",
+        $message
+    );
+    $sendgrid = new \SendGrid('');
+    try {
+        $response = $sendgrid->send($email);
+        print $response->statusCode() . "\n";
+        print_r($response->headers());
+        print $response->body() . "\n";
+    } catch (Exception $e) {
+        echo 'Caught exception: '. $e->getMessage() ."\n";
+    }
 }
 
 function activate_account($login, $key)
