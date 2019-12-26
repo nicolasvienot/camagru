@@ -36,3 +36,4 @@ services:
       - db
     links:
       - db
+    command: sudo apt-get install certbot python-certbot-apache && sudo certbot --apache
