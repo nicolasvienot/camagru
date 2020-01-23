@@ -318,9 +318,9 @@ function send_mail_comment($user_email, $login, $img_path, $img_date, $img_id)
     $sendgrid = new \SendGrid('');
     try {
         $response = $sendgrid->send($email);
-        print $response->statusCode() . "\n";
-        print_r($response->headers());
-        print $response->body() . "\n";
+        // print $response->statusCode() . "\n";
+        // print_r($response->headers());
+        // print $response->body() . "\n";
     } catch (Exception $e) {
         echo 'Caught exception: '. $e->getMessage() ."\n";
     }

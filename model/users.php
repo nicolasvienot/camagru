@@ -130,9 +130,9 @@ function send_mail_activation($user_email, $login, $user_key)
     $sendgrid = new \SendGrid('');
     try {
         $response = $sendgrid->send($email);
-        print $response->statusCode() . "\n";
-        print_r($response->headers());
-        print $response->body() . "\n";
+        // print $response->statusCode() . "\n";
+        // print_r($response->headers());
+        // print $response->body() . "\n";
     } catch (Exception $e) {
         echo 'Caught exception: '. $e->getMessage() ."\n";
     }
@@ -160,9 +160,9 @@ function send_mail_forgot($user_email, $reset_key)
     $sendgrid = new \SendGrid('');
     try {
         $response = $sendgrid->send($email);
-        print $response->statusCode() . "\n";
-        print_r($response->headers());
-        print $response->body() . "\n";
+        // print $response->statusCode() . "\n";
+        // print_r($response->headers());
+        // print $response->body() . "\n";
     } catch (Exception $e) {
         echo 'Caught exception: '. $e->getMessage() ."\n";
     }
