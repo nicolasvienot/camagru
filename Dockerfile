@@ -10,12 +10,6 @@ ENV WEB_DOCUMENT_INDEX index.php
 ENV WEB_ALIAS_DOMAIN   *.vm
 
 # Install apache
-RUN apt-get -y update && \
-    apt-get install -q -y software-properties-common && \
-    add-apt-repository ppa:certbot/certbot && \
-    apt-get -y update && \
-    apt-get install -q -y python-certbot-apache && \
-    apt-get clean
 
 RUN /usr/local/bin/apt-install \
     apache2 \
@@ -35,6 +29,12 @@ RUN bash /opt/docker/bin/control.sh provision.role webdevops-apache \
     && bash /opt/docker/bin/bootstrap.sh
 
 RUN chmod +x /opt/docker/bin/service.d/httpd.sh
+RUN apt-get -y update && \
+    apt-get install -q -y software-properties-common && \
+    add-apt-repository ppa:certbot/certbot && \
+    apt-get -y update && \
+    apt-get install -q -y python-certbot-apache && \
+    apt-get clean
 RUN certbot -n --expand --apache --agree-tos --email "nvienot@gmail.com" --domains "camagru.ga"
 
 EXPOSE 80
