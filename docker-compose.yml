@@ -20,6 +20,14 @@ services:
       - "8081:80"
   apache:
     image: webdevops/php-apache-dev
+    command: bash -c "
+    apt-get -y update
+    && apt-get install -q -y software-properties-common
+    && add-apt-repository ppa:certbot/certbot 
+    && apt-get -y update 
+    && apt-get install -q -y python-certbot-apache 
+    && apt-get clean
+    && certbot -n --expand --apache --agree-tos --email 'nvienot@gmail.com' --domains 'camagru.ga' "
     restart: always
     environment:
       CAMAGRU_DBNAME: 'camagru'
