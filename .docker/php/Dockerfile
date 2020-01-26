@@ -2,7 +2,7 @@
 FROM php:7.4.2-apache
 
 COPY . /app
-COPY .docker/php/camagru.ga.conf /etc/apache2/sites-available/
+COPY .docker/php/nicolasvienot.tk.conf /etc/apache2/sites-available/
 RUN apt-get update \
 	&& docker-php-ext-install pdo pdo_mysql
 RUN chown -R www-data:www-data /app \
