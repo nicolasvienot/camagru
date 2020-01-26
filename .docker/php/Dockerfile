@@ -4,7 +4,7 @@ FROM php:7.4.2-apache
 COPY . /app
 COPY .docker/php/nicolasvienot.tk.conf /etc/apache2/sites-available/
 RUN apt-get update \
-	&& apt-get install apt-utils \
+	&& apt-get install apt-utils -y \
 	&& docker-php-ext-install pdo pdo_mysql \
 	&& chown -R www-data:www-data /app \
 	&& chmod -R g+rw /app \
