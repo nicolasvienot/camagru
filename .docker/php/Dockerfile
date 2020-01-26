@@ -17,4 +17,4 @@ RUN apt-get update \
 	&& service apache2 restart \
 	&& apt-get install python-certbot-apache -y 
 
-RUN certbot --apache --noninteractive --agree-tos --redirect -m nvienot@gmail.com -d nicolasvienot.tk
+CMD certbot --apache --noninteractive --expand --agree-tos --redirect -m nvienot@gmail.com -d nicolasvienot.tk
