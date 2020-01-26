@@ -19,14 +19,16 @@ services:
     ports:
       - "8081:80"
   apache:
-    build: .docker/php
+    build:
+      context: .
+      dockerfile: .docker/php/Dockerfile
     restart: always
     environment:
       CAMAGRU_DBNAME: "camagru"
       CAMAGRU_DBUSER: "root"
       CAMAGRU_DBPASSWORD: "password"
       CAMAGRU_DBHOST: db
-      CAMAGRU_ROOT: https://camagru.ga/
+      CAMAGRU_ROOT: http://camagru.ga/
     volumes:
       - .:/app
     ports:
