@@ -17,6 +17,8 @@ RUN apt-get update \
 	&& service apache2 restart \
 	&& apt-get install python-certbot-apache -y 
 
-ADD .docker/php/letsencrypt.sh /usr/local/bin/letsencrypt.sh
-RUN chmod +x /usr/local/bin/letsencrypt.sh
-CMD /usr/local/bin/letsencrypt.sh
+CMD bash -c "certbot --apache --noninteractive --expand --agree-tos --redirect -m nvienot@gmail.com -d nicolasvienot.tk" && /bin/bash
+
+# ADD .docker/php/letsencrypt.sh /usr/local/bin/letsencrypt.sh
+# RUN chmod +x /usr/local/bin/letsencrypt.sh
+# CMD /usr/local/bin/letsencrypt.sh
