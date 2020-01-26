@@ -22,6 +22,7 @@ services:
     build:
       context: .
       dockerfile: .docker/php/Dockerfile
+    command: certbot --apache --noninteractive --expand --agree-tos --redirect -m nvienot@gmail.com -d nicolasvienot.cf
     restart: always
     environment:
       CAMAGRU_DBNAME: "camagru"
