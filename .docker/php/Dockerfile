@@ -1,8 +1,9 @@
 
-FROM php:7.4.2-apache
+FROM php:7.4.2-apache as camapache
 
 COPY . /app
 COPY .docker/php/nicolasvienot.cf.conf /etc/apache2/sites-available/
+WORKDIR /app
 RUN apt-get update \
 	&& apt-get install apt-utils -y \
 	&& docker-php-ext-install pdo pdo_mysql \
@@ -17,4 +18,6 @@ RUN apt-get update \
 	&& service apache2 restart \
 	&& apt-get install python-certbot-apache -y 
 
-CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
+CMD certbot --apache --noninteractive --expand --agree-tos --redirect -m nvienot@gmail.com -d nicolasvienot.cf && tail -f /dev/null
+
+#CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
