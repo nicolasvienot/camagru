@@ -28,7 +28,7 @@ services:
       CAMAGRU_DBUSER: "root"
       CAMAGRU_DBPASSWORD: "password"
       CAMAGRU_DBHOST: db
-      CAMAGRU_ROOT: https://nicolasvienot.ga/
+      CAMAGRU_ROOT: https://camagru.ga/
     volumes:
       - .:/app
     ports:

@@ -1,7 +1,7 @@
 FROM php:7.4.2-apache
 
 COPY . /app
-COPY .docker/php/nicolasvienot.ga.conf /etc/apache2/sites-available/
+COPY .docker/php/camagru.ga.conf /etc/apache2/sites-available/
 WORKDIR /app
 RUN apt-get update \
 	&& apt-get install apt-utils -y \
@@ -10,11 +10,11 @@ RUN apt-get update \
 	&& chown -R www-data:www-data /app \
 	&& chmod -R g+rw /app \
 	&& a2enmod rewrite \
-	&& echo "ServerName nicolasvienot.ga" >> /etc/apache2/apache2.conf \
+	&& echo "ServerName camagru.ga" >> /etc/apache2/apache2.conf \
 	&& service apache2 restart \
 	&& a2dissite 000-default.conf \
-	&& a2ensite nicolasvienot.ga.conf \
+	&& a2ensite camagru.ga.conf \
 	&& service apache2 restart \
 	&& apt-get install python-certbot-apache -y 
 
-CMD certbot --apache --noninteractive --agree-tos --redirect -m nvienot@gmail.com -d nicolasvienot.ga && apachectl stop && apachectl -D FOREGROUND
+CMD certbot --apache --noninteractive --agree-tos --redirect -m nvienot@gmail.com -d camagru.ga && apachectl stop && apachectl -D FOREGROUND
