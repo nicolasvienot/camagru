@@ -304,6 +304,7 @@ function send_mail_comment($email, $login, $img_path, $img_date, $img_id)
     $template = str_replace('{{ img_path }}', $img_path, $template);
     $template = str_replace('{{ img_date }}', $img_date, $template);
     $template = str_replace('{{ link }}', $link, $template);
+    $template = str_replace('{{ root }}', $ROOT, $template);
     $message = str_replace('{{ login }}', $login, $template);
     mail($email, $subject, $message, $headers);
 }
