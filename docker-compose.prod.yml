@@ -28,8 +28,9 @@ services:
       CAMAGRU_DBUSER: "root"
       CAMAGRU_DBPASSWORD: "password"
       CAMAGRU_DBHOST: db
-      CAMAGRU_ROOT: https://camagru.ga/
+      CAMAGRU_ROOT: https://nicolasvienot.cf/
     volumes:
+      - .docker/php:/opt/docker/etc/httpd/vhost.common.d/camagru
       - .:/app
     ports:
       - "80:80"

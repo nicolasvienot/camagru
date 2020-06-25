@@ -37,3 +37,5 @@ ehthumbs.db
 Thumbs.db
 
 public/img/uploads/1*
+public/img/uploads/0*
+.docker/letsencrypt

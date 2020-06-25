@@ -19,12 +19,13 @@ $img = str_replace('data:image/png;base64,', '', $img);
 $img = str_replace(' ', '+', $img);
 $data = base64_decode($img);
 header("Content-type: image/png");
-
+error_log($data);
 if ($data !== false) {
-    $image = imagecreatefromstring($data);
+	error_log ($filter);
+	$image = imagecreatefromstring($data);
     if ($image !== false) {
         $filter = imagecreatefrompng(__DIR__ . $filter);
-        if ($filter !== false) {
+	if ($filter !== false) {
             $filter_width = imageSX($filter);
             $filter_height = imageSY($filter);
             $img_width = imageSX($image);
@@ -34,7 +35,7 @@ if ($data !== false) {
             $res->filter_width = $filter_width;
             $res->filter_height = $filter_height;
             $copy = imagecopy($image, $filter, $_POST['x'], $_POST['y'], 0, 0, $filter_width, $filter_height);
-            if ($copy !== false) {
+	    if ($copy !== false) {
                 $now = DateTime::createFromFormat('U.u', microtime(true));
                 $time = $now->format("mdYHisu");
                 $file_name = $time . '_' . mt_rand() . '_' . $user_id . '.png';

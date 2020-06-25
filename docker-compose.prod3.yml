@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   db:
     image: mysql:5.7.21
@@ -19,18 +19,23 @@ services:
     ports:
       - "8081:80"
   apache:
-    image: webdevops/php-apache-dev
+    build:
+      context: .
+      dockerfile: .docker/php-apache-certbot/Dockerfile
     restart: always
     environment:
       CAMAGRU_DBNAME: "camagru"
       CAMAGRU_DBUSER: "root"
       CAMAGRU_DBPASSWORD: "password"
       CAMAGRU_DBHOST: db
+      CAMAGRU_ROOT: https://camagru.cf/
     volumes:
+      - .docker/php-apache-certbot/camagru.cf/camagru.cf.conf:/opt/docker/etc/httpd/vhost.conf
       - .:/app
+      - .docker/php-apache-certbot/letsencrypt:/etc/letsencrypt
     ports:
-      - "8080:80"
-      - "8443:443"
+      - "80:80"
+      - "443:443"
     depends_on:
       - db
     links:
