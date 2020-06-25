@@ -170,12 +170,10 @@ function share() {
     data.append("filter", filter.getAttribute("src"));
     data.append("x", currentX - filter.width / 2);
     data.append("y", currentY - filter.height / 2);
-    console.log(data)
+
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
-        console.log(this.responseText)
-        var res = JSON.parse(this.responseText);
         if (res.result === 1) {
           var column = document.createElement("div");
           var card = document.createElement("div");

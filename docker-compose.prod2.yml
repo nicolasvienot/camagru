@@ -19,18 +19,22 @@ services:
     ports:
       - "8081:80"
   apache:
-    image: webdevops/php-apache-dev
+    image: webdevops/php-apache
     restart: always
     environment:
       CAMAGRU_DBNAME: "camagru"
       CAMAGRU_DBUSER: "root"
       CAMAGRU_DBPASSWORD: "password"
       CAMAGRU_DBHOST: db
+      CAMAGRU_ROOT: https://camagru.cf/
+
     volumes:
       - .:/app
+      - ./.docker/camagru.cf/camagru.cf.conf:/opt/docker/etc/httpd/vhost.conf
+      - ./.docker/letsencrypt:/etc/letsencrypt
     ports:
-      - "8080:80"
-      - "8443:443"
+      - "80:80"
+      - "443:443"
     depends_on:
       - db
     links:
