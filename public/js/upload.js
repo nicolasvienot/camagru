@@ -156,6 +156,7 @@ document.getElementById("button2").addEventListener("click", reset_cam, true);
 
 function share() {
   if (picturetaken === 1 && loading !== 1) {
+    document.getElementById("buttonshare").classList.add("is-loading");
     var data = new FormData();
     if (document.getElementById("upload_div").style.display !== "none")
       data.append(
@@ -199,7 +200,9 @@ function share() {
           column.addEventListener("click", delete_p, false);
           document.getElementById("gallery").prepend(column);
           if (audio_congrats) audio_congrats.play();
+          document.getElementById("buttonshare").classList.remove("is-loading");
         } else {
+          document.getElementById("buttonshare").classList.remove("is-loading");
           console.log("Error : not uploaded");
         }
       }
@@ -424,13 +427,13 @@ filters.forEach(element => {
 });
 
 function handle_click_filter(event) {
-  if (start === 1) filter.src = event.srcElement.src;
+  if (start === 1) filter.src = event.srcElement.getAttribute("src");
   else {
     filter.onload = function() {
       context_drag.clearRect(0, 0, canvas_drag.width, canvas_drag.height);
       draw_image();
     };
-    filter.src = event.srcElement.src;
+    filter.src = event.srcElement.getAttribute("src");
   }
 }
 
