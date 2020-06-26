@@ -19,7 +19,9 @@ services:
     ports:
       - "8081:80"
   apache:
-    image: webdevops/php-apache-dev
+    build:
+      context: .
+      dockerfile: .docker/php-apache-mail/Dockerfile
     restart: always
     environment:
       CAMAGRU_DBNAME: "camagru"
@@ -27,15 +29,11 @@ services:
       CAMAGRU_DBPASSWORD: "password"
       CAMAGRU_DBHOST: db
       CAMAGRU_ROOT: https://camagru.cf/
-
     volumes:
       - .:/app
       - ./.docker/php-apache-mail/camagru.cf/camagru.cf.conf:/opt/docker/etc/httpd/vhost.conf
       - ./.docker/php-apache-mail/letsencrypt:/etc/letsencrypt
     ports:
-      - "2525:2525"
-      - "465:465"
-      - "587:587"
       - "80:80"
       - "443:443"
     depends_on:

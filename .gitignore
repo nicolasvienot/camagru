@@ -38,4 +38,5 @@ Thumbs.db
 
 public/img/uploads/1*
 public/img/uploads/0*
-.docker/letsencrypt
+.docker/php-apache-mail/letsencrypt
+.docler/php-apache-mail/postfix/sasl_passwd

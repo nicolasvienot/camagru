@@ -11,5 +11,4 @@ COPY .docker/php-apache-mail/postfix/sasl_passwd /etc/postfix/
 RUN chmod 400 /etc/postfix/sasl_passwd
 RUN postmap /etc/postfix/sasl_passwd
 
-RUN cat /etc/ssl/certs/thawte_Primary_Root_CA.pem | sudo tee -a /etc/postfix/cacert.pem
-RUN /etc/init.d/postfix reload
+RUN cat /etc/ssl/certs/thawte_Primary_Root_CA.pem | tee -a /etc/postfix/cacert.pem
