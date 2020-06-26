@@ -50,6 +50,7 @@ document.querySelector(".share").addEventListener("click", do_share, true);
 
 function push_comments(event) {
   if (document.getElementById("comment_content").value != "") {
+    document.getElementById("submit_comment").classList.add("is-loading");
     var data = new FormData();
     comment_content = document.getElementById("comment_content").value;
     data.append(
@@ -81,7 +82,9 @@ function push_comments(event) {
           divcomment.appendChild(pcomment);
           document.getElementById("comments_div").append(divcomment);
           document.getElementById("comment_content").value = "";
+          document.getElementById("submit_comment").classList.remove("is-loading");
         } else {
+          document.getElementById("submit_comment").classList.remove("is-loading");
           console.log("Error push_comment");
         }
       }
