@@ -26,7 +26,7 @@ services:
       CAMAGRU_DBUSER: ${CAMAGRU_DBUSER}
       CAMAGRU_DBPASSWORD: ${CAMAGRU_DBPASSWORD}
       CAMAGRU_DBHOST: db
-      CAMAGRU_ROOT: ${CAMAGRU_DBHOST}
+      CAMAGRU_ROOT: ${CAMAGRU_ROOT}
 
     volumes:
       - .:/app
