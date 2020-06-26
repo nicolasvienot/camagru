@@ -424,13 +424,13 @@ filters.forEach(element => {
 });
 
 function handle_click_filter(event) {
-  if (start === 1) filter.src = event.path[0].getAttribute("src");
+  if (start === 1) filter.src = event.srcElement.src;
   else {
     filter.onload = function() {
       context_drag.clearRect(0, 0, canvas_drag.width, canvas_drag.height);
       draw_image();
     };
-    filter.src = event.path[0].getAttribute("src");
+    filter.src = event.srcElement.src;
   }
 }
 

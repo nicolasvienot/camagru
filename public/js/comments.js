@@ -93,13 +93,13 @@ submit_comment.addEventListener("click", push_comments, true);
 function delete_comment(event) {
   if (confirm("Are you sure you want to delete this comment?")) {
     var data = new FormData();
-    data.append("comment_id", event.path[2].id);
+    data.append("comment_id", event.srcElement.parentElement.parentElement.id);
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
         var res = JSON.parse(this.responseText);
         if (res.result === 1) {
-          document.getElementById(event.path[2].id).remove();
+          document.getElementById(event.srcElement.parentElement.parentElement.id).remove();
         } else {
           console.log("Error delete_comment");
         }
