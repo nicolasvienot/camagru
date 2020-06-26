@@ -5,8 +5,8 @@ services:
     restart: always
     environment:
       MYSQL_USER: me
-      MYSQL_PASSWORD: "password"
-      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_PASSWORD: ${CAMAGRU_DBPASSWORD}
+      MYSQL_ROOT_PASSWORD: ${CAMAGRU_DBPASSWORD}
     ports:
       - "3306:3306"
   adminer:
@@ -24,11 +24,11 @@ services:
       dockerfile: .docker/php-apache-mail/Dockerfile
     restart: always
     environment:
-      CAMAGRU_DBNAME: "camagru"
-      CAMAGRU_DBUSER: "root"
-      CAMAGRU_DBPASSWORD: "password"
+      CAMAGRU_DBNAME: ${CAMAGRU_DBNAME}
+      CAMAGRU_DBUSER: ${CAMAGRU_DBUSER}
+      CAMAGRU_DBPASSWORD: ${CAMAGRU_DBPASSWORD}
       CAMAGRU_DBHOST: db
-      CAMAGRU_ROOT: https://camagru.cf/
+      CAMAGRU_ROOT: ${CAMAGRU_DBHOST}
     volumes:
       - .:/app
       - ./.docker/php-apache-mail/camagru.cf/camagru.cf.conf:/opt/docker/etc/httpd/vhost.conf

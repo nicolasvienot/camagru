@@ -22,11 +22,11 @@ services:
     image: webdevops/php-apache-dev
     restart: always
     environment:
-      CAMAGRU_DBNAME: "camagru"
-      CAMAGRU_DBUSER: "root"
-      CAMAGRU_DBPASSWORD: "password"
+      CAMAGRU_DBNAME: ${CAMAGRU_DBNAME}
+      CAMAGRU_DBUSER: ${CAMAGRU_DBUSER}
+      CAMAGRU_DBPASSWORD: ${CAMAGRU_DBPASSWORD}
       CAMAGRU_DBHOST: db
-      CAMAGRU_ROOT: https://camagru.cf/
+      CAMAGRU_ROOT: ${CAMAGRU_DBHOST}
 
     volumes:
       - .:/app
