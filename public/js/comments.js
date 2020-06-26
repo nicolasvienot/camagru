@@ -49,42 +49,46 @@ function do_share(event) {
 document.querySelector(".share").addEventListener("click", do_share, true);
 
 function push_comments(event) {
-  var data = new FormData();
-  comment_content = document.getElementById("comment_content").value;
-  data.append(
-    "img_id",
-    document.getElementById("img_container").children[0].id
-  );
-  data.append("comment_content", comment_content);
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      var res = JSON.parse(this.responseText);
-      if (res.result !== 0) {
-        var divcomment = document.createElement("div");
-        divcomment.id = res.comment_id;
-        var pcomment = document.createElement("p");
-        var test =
-          "<strong>" +
-          res.login +
-          "</strong> <small>@" +
-          res.login +
-          " " +
-          res.comment_date +
-          '</small> <a class="delete is-small" id="delete_comment"></a><br>' +
-          comment_content;
-        pcomment.innerHTML = test;
-        pcomment.children[2].addEventListener("click", delete_comment, true);
-        divcomment.appendChild(pcomment);
-        document.getElementById("comments_div").append(divcomment);
-        document.getElementById("comment_content").value = "";
-      } else {
-        console.log("Error push_comment");
+  if (document.getElementById("comment_content").value != "") {
+    var data = new FormData();
+    comment_content = document.getElementById("comment_content").value;
+    data.append(
+      "img_id",
+      document.getElementById("img_container").children[0].id
+    );
+    data.append("comment_content", comment_content);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        var res = JSON.parse(this.responseText);
+        if (res.result !== 0) {
+          var divcomment = document.createElement("div");
+          divcomment.id = res.comment_id;
+          var pcomment = document.createElement("p");
+          var test =
+            "<strong>" +
+            res.login +
+            "</strong> <small>@" +
+            res.login +
+            " " +
+            res.comment_date +
+            '</small> <a class="delete is-small" id="delete_comment"></a><br>'
+            
+          var cont_comment = document.createTextNode(comment_content);
+          pcomment.innerHTML = test;
+          pcomment.appendChild(cont_comment);
+          pcomment.children[2].addEventListener("click", delete_comment, true);
+          divcomment.appendChild(pcomment);
+          document.getElementById("comments_div").append(divcomment);
+          document.getElementById("comment_content").value = "";
+        } else {
+          console.log("Error push_comment");
+        }
       }
-    }
-  };
-  xmlhttp.open("POST", "../controller/comment_add.php", true);
-  xmlhttp.send(data);
+    };
+    xmlhttp.open("POST", "../controller/comment_add.php", true);
+    xmlhttp.send(data);
+  }
 }
 
 var submit_comment = document.getElementById("submit_comment");
