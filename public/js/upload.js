@@ -15,6 +15,7 @@ var currentX = canvas_drag.width / 2;
 var currentY = canvas_drag.height / 2;
 var loading = 1;
 var picturetaken = 0;
+var dragged = 0;
 
 function start_webcam() {
   loading = 1;
@@ -47,25 +48,21 @@ function start_webcam() {
         webcamStream = stream;
         streamError = 0;
         webcam.onloadeddata = function() {
-          if (start !== 1) {
-            document.getElementById("movefilteryes").className =
-              "button is-success is-selected is-disabled";
-            document.getElementById("movefilterno").className =
-              "button is-disabled";
-            start_drag();
-          }
+          document.getElementById("movefilteryes").className =
+            "button is-success is-selected is-disabled";
+          document.getElementById("movefilterno").className =
+            "button is-disabled";
+          start_drag();
           start = 1;
           loading = 0;
         };
       })
       .catch(function(err) {
-        if (start !== 0) {
-          document.getElementById("movefilteryes").className =
-            "button is-disabled";
-          document.getElementById("movefilterno").className =
-            "button is-danger is-selected is-disabled";
-          stop_drag();
-        }
+        document.getElementById("movefilteryes").className =
+          "button is-disabled";
+        document.getElementById("movefilterno").className =
+          "button is-danger is-selected is-disabled";
+        stop_drag();
         if (streamError !== 1) {
           var element = document.getElementById("webcamnotfound");
           if (element)
@@ -210,6 +207,8 @@ function share() {
     xmlhttp.open("POST", "../controller/upload_pic.php", true);
     xmlhttp.send(data);
   }
+  else
+    alert("You need to take a picture! :)")
 }
 
 document.getElementById("buttonshare").addEventListener("click", share, true);
@@ -248,13 +247,11 @@ function handle_file(event) {
           final_height
         );
         document.getElementById("canvas_upload").style.display = "";
-        if (start !== 1) {
-          document.getElementById("movefilteryes").className =
-            "button is-success is-selected is-disabled";
-          document.getElementById("movefilterno").className =
-            "button is-disabled";
-          start_drag();
-        }
+        document.getElementById("movefilteryes").className =
+          "button is-success is-selected is-disabled";
+        document.getElementById("movefilterno").className =
+          "button is-disabled";
+        start_drag();
         start = 1;
         document.getElementById("inputfile").value = "";
 
@@ -350,19 +347,25 @@ button_drag.onclick = function(e) {
 };
 
 function start_drag() {
-  canvas_drag.addEventListener("mousedown", handle_mousedown, true);
-  canvas_drag.addEventListener("mousemove", handle_mousemove, true);
-  canvas_drag.addEventListener("mouseup", handle_mouseup, true);
-  canvas_drag.addEventListener("mouseout", handle_mouseout, true);
-  interval = setInterval(start_loop, 1000 / 30);
+  if (dragged !== 1) {
+    canvas_drag.addEventListener("mousedown", handle_mousedown, true);
+    canvas_drag.addEventListener("mousemove", handle_mousemove, true);
+    canvas_drag.addEventListener("mouseup", handle_mouseup, true);
+    canvas_drag.addEventListener("mouseout", handle_mouseout, true);
+    interval = setInterval(start_loop, 1000 / 30);
+    dragged = 1;
+  }
 }
 
 function stop_drag() {
-  canvas_drag.removeEventListener("mousedown", handle_mousedown, true);
-  canvas_drag.removeEventListener("mousemove", handle_mousemove, true);
-  canvas_drag.removeEventListener("mouseup", handle_mouseup, true);
-  canvas_drag.removeEventListener("mouseout", handle_mouseout, true);
-  clearInterval(interval);
+  if (dragged !== 0) {
+    canvas_drag.removeEventListener("mousedown", handle_mousedown, true);
+    canvas_drag.removeEventListener("mousemove", handle_mousemove, true);
+    canvas_drag.removeEventListener("mouseup", handle_mouseup, true);
+    canvas_drag.removeEventListener("mouseout", handle_mouseout, true);
+    clearInterval(interval);
+    dragged = 0;
+  }
 }
 
 function start_loop() {
