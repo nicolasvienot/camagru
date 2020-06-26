@@ -108,8 +108,10 @@
 
 <br>
 <div class="buttons has-addons is-centered">
-<button id="buttonshare" class="button is-success">SHARE</button>
-<button id="buttonhome" class="button is-light is-info">HOME</button>
+    <button id="buttonshare" class="button is-success">SHARE</button>
+    <a href="/">
+        <button id="buttonhome" href="/" class="button is-light is-info">HOME</button>
+    </a>
 </div>
 <br>
 <div style="margin: auto; padding: 30px; text-align: center;">

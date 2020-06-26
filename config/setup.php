@@ -16,7 +16,7 @@ get_default_imgs();
 echo "All images restored!<br/><br/>";
 
 echo "Creating database...<br/>";
-$sql = "CREATE DATABASE IF NOT EXISTS $DB_NAME;";
+$sql = "CREATE SCHEMA IF NOT EXISTS $DB_NAME DEFAULT CHARACTER SET latin1 COLLATE latin1_general_cs;";
 $ret = $pdo->exec($sql);
 echo "Database camagru created!<br/><br/>";
 
