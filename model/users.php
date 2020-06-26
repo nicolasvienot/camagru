@@ -116,8 +116,8 @@ function send_mail_activation($email, $login, $user_key)
     $path = (__DIR__ . '/../public/html/templates/mail_activation.html');
     $template = file_get_contents($path);
     $template = str_replace('{{ link }}', $link, $template);
-    $message = str_replace('{{ login }}', $login, $template);
-    $message = str_replace('{{ root }}', $ROOT, $message);
+    $template = str_replace('{{ login }}', $login, $template);
+    $message = str_replace('{{ root }}', $ROOT, $template);
     mail($email, $subject, $message, $headers);
 }
 
@@ -131,7 +131,7 @@ function send_mail_forgot($user_email, $reset_key)
     $link = $ROOT.'resetpassword.php?&keyreset='.urlencode($reset_key);
     $path = (__DIR__ . '/../public/html/templates/mail_resetpassword.html');
     $template = file_get_contents($path);
-    $message = str_replace('{{ link }}', $link, $template);
+    $template = str_replace('{{ link }}', $link, $template);
     $message = str_replace('{{ root }}', $ROOT, $template);
     mail($user_email, $subject, $message, $headers);
 }
